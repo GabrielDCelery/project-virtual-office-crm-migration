@@ -1,0 +1,51 @@
+version: "3"
+services:
+  redis:
+    container_name: pvocrm_redis
+    image: redis
+    ports:
+      - 6379:6379
+  backend:
+    container_name: pvocrm_backend
+    build:
+      context: ./app/backend
+      dockerfile: Dockerfile
+      args:
+        APP_CODE: /usr/src/pvocrm_backend
+    depends_on:
+      - redis
+    environment:
+      BACKEND_APP_PORT: 8080
+      SERVICE_DB_CLIENT: pg
+      SERVICE_DB_USER: postgres
+      SERVICE_DB_HOST: db
+      SERVICE_DB_PASSWORD: docker
+      SERVICE_DB_DATABASE: postgres_pvocrm
+      SERVICE_DB_PORT: 5432
+      SERVICE_REDIS_HOST: redis
+      SERVICE_REDIS_PORT: 6379
+      SERVICE_JWT_SECRET: super_secret
+      SERVICE_JWT_EXPIRY_IN_SECONDS: null
+      SERVICE_CLOUD_S3_ENDPOINT: http://aws_s3:9000
+      SERVICE_CLOUD_S3_ACCESS_KEY_ID: minio_access_key
+      SERVICE_CLOUD_S3_SECRET_ACCESS_KEY: minio_secret_key
+  frontend:
+    container_name: pvocrm_frontend
+    build:
+      context: ./app/frontend
+      dockerfile: Dockerfile
+      args:
+        APP_CODE: /usr/src/pvocrm_frontend
+    depends_on:
+      - backend
+    environment:
+      FRONTEND_APP_PORT: 3000
+  webserver:
+    container_name: pvocrm_nginx
+    image: nginx
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - 80:80
+      - 443:443

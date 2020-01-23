@@ -1,0 +1,1 @@
+export const STATIC_RBAC_RULE_MAILS_PAGE_VISIT = 'mails-page:visit';

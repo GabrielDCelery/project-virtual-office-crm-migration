@@ -1,0 +1,5 @@
+app/backend/node_modules
+app/frontend/node_modules
+app_old/backend/node_modules
+app_old/frontend/node_modules
+temp

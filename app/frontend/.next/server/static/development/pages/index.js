@@ -288,7 +288,6 @@ const DropDownNavBarItem = ({
 
 function NavBar({}) {
   const router = Object(next_router__WEBPACK_IMPORTED_MODULE_2__["useRouter"])();
-  console.log(router);
   const navBarItems = _config__WEBPACK_IMPORTED_MODULE_9__["default"].navbar.map(({
     path,
     component,
@@ -334,19 +333,19 @@ function NavBar({}) {
   return __jsx(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 114
+      lineNumber: 113
     },
     __self: this
   }, __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["CssBaseline"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 115
+      lineNumber: 114
     },
     __self: this
   }), __jsx(_DrawerContainer__WEBPACK_IMPORTED_MODULE_5__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 116
+      lineNumber: 115
     },
     __self: this
   }, __jsx(_Drawer__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -354,13 +353,16 @@ function NavBar({}) {
     anchor: "left",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 117
+      lineNumber: 116
     },
     __self: this
   }, __jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["List"], {
+    style: {
+      width: '100%'
+    },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 118
+      lineNumber: 117
     },
     __self: this
   }, (navBarItems || []).map((navBarItem, index) => {
@@ -375,7 +377,7 @@ function NavBar({}) {
       key: `navbar-item-${index}`,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 129
+        lineNumber: 128
       },
       __self: this
     }, navBarItemChildren ? __jsx(DropDownNavBarItem, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
@@ -386,7 +388,7 @@ function NavBar({}) {
     }, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 131
+        lineNumber: 130
       },
       __self: this
     })) : __jsx(SingleNavBarItem, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
@@ -397,7 +399,7 @@ function NavBar({}) {
     }, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 140
+        lineNumber: 139
       },
       __self: this
     })));
@@ -429,20 +431,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const NavDrawer = styled_components__WEBPACK_IMPORTED_MODULE_0___default()(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["Drawer"])`
   .MuiPaper-root {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.layout.navbar.width};
     background-color: ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.background.default} !important;
-    background: linear-gradient(
-      180deg,
-      ${color__WEBPACK_IMPORTED_MODULE_2___default()(_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.background.default).lighten(0).hex()}
-        0%,
-      ${color__WEBPACK_IMPORTED_MODULE_2___default()(_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.background.default).lighten(1).hex()}
-        50%,
-      ${color__WEBPACK_IMPORTED_MODULE_2___default()(_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.background.default).lighten(0).hex()}
-        100%
-    ) !important;
+    background: ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.background.default} !important;
     border-right: 3px solid #000;
   }
 `;
@@ -488,16 +479,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "styled-components");
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../config */ "./config/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core */ "@material-ui/core");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _ListItemIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ListItemIcon */ "./components/Nav/ListItemIcon.jsx");
-/* harmony import */ var _ListItemText__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ListItemText */ "./components/Nav/ListItemText.jsx");
+/* harmony import */ var color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! color */ "color");
+/* harmony import */ var color__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(color__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "@material-ui/core");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _ListItemIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ListItemIcon */ "./components/Nav/ListItemIcon.jsx");
+/* harmony import */ var _ListItemText__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ListItemText */ "./components/Nav/ListItemText.jsx");
 
 
 
 
 
-const NavListItem = styled_components__WEBPACK_IMPORTED_MODULE_0___default()(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["ListItem"])`
+
+const NavListItem = styled_components__WEBPACK_IMPORTED_MODULE_0___default()(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["ListItem"])`
   border-top: 1px solid ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.border.default} !important;
   border-bottom: 1px solid ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.border.default} !important;
   background-color: ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.background.default} !important;
@@ -508,11 +502,11 @@ const NavListItem = styled_components__WEBPACK_IMPORTED_MODULE_0___default()(_ma
     border-color: ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.border.hover} !important;
   }
   ,
-  &:hover ${_ListItemIcon__WEBPACK_IMPORTED_MODULE_3__["default"]}, &.active ${_ListItemIcon__WEBPACK_IMPORTED_MODULE_3__["default"]} {
+  &:hover ${_ListItemIcon__WEBPACK_IMPORTED_MODULE_4__["default"]}, &.active ${_ListItemIcon__WEBPACK_IMPORTED_MODULE_4__["default"]} {
     color: ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.text.hover} !important;
   }
   ,
-  &:hover ${_ListItemText__WEBPACK_IMPORTED_MODULE_4__["default"]}, &.active ${_ListItemText__WEBPACK_IMPORTED_MODULE_4__["default"]} {
+  &:hover ${_ListItemText__WEBPACK_IMPORTED_MODULE_5__["default"]}, &.active ${_ListItemText__WEBPACK_IMPORTED_MODULE_5__["default"]} {
     color: ${_config__WEBPACK_IMPORTED_MODULE_1__["default"].styles.colors.navbar.text.hover} !important;
   }
 `;
@@ -732,7 +726,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   layout: {
     navbar: {
-      width: '300px'
+      width: '250px'
     },
     dataTables: {
       cellHeight: '50px',

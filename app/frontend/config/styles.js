@@ -48,7 +48,7 @@ export default {
   },
   layout: {
     navbar: {
-      width: '300px'
+      width: '250px'
     },
     dataTables: {
       cellHeight: '50px',

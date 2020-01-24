@@ -74,7 +74,6 @@ const DropDownNavBarItem = ({ bIsActive, icon, label, navBarItemChildren }) => {
 export default function NavBar({}) {
   const router = useRouter();
 
-  console.log(router);
   const navBarItems = config.navbar.map(
     ({ path, component, icon, label, rbacRule, children }) => {
       const navbarItem = {
@@ -115,7 +114,7 @@ export default function NavBar({}) {
       <CssBaseline />
       <NavDrawerContainer>
         <NavDrawer variant="permanent" anchor="left">
-          <List>
+          <List style={{ width: '100%' }}>
             {(navBarItems || []).map((navBarItem, index) => {
               const {
                 label,

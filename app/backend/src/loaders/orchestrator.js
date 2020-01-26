@@ -1,9 +1,10 @@
 const orchestrator = globalRequire('orchestrator');
-const services = globalRequire('services');
 
 module.exports = {
-  start: async () => {
+  start: async ({ services }) => {
     await orchestrator.start({ services });
+
+    return orchestrator;
   },
   stop: async () => {
     await orchestrator.stop();

@@ -8,6 +8,12 @@ const {
   DB_SERVICE_NAME,
   DB_ERROR_NAME_CONTROLLER_ERROR
 } = require('./constants');
+const { EServiceMethod } = globalRequire('common/enums');
+const {
+  SERVICE_METHOD_GET_ALL_ADDRESSES,
+  SERVICE_METHOD_GET_USER_RULES,
+  SERVICE_METHOD_LOGIN_USER
+} = EServiceMethod;
 
 class DB {
   constructor() {
@@ -16,7 +22,9 @@ class DB {
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.getKnex = this.getKnex.bind(this);
-    this.execute = this.execute.bind(this);
+    this._executeController = this._executeController.bind(this);
+    this._execute = this._execute.bind(this);
+    this.method = this.method.bind(this);
   }
 
   initialize({ nodeModules }) {
@@ -113,6 +121,18 @@ class DB {
         nodeModules
       })
     };
+
+    this.methods = {
+      [SERVICE_METHOD_GET_ALL_ADDRESSES]: async argsObj => {
+        return await this._executeController('addresses', 'findAll', argsObj);
+      },
+      [SERVICE_METHOD_LOGIN_USER]: async argsObj => {
+        return await this._executeController('users', 'login', argsObj);
+      },
+      [SERVICE_METHOD_GET_USER_RULES]: async argsObj => {
+        return await this._executeController('users', 'getRules', argsObj);
+      }
+    };
   }
 
   async start({ environmentVariables, nodeModules, helpers }) {
@@ -152,7 +172,19 @@ class DB {
     return await transaction.rollback();
   }
 
-  async execute(controller, method, args = {}) {
+  async _execute(method, argsObj) {
+    return await this.methods[method](argsObj || {});
+  }
+
+  method(method) {
+    return {
+      execute: async argsObj => {
+        return await this._execute(method, argsObj);
+      }
+    };
+  }
+
+  async _executeController(controller, method, args = {}) {
     const { ServiceResultWrapper } = this.helpers;
 
     const trx = args['transaction']
@@ -166,18 +198,27 @@ class DB {
       });
 
       const returnObj = {
+        result,
+        extra: { transaction: null }
+      };
+      /*
+      const returnObj = {
         type: ServiceResultWrapper.TYPE.SUCCESS,
         service: DB_SERVICE_NAME,
         payload: result
       };
-
+      */
       if (!args['bKeepTransactionAlive']) {
         await trx.commit();
+      } else {
+        returnObj.extra.transaction = trx;
       }
 
-      return new ServiceResultWrapper().wrap(returnObj);
+      return returnObj;
     } catch (error) {
       await trx.rollback();
+
+      throw error;
 
       if (error.name !== DB_ERROR_NAME_CONTROLLER_ERROR) {
         throw error;

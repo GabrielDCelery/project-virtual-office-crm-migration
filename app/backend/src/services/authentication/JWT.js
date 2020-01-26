@@ -7,7 +7,7 @@ class JWT {
     this.sign = this.sign.bind(this);
   }
 
-  async verify(jwtToVerify) {
+  async verify({ jwtToken }) {
     const {
       AUTHENTICATION_ERROR_MESSAGE_FAILED_TO_AUTHENTICATE,
       AUTHENTICATION_ERROR_NAME_CONTROLLER,
@@ -18,7 +18,7 @@ class JWT {
     const { VError } = verror;
 
     return new Promise((accept, reject) => {
-      jsonwebtoken.verify(jwtToVerify, this.config.secret, (error, decoded) => {
+      jsonwebtoken.verify(jwtToken, this.config.secret, (error, decoded) => {
         if (error) {
           if (
             error.name === JWT_ERROR_NAME_TOKEN_EXPIRED ||
@@ -30,7 +30,7 @@ class JWT {
                   name: AUTHENTICATION_ERROR_NAME_CONTROLLER,
                   cause: error,
                   info: {
-                    jwtToVerify
+                    jwtToken
                   }
                 },
                 AUTHENTICATION_ERROR_MESSAGE_FAILED_TO_AUTHENTICATE
@@ -46,13 +46,13 @@ class JWT {
     });
   }
 
-  async sign(dataToSign) {
+  async sign({ id, email }) {
     const { jsonwebtoken } = this.nodeModules;
 
     return new Promise((accept, reject) => {
       jsonwebtoken.sign(
         {
-          ...dataToSign,
+          ...{ id, email },
           exp: Math.floor(Date.now() / 1000) + this.config.expiryInSeconds
         },
         this.config.secret,
@@ -61,7 +61,7 @@ class JWT {
             return reject(error);
           }
 
-          return accept(token);
+          return accept({ token });
         }
       );
     });

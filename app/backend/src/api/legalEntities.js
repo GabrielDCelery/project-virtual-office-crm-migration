@@ -6,7 +6,7 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   router.get('/getAllVersionsOfAllRecords', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute(
+      toReturn: await orchestrator.executeOld(
         'legalEntities',
         'getAllVersionsOfAllRecords'
       )
@@ -15,7 +15,7 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   router.get('/getAllVersionsOfSingleRecord', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute(
+      toReturn: await orchestrator.executeOld(
         'legalEntities',
         'getAllVersionsOfSingleRecord',
         req.body
@@ -26,7 +26,7 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   router.get('/getLatestVersionsOfAllRecords', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute(
+      toReturn: await orchestrator.executeOld(
         'legalEntities',
         'getLatestVersionsOfAllRecords'
       )
@@ -36,14 +36,18 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   router.get('/getTypes', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute('legalEntities', 'getTypes')
+      toReturn: await orchestrator.executeOld('legalEntities', 'getTypes')
     });
   });
 
   router.post('/update', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute('legalEntities', 'update', req.body)
+      toReturn: await orchestrator.executeOld(
+        'legalEntities',
+        'update',
+        req.body
+      )
     });
   });
 

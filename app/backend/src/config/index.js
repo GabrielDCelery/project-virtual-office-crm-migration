@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const host = require('./host');
 const authentication = require('./authentication');
 const api = require('./api');
@@ -21,6 +22,16 @@ class Config {
       USER_JWT_SECRET,
       USER_JWT_EXPIRY
     });
+  }
+
+  get(path) {
+    const conf = _.get(this, path);
+
+    if (_.isNil(conf)) {
+      throw new Error(`Invalid path for configuration ${path}`);
+    }
+
+    return conf;
   }
 }
 

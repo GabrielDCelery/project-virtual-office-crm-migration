@@ -6,7 +6,7 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   router.get('/findAllPendingEmailNotifications', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute(
+      toReturn: await orchestrator.executeOld(
         'mailsPendingActions',
         'findAllPendingEmailNotifications'
       )
@@ -16,7 +16,7 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   router.post('/sendEmailNotificationsForReceivedMails', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute(
+      toReturn: await orchestrator.executeOld(
         'mailsPendingActions',
         'sendEmailNotificationsForReceivedMails',
         req.body

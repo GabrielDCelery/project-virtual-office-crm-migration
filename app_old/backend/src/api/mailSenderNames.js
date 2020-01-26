@@ -6,14 +6,14 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   router.get('/findAll', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute('mailSenderNames', 'findAll')
+      toReturn: await orchestrator.executeOld('mailSenderNames', 'findAll')
     });
   });
 
   router.post('/create', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute(
+      toReturn: await orchestrator.executeOld(
         'mailSenderNames',
         'create',
         req.body

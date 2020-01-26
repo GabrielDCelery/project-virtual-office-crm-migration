@@ -1,33 +1,29 @@
+const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const api = globalRequire('api');
 const config = globalRequire('config');
-const helpers = globalRequire('helpers');
+const routerFactory = globalRequire('api/routerFactory');
+const { ERouter } = globalRequire('common/enums');
+const { ROUTER_ADDRESSES, ROUTER_USERS } = ERouter;
 
 module.exports = {
-  start: async ({ app, middlewares, orchestrator, Router }) => {
+  start: async ({ middlewares, orchestrator }) => {
+    const app = express();
+
     app.use(bodyParser.json());
     app.use(cookieParser());
     app.use(cors());
 
-    const {
-      addresses,
-      cities,
-      countries,
-      legalEntities,
-      mailSenderNames,
-      mailSenders,
-      mailSubjects,
-      mails,
-      mailsPendingActions,
-      users
-    } = api;
-
     app.use(
-      config.api.routerPathPrefix.addresses,
-      addresses({ Router, helpers, orchestrator })
+      config.get('api.routerPathPrefix.addresses'),
+      routerFactory.createRouter({
+        routerClassName: ROUTER_ADDRESSES,
+        middlewares,
+        orchestrator
+      })
     );
+    /*
     app.use(
       config.api.routerPathPrefix.cities,
       cities({ Router, helpers, orchestrator })
@@ -60,9 +56,14 @@ module.exports = {
       config.api.routerPathPrefix.mailsPendingActions,
       mailsPendingActions({ Router, helpers, orchestrator })
     );
+    */
     app.use(
-      config.api.routerPathPrefix.users,
-      users({ Router, helpers, orchestrator })
+      config.get('api.routerPathPrefix.users'),
+      routerFactory.createRouter({
+        routerClassName: ROUTER_USERS,
+        middlewares,
+        orchestrator
+      })
     );
 
     // Path for performing health check on the service
@@ -70,6 +71,8 @@ module.exports = {
       res.status(200);
       res.send('OK');
     });
+
+    return app;
   },
   stop: async () => {}
 };

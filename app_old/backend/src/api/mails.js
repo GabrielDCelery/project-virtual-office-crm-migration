@@ -11,7 +11,7 @@ module.exports = ({ Router, helpers, middlewares, orchestrator }) => {
 
       return apiResultWrapper.returnJSON({
         res,
-        toReturn: await orchestrator.execute('mails', 'create', {
+        toReturn: await orchestrator.executeOld('mails', 'create', {
           ...body,
           file
         })

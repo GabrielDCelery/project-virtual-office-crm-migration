@@ -7,13 +7,15 @@ const {
   JWT_ERROR_NAME_INVALID_TOKEN,
   JWT_ERROR_NAME_TOKEN_EXPIRED
 } = require('./constants');
+const { EServiceMethod } = globalRequire('common/enums');
+const { SERVICE_METHOD_SIGN_JWT, SERVICE_METHOD_VERIFY_JWT } = EServiceMethod;
 
 class Authentication {
   constructor() {
     this.helpers = null;
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
-    this.execute = this.execute.bind(this);
+    this._executeController = this._executeController.bind(this);
   }
 
   initialize({ config, nodeModules }) {
@@ -28,6 +30,15 @@ class Authentication {
         },
         nodeModules
       })
+    };
+
+    this.methods = {
+      [SERVICE_METHOD_SIGN_JWT]: async argsObj => {
+        return await this._executeController('jwt', 'sign', argsObj);
+      },
+      [SERVICE_METHOD_VERIFY_JWT]: async argsObj => {
+        return await this._executeController('jwt', 'verify', argsObj);
+      }
     };
   }
 
@@ -45,20 +56,32 @@ class Authentication {
     this.initialized = false;
   }
 
-  async execute(controller, method, args) {
+  async _execute(method, argsObj) {
+    return await this.methods[method](argsObj || {});
+  }
+
+  method(method) {
+    return {
+      execute: async argsObj => {
+        return await this._execute(method, argsObj);
+      }
+    };
+  }
+
+  async _executeController(controller, method, args) {
     const { ServiceResultWrapper } = this.helpers;
 
     try {
       const result = await this.controllers[controller][method](args);
 
       const returnObj = {
-        type: ServiceResultWrapper.TYPE.SUCCESS,
-        service: AUTHENTICATION_SERVICE_NAME,
-        payload: result
+        result,
+        extra: {}
       };
 
-      return new ServiceResultWrapper().wrap(returnObj);
+      return returnObj;
     } catch (error) {
+      throw error;
       if (error.name !== AUTHENTICATION_ERROR_NAME_CONTROLLER) {
         throw error;
       }

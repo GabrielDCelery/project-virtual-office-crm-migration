@@ -6,6 +6,14 @@ const AWS = require('aws-sdk');
 const uuidv4 = require('uuid/v4');
 const verror = require('verror');
 
+const { EServiceName } = globalRequire('common/enums');
+const {
+  SERVICE_NAME_AUTHENTICATION,
+  SERVICE_NAME_CLOUD,
+  SERVICE_NAME_DATABASE,
+  SERVICE_NAME_REDIS
+} = EServiceName;
+
 const {
   NODE_ENV,
   SERVICE_DB_CLIENT,
@@ -26,7 +34,7 @@ const {
 
 module.exports = {
   start: async () => {
-    await services.get('database').start({
+    await services.get(SERVICE_NAME_DATABASE).start({
       environmentVariables: {
         NODE_ENV,
         SERVICE_DB_CLIENT,
@@ -44,14 +52,14 @@ module.exports = {
       },
       helpers: helpers
     });
-    await services.get('redis').start({
+    await services.get(SERVICE_NAME_REDIS).start({
       environmentVariables: {
         SERVICE_REDIS_HOST,
         SERVICE_REDIS_PORT
       },
       helpers: helpers
     });
-    await services.get('authentication').start({
+    await services.get(SERVICE_NAME_AUTHENTICATION).start({
       environmentVariables: {
         SERVICE_JWT_SECRET,
         SERVICE_JWT_EXPIRY_IN_SECONDS
@@ -62,7 +70,7 @@ module.exports = {
         verror
       }
     });
-    await services.get('cloud').start({
+    await services.get(SERVICE_NAME_CLOUD).start({
       environmentVariables: {
         SERVICE_CLOUD_S3_ACCESS_KEY_ID,
         SERVICE_CLOUD_S3_SECRET_ACCESS_KEY,
@@ -74,11 +82,13 @@ module.exports = {
         verror
       }
     });
+
+    return services;
   },
   stop: async () => {
-    await services.get('database').stop();
-    await services.get('authentication').stop();
-    await services.get('redis').stop();
-    await services.get('cloud').stop();
+    await services.get(SERVICE_NAME_DATABASE).stop();
+    await services.get(SERVICE_NAME_AUTHENTICATION).stop();
+    await services.get(SERVICE_NAME_REDIS).stop();
+    await services.get(SERVICE_NAME_CLOUD).stop();
   }
 };

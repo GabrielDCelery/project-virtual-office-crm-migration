@@ -6,7 +6,7 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   router.get('/', async (req, res) => {
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute('addresses', 'findAll')
+      toReturn: await orchestrator.executeOld('addresses', 'findAll')
     });
   });
 

@@ -5,7 +5,11 @@ module.exports = ({ Router, helpers, orchestrator }) => {
   const COOKIE_SESSION_ID = 'PVOCRM_SESSION_ID';
 
   router.post('/login', async (req, res) => {
-    const loginResult = await orchestrator.execute('users', 'login', req.body);
+    const loginResult = await orchestrator.executeOld(
+      'users',
+      'login',
+      req.body
+    );
 
     if (!loginResult.success) {
       return apiResultWrapper.returnJSON({ res, toReturn: loginResult });
@@ -41,7 +45,7 @@ module.exports = ({ Router, helpers, orchestrator }) => {
 
     return apiResultWrapper.returnJSON({
       res,
-      toReturn: await orchestrator.execute(
+      toReturn: await orchestrator.executeOld(
         'users',
         'authenticateByCookie',
         jwtToken

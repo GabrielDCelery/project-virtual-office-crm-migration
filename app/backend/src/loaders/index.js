@@ -1,26 +1,23 @@
-const api = require('./api');
-const services = require('./services');
-const middlewares = require('./middlewares');
-const orchestrator = require('./orchestrator');
-const cronjobs = require('./cronjobs');
+const apiLoader = require('./api');
+const servicesLoader = require('./services');
+const middlewaresLoader = require('./middlewares');
+const orchestratorLoader = require('./orchestrator');
+const cronjobsLoader = require('./cronjobs');
 
 module.exports = {
-  start: async ({ app, Router }) => {
-    await services.start();
-    await middlewares.start();
-    await orchestrator.start();
-    await api.start({
-      Router,
-      app,
-      middlewares: globalRequire('middlewares'),
-      orchestrator: globalRequire('orchestrator')
-    });
-    await cronjobs.start();
+  start: async () => {
+    const services = await servicesLoader.start();
+    const orchestrator = await orchestratorLoader.start({ services });
+    const middlewares = await middlewaresLoader.start({ orchestrator });
+    const app = await apiLoader.start({ middlewares, orchestrator });
+    await cronjobsLoader.start();
+
+    return { app };
   },
   stop: async () => {
-    await cronjobs.stop();
-    await api.stop();
-    await orchestrator.stop();
-    await services.stop();
+    await cronjobsLoader.stop();
+    await apiLoader.stop();
+    await orchestratorLoader.stop();
+    await servicesLoader.stop();
   }
 };

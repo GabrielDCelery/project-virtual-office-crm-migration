@@ -12,7 +12,7 @@ module.exports = class Users extends RoutesGenerator {
     const COOKIE_SESSION_ID = 'PVOCRM_SESSION_ID';
 
     router.post('/login', async (req, res) => {
-      const loginResult = await orchestrator
+      const { loginResult } = await orchestrator
         .method(ORCHESTRATOR_METHOD_LOGIN_USER)
         .execute(req.body);
 

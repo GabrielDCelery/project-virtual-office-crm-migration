@@ -1,13 +1,13 @@
-import UIAuthentication from '../components/UI/Authentication';
+import UICookieAuthenticator from '../components/UI/CookieAuthenticator';
 import { Provider } from 'react-redux';
 import store from '../store';
 
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      <UIAuthentication>
-        <Component {...pageProps} />;
-      </UIAuthentication>
+      <UICookieAuthenticator>
+        <Component {...pageProps} />
+      </UICookieAuthenticator>
     </Provider>
   );
 }

@@ -1,10 +1,18 @@
 export default {
   colors: {
-    primary: '#012f6b',
+    primary: '#275a71',
     secondary: '#082431',
     tertiary: '',
     dark: '#333',
     backgroundHighlight: '#F3F8FA',
+    lightBgText: '#222',
+    darkBgText: '#eee',
+    lightBlue: /*'#b4c7ed'*/ '#D8E9F5',
+    lightBlueBorder: '#46465c',
+    lightYellow: '#eddbb4',
+    lightYellowBorder: '#6e6959',
+    lightBg: '#e8e8e8',
+    darkBg: '#696969',
     navbar: {
       text: {
         default: '#aaa',
@@ -12,7 +20,7 @@ export default {
       },
       background: {
         default: '#082431',
-        hover: '#2b617a' /*'#7a2b3f'*/
+        hover: '#275a71' /*'#7a2b3f'*/
       },
       border: {
         default: '#0d3346',

@@ -15,6 +15,25 @@ const {
   SERVICE_METHOD_LOGIN_USER
 } = EServiceMethod;
 
+class MethodExecutor {
+  constructor(method) {
+    this.m = method;
+    this.execute = this.execute.bind(this);
+    this.result = this.result.bind(this);
+  }
+
+  async execute(argsObj) {
+    const { result, transatction } = await this.m(argsObj);
+    this.calcResult = result;
+
+    return this.calcResult;
+  }
+
+  result() {
+    return this.calcResult;
+  }
+}
+
 class DB {
   constructor() {
     this.knex = null;
@@ -23,7 +42,6 @@ class DB {
     this.stop = this.stop.bind(this);
     this.getKnex = this.getKnex.bind(this);
     this._executeController = this._executeController.bind(this);
-    this._execute = this._execute.bind(this);
     this.method = this.method.bind(this);
   }
 
@@ -172,16 +190,8 @@ class DB {
     return await transaction.rollback();
   }
 
-  async _execute(method, argsObj) {
-    return await this.methods[method](argsObj || {});
-  }
-
   method(method) {
-    return {
-      execute: async argsObj => {
-        return await this._execute(method, argsObj);
-      }
-    };
+    return new MethodExecutor(this.methods[method]);
   }
 
   async _executeController(controller, method, args = {}) {

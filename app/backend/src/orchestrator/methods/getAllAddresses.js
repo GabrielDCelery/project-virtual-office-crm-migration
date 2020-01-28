@@ -4,11 +4,9 @@ const { SERVICE_METHOD_GET_ALL_ADDRESSES } = EServiceMethod;
 
 module.exports = ({ services }) => {
   return async () => {
-    const { result } = await services
+    return await services
       .get(SERVICE_NAME_DATABASE)
       .method(SERVICE_METHOD_GET_ALL_ADDRESSES)
       .execute();
-
-    return result;
   };
 };

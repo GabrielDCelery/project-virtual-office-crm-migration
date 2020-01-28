@@ -10,6 +10,24 @@ const {
 const { EServiceMethod } = globalRequire('common/enums');
 const { SERVICE_METHOD_SIGN_JWT, SERVICE_METHOD_VERIFY_JWT } = EServiceMethod;
 
+class MethodExecutor {
+  constructor(method) {
+    this.m = method;
+    this.execute = this.execute.bind(this);
+    this.result = this.result.bind(this);
+  }
+
+  async execute(argsObj) {
+    this.calcResult = await this.m(argsObj);
+
+    return this.calcResult;
+  }
+
+  result() {
+    return this.calcResult;
+  }
+}
+
 class Authentication {
   constructor() {
     this.helpers = null;
@@ -56,30 +74,15 @@ class Authentication {
     this.initialized = false;
   }
 
-  async _execute(method, argsObj) {
-    return await this.methods[method](argsObj || {});
-  }
-
   method(method) {
-    return {
-      execute: async argsObj => {
-        return await this._execute(method, argsObj);
-      }
-    };
+    return new MethodExecutor(this.methods[method]);
   }
 
   async _executeController(controller, method, args) {
     const { ServiceResultWrapper } = this.helpers;
 
     try {
-      const result = await this.controllers[controller][method](args);
-
-      const returnObj = {
-        result,
-        extra: {}
-      };
-
-      return returnObj;
+      return await this.controllers[controller][method](args);
     } catch (error) {
       throw error;
       if (error.name !== AUTHENTICATION_ERROR_NAME_CONTROLLER) {

@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { actionAuthenticateUserByCookie } from '../../../store';
+import { selectorIsUserLoggedIn } from '../../../store';
 
 const mapStateToProps = state => {
-  return state;
+  return {
+    stateIsUserLoggedIn: selectorIsUserLoggedIn(state)
+  };
 };
 
-const mapActionsToProps = {
-  actionAuthenticateUserByCookie
-};
+const mapActionsToProps = {};
 
-export default function CookieAuthenticatorStore(ToWrapComponent) {
+export default function LoginRedirectorStore(ToWrapComponent) {
   let WrapperComponent = props => {
     return <ToWrapComponent {...props} />;
   };

@@ -2,15 +2,15 @@ import {
   USER_DATA_SET_EMAIL,
   USER_DATA_SET_RULES,
   USER_DATA_RESET
-} from '../userData';
+} from "../userData";
 import {
   USER_LOGIN_FORM_START_AJAX_REQUEST,
   USER_LOGIN_FORM_FINISH_AJAX_REQUEST,
   USER_LOGIN_FORM_RESET_FIELDS,
   USER_LOGIN_FORM_SET_FIELD
-} from './userLoginForm.constants';
-import { SNACKBAR_OPEN_ERROR } from '../../snackbar';
-import services from 'services';
+} from "./userLoginForm.constants";
+import { SNACKBAR_OPEN_ERROR } from "../../snackbar";
+import services from "services";
 
 export const actionSetUserLoginFormField = ({ what, value }) => {
   return async dispatch => {
@@ -40,8 +40,8 @@ export const actionLogin = (
     }
 
     dispatch({ type: USER_LOGIN_FORM_RESET_FIELDS });
-    dispatch({ type: USER_DATA_SET_EMAIL, email: payload['email'] });
-    dispatch({ type: USER_DATA_SET_RULES, rules: payload['rules'] });
+    dispatch({ type: USER_DATA_SET_EMAIL, email: payload["email"] });
+    dispatch({ type: USER_DATA_SET_RULES, rules: payload["rules"] });
 
     return successCallback();
   };

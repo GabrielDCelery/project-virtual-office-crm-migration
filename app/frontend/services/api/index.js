@@ -11,7 +11,11 @@ const {
 const wrapAPICall = method => {
   return async argsObj => {
     try {
-      return await method(argsObj);
+      return {
+        success: true,
+        error: null,
+        payload: await method(argsObj)
+      };
     } catch (error) {
       return {
         success: false,

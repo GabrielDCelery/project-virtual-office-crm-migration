@@ -4,7 +4,7 @@ import { EServiceName, EServiceMethod } from '../../common/enums';
 const { SERICE_NAME_API } = EServiceName;
 const { SERVICE_METHOD_LOGIN_USER } = EServiceMethod;
 
-export const loginUserAction = ({ email, password }) => {
+export const actionLoginUser = ({ email, password }) => {
   return async dispatch => {
     dispatch({ type: USER_RESET });
 

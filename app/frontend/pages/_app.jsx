@@ -1,12 +1,15 @@
-import UICookieAuthenticator from '../components/UI/CookieAuthenticator';
 import { Provider } from 'react-redux';
 import store from '../store';
+import UICookieAuthenticator from '../components/UI/CookieAuthenticator';
+import UILoginRedirector from '../components/UI/LoginRedirector';
 
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <UICookieAuthenticator>
-        <Component {...pageProps} />
+        <UILoginRedirector>
+          <Component {...pageProps} />
+        </UILoginRedirector>
       </UICookieAuthenticator>
     </Provider>
   );

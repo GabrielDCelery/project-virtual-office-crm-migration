@@ -17,6 +17,7 @@ import {
   Person as PersonIcon,
   Search as SearchIcon
 } from '@material-ui/icons';
+import Link from 'next/link';
 
 const Icons = {
   ContactMailIcon,
@@ -31,12 +32,14 @@ const SingleNavBarItem = ({ bIsActive, icon, label, path }) => {
   const Icon = Icons[icon];
 
   return (
-    <NavListItem button className={`${bIsActive ? 'active' : ''}`}>
-      <NavListItemIcon>
-        <Icon />
-      </NavListItemIcon>
-      <NavListItemText primary={label} />
-    </NavListItem>
+    <Link href={path}>
+      <NavListItem button className={`${bIsActive ? 'active' : ''}`}>
+        <NavListItemIcon>
+          <Icon />
+        </NavListItemIcon>
+        <NavListItemText primary={label} />
+      </NavListItem>
+    </Link>
   );
 };
 
@@ -60,9 +63,11 @@ const DropDownNavBarItem = ({ bIsActive, icon, label, navBarItemChildren }) => {
         <List component="div" disablePadding>
           {navBarItemChildren.map(({ label, bIsActive, path }, index) => (
             <React.Fragment key={`navbar-item-collapsible-${index}`}>
-              <NavListItem button className={`${bIsActive ? 'active' : ''}`}>
-                <NavListItemText primary={label} />
-              </NavListItem>
+              <Link href={path}>
+                <NavListItem button className={`${bIsActive ? 'active' : ''}`}>
+                  <NavListItemText primary={label} />
+                </NavListItem>
+              </Link>
             </React.Fragment>
           ))}
         </List>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Hidden } from '@material-ui/core';
 import NavBar from '../components/Nav/Bar';
 
-export default () => {
+const IndexPage = () => {
   return (
     <Box display="flex">
       <NavBar />
@@ -17,3 +17,5 @@ export default () => {
     </Box>
   );
 };
+
+export default IndexPage;

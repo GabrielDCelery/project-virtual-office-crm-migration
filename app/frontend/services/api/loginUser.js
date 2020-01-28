@@ -1,12 +1,15 @@
 import axios from 'axios';
 
 export const loginUser = async ({ email, password }) => {
-  const { data } = await axios({
+  const res = await axios({
     method: 'POST',
     url: `/api/users/login`,
     responseType: 'json',
-    data: { email, password }
+    data: { email, password },
+    withCredentials: true
   });
+
+  const { data } = res;
 
   return data;
 };

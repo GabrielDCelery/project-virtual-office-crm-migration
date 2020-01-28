@@ -1,11 +1,14 @@
 import axios from 'axios';
 
 export const authenticateUserByCookie = async () => {
-  const { data } = await axios({
+  const res = await axios({
     method: 'POST',
     url: `/api/users/authenticateByCookie`,
-    responseType: 'json'
+    responseType: 'json',
+    withCredentials: true
   });
+
+  const { data } = res;
 
   return data;
 };

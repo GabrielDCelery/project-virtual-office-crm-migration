@@ -18,10 +18,10 @@ module.exports = class Users extends RoutesGenerator {
           .method(ORCHESTRATOR_METHOD_LOGIN_USER)
           .execute({ email, password });
 
-        return res
+        res
           .cookie(COOKIE_SESSION_ID, token, {
-            httpOnly: true,
-            secure: true
+            httpOnly: true
+            //secure: true
           })
           .status(STATUS_CODE_OK)
           .json({

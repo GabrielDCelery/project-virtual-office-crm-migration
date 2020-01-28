@@ -5,7 +5,7 @@ const { STATUS_CODE_OK, STATUS_CODE_INTERNAL_SERVER_ERROR } = CStatusCode;
 const { ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES } = EOrchestratorMethod;
 
 module.exports = class Addresses extends RoutesGenerator {
-  _createRouter({ router, resWrapper, orchestrator }) {
+  _createRouter({ router, orchestrator }) {
     router.get('/getAll', async (req, res) => {
       try {
         const addresses = await orchestrator

@@ -8,7 +8,7 @@ const {
 const { STATUS_CODE_OK, STATUS_CODE_UNAUTHORIZED } = CStatusCode;
 
 module.exports = class Users extends RoutesGenerator {
-  _createRouter({ router, resWrapper, orchestrator }) {
+  _createRouter({ router, orchestrator }) {
     const COOKIE_SESSION_ID = 'PVOCRM_SESSION_ID';
 
     router.post('/login', async (req, res) => {

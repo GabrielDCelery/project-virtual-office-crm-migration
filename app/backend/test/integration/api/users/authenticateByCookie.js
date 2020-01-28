@@ -43,12 +43,8 @@ module.exports = () => {
       // Then
       expect(status).to.equal(200);
       expect(data).to.deep.equal({
-        success: true,
-        error: null,
-        payload: {
-          email: 'test@test.com',
-          rules: ['*']
-        }
+        email: 'test@test.com',
+        rules: ['*']
       });
     });
   });

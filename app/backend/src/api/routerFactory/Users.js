@@ -12,8 +12,28 @@ module.exports = class Users extends RoutesGenerator {
     const COOKIE_SESSION_ID = 'PVOCRM_SESSION_ID';
 
     router.post('/login', async (req, res) => {
-      const { loginResult } = await orchestrator
-        .method(ORCHESTRATOR_METHOD_LOGIN_USER)
+      try {
+        const { email, password } = req.body;
+        const { rules, token } = await orchestrator
+          .method(ORCHESTRATOR_METHOD_LOGIN_USER)
+          .execute({ email, password });
+
+        return res
+          .cookie(COOKIE_SESSION_ID, token, {
+            httpOnly: true,
+            secure: true
+          })
+          .status(STATUS_CODE_OK)
+          .json({
+            email,
+            rules
+          });
+      } catch (error) {
+        return res.status(STATUS_CODE_UNAUTHORIZED).send(error.message);
+      }
+      /*
+      const loginResult = await orchestrator
+        .get(ORCHESTRATOR_METHOD_LOGIN_USER)
         .execute(req.body);
 
       if (!loginResult.success) {
@@ -35,18 +55,34 @@ module.exports = class Users extends RoutesGenerator {
         orchestratorResult: loginResult,
         omit: ['token']
       });
+      */
     });
 
     router.post('/logout', async (req, res) => {
-      res.clearCookie(COOKIE_SESSION_ID);
-
-      return resWrapper.returnJsonSuccess({ res });
+      return res
+        .clearCookie(COOKIE_SESSION_ID)
+        .status(STATUS_CODE_OK)
+        .send('OK');
     });
 
     router.post('/authenticateByCookie', async (req, res) => {
+      try {
+        const jwtToken = req.cookies[COOKIE_SESSION_ID];
+        const { email, rules } = await orchestrator
+          .method(ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE)
+          .execute({ jwtToken });
+
+        return res.status(STATUS_CODE_OK).json({
+          email,
+          rules
+        });
+      } catch (error) {
+        return res.status(STATUS_CODE_UNAUTHORIZED).send(error.message);
+      }
+      /*
       const jwtToken = req.cookies[COOKIE_SESSION_ID];
       const authenticationResult = await orchestrator
-        .method(ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE)
+        .get(ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE)
         .execute({ jwtToken });
 
       return resWrapper.returnOrchestratorResult({
@@ -55,6 +91,7 @@ module.exports = class Users extends RoutesGenerator {
         statusCodeFail: STATUS_CODE_UNAUTHORIZED,
         orchestratorResult: authenticationResult
       });
+      */
     });
 
     return router;

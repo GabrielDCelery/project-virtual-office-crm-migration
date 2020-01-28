@@ -16,6 +16,24 @@ const {
   ORCHESTRATOR_METHOD_LOGIN_USER
 } = EOrchestratorMethod;
 
+class MethodExecutor {
+  constructor(method) {
+    this.m = method;
+    this.execute = this.execute.bind(this);
+    this.result = this.result.bind(this);
+  }
+
+  async execute(argsObj) {
+    this.calcResult = await this.m(argsObj);
+
+    return this.calcResult;
+  }
+
+  result() {
+    return this.calcResult;
+  }
+}
+
 class Orchestrator {
   constructor() {
     this.initialized = false;
@@ -117,9 +135,7 @@ class Orchestrator {
   }
 
   method(method) {
-    return {
-      execute: async argsObj => await this._execute(method, argsObj)
-    };
+    return new MethodExecutor(this.methods[method]);
   }
 
   async executeOld(instanceName, methodName, args) {

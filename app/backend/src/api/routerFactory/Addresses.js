@@ -7,16 +7,17 @@ const { ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES } = EOrchestratorMethod;
 module.exports = class Addresses extends RoutesGenerator {
   _createRouter({ router, resWrapper, orchestrator }) {
     router.get('/getAll', async (req, res) => {
-      const orchestratorResult = await orchestrator
-        .method(ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES)
-        .execute();
+      try {
+        const addresses = await orchestrator
+          .method(ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES)
+          .execute();
 
-      return resWrapper.returnOrchestratorResult({
-        res,
-        statusCodeSuccess: STATUS_CODE_OK,
-        statusCodeFail: STATUS_CODE_INTERNAL_SERVER_ERROR,
-        orchestratorResult
-      });
+        return res.status(STATUS_CODE_OK).json(addresses);
+      } catch (error) {
+        return res
+          .status(STATUS_CODE_INTERNAL_SERVER_ERROR)
+          .send(error.message);
+      }
     });
 
     return router;

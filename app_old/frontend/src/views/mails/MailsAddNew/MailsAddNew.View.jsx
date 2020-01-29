@@ -1,6 +1,6 @@
-import React from 'react';
-import _ from 'lodash';
-import { Button, Tab, Tabs, TextField } from '@material-ui/core';
+import React from "react";
+import _ from "lodash";
+import { Button, Tab, Tabs, TextField } from "@material-ui/core";
 import {
   CustomLeftAlignedContainer,
   DocumentPdf,
@@ -10,7 +10,7 @@ import {
   FormReactCreateSelect,
   FormReactSelect,
   FormStep
-} from 'components';
+} from "components";
 
 const MailsAddNewView = ({ getter, handler }) => {
   return (
@@ -22,17 +22,17 @@ const MailsAddNewView = ({ getter, handler }) => {
               inputId="mail-sender-legal-entity"
               isClearable={true}
               isDisabled={
-                getter('ajaxInProgress', 'createNewMail') ||
-                getter('ajaxInProgress', 'legalEntityRecommendations')
+                getter("ajaxInProgress", "createNewMail") ||
+                getter("ajaxInProgress", "legalEntityRecommendations")
               }
-              isLoading={getter('ajaxInProgress', 'legalEntityRecommendations')}
+              isLoading={getter("ajaxInProgress", "legalEntityRecommendations")}
               label="Legal Entity"
               onChange={recommendation => {
-                handler('mailReceiver', 'setMailReceiver')(recommendation);
+                handler("mailReceiver", "setMailReceiver")(recommendation);
               }}
-              options={getter('recommendations', 'legalEntities')}
+              options={getter("recommendations", "legalEntities")}
               placeholder="Select a legal entity"
-              value={getter('fields', 'mailReceiver')}
+              value={getter("fields", "mailReceiver")}
             />
           </FormFieldControl>
         </FormPaper>
@@ -42,70 +42,72 @@ const MailsAddNewView = ({ getter, handler }) => {
         <Tabs
           indicatorColor="primary"
           onChange={(event, newValue) => {
-            handler('layout', 'setMailSenderActivePanel')(newValue);
+            handler("layout", "setMailSenderActivePanel")(newValue);
           }}
           textColor="primary"
-          value={getter('layout', 'mailSenderActivePanel')}
-          style={{ background: '#eee' }}
+          value={getter("layout", "mailSenderActivePanel")}
+          style={{ background: "#eee" }}
         >
           <Tab label="Choose Existing Mail Sender" />
           <Tab label="Add New Mail Sender" />
         </Tabs>
         <FormPaper>
-          {getter('layout', 'mailSenderActivePanel') === 0 ? (
+          {getter("layout", "mailSenderActivePanel") === 0 ? (
             <FormFieldControl>
               <FormReactSelect
                 inputId="mail-sender"
                 isClearable={true}
                 isDisabled={
-                  getter('ajaxInProgress', 'createNewMail') ||
-                  getter('ajaxInProgress', 'mailSenderRecommendations')
+                  getter("ajaxInProgress", "createNewMail") ||
+                  getter("ajaxInProgress", "mailSenderRecommendations")
                 }
                 isLoading={getter(
-                  'ajaxInProgress',
-                  'mailSenderRecommendations'
+                  "ajaxInProgress",
+                  "mailSenderRecommendations"
                 )}
                 label="Mail Sender"
                 onChange={recommendation => {
-                  handler('existingMailSender', 'actionSetSelectedMailSender')(
-                    recommendation
-                  );
+                  handler(
+                    "existingMailSender",
+                    "actionSetSelectedMailSender"
+                  )(recommendation);
                 }}
-                options={getter('recommendations', 'mailSenders')}
+                options={getter("recommendations", "mailSenders")}
                 placeholder="Select a mail sender"
-                value={getter('fields', 'existingMailSender')}
+                value={getter("fields", "existingMailSender")}
               />
             </FormFieldControl>
           ) : null}
-          {getter('layout', 'mailSenderActivePanel') === 1 ? (
+          {getter("layout", "mailSenderActivePanel") === 1 ? (
             <React.Fragment>
               <FormFieldControl>
                 <FormReactCreateSelect
                   inputId="react-select-single"
                   isClearable={true}
                   isDisabled={
-                    getter('ajaxInProgress', 'createNewMail') ||
-                    getter('ajaxInProgress', 'mailSenderNameRecommendations')
+                    getter("ajaxInProgress", "createNewMail") ||
+                    getter("ajaxInProgress", "mailSenderNameRecommendations")
                   }
                   isLoading={getter(
-                    'ajaxInProgress',
-                    'mailSenderNameRecommendations'
+                    "ajaxInProgress",
+                    "mailSenderNameRecommendations"
                   )}
                   onChange={recommendation => {
-                    handler('newMailSender', 'actionSetSelectedMailSenderName')(
-                      recommendation
-                    );
+                    handler(
+                      "newMailSender",
+                      "actionSetSelectedMailSenderName"
+                    )(recommendation);
                   }}
                   onCreateOption={mailSenderName => {
                     handler(
-                      'newMailSender',
-                      'actionCreateNewMailSenderNameAndReFetch'
+                      "newMailSender",
+                      "actionCreateNewMailSenderNameAndReFetch"
                     )(mailSenderName);
                   }}
-                  options={getter('recommendations', 'mailSenderNames')}
+                  options={getter("recommendations", "mailSenderNames")}
                   label="Mail Sender Name"
                   placeholder="Select or create Mail Sender Name"
-                  value={getter('fields', 'newMailSender', 'name')}
+                  value={getter("fields", "newMailSender", "name")}
                 />
               </FormFieldControl>
 
@@ -118,9 +120,9 @@ const MailsAddNewView = ({ getter, handler }) => {
                     shrink: true
                   }}
                   onChange={event => {
-                    handler('newMailSender', 'setPostcode')(event.target.value);
+                    handler("newMailSender", "setPostcode")(event.target.value);
                   }}
-                  value={getter('fields', 'newMailSender', 'postcode')}
+                  value={getter("fields", "newMailSender", "postcode")}
                 />
               </FormFieldControl>
 
@@ -129,19 +131,20 @@ const MailsAddNewView = ({ getter, handler }) => {
                   inputId="react-select-single"
                   isClearable={true}
                   isDisabled={
-                    getter('ajaxInProgress', 'createNewMail') ||
-                    getter('ajaxInProgress', 'countryRecommendations')
+                    getter("ajaxInProgress", "createNewMail") ||
+                    getter("ajaxInProgress", "countryRecommendations")
                   }
-                  isLoading={getter('ajaxInProgress', 'countryRecommendations')}
+                  isLoading={getter("ajaxInProgress", "countryRecommendations")}
                   label="Country"
                   onChange={recommendation => {
-                    handler('newMailSender', 'actionSetSelectedCountry')(
-                      recommendation
-                    );
+                    handler(
+                      "newMailSender",
+                      "actionSetSelectedCountry"
+                    )(recommendation);
                   }}
-                  options={getter('recommendations', 'countries')}
+                  options={getter("recommendations", "countries")}
                   placeholder="Select Country"
-                  value={getter('fields', 'newMailSender', 'country')}
+                  value={getter("fields", "newMailSender", "country")}
                 />
               </FormFieldControl>
 
@@ -150,25 +153,27 @@ const MailsAddNewView = ({ getter, handler }) => {
                   inputId="react-select-single"
                   isClearable={true}
                   isDisabled={
-                    getter('ajaxInProgress', 'createNewMail') ||
-                    getter('ajaxInProgress', 'cityRecommendations')
+                    getter("ajaxInProgress", "createNewMail") ||
+                    getter("ajaxInProgress", "cityRecommendations")
                   }
-                  isLoading={getter('ajaxInProgress', 'cityRecommendations')}
+                  isLoading={getter("ajaxInProgress", "cityRecommendations")}
                   label="City"
                   onChange={recommendation => {
-                    handler('newMailSender', 'actionSetSelectedCity')(
-                      recommendation
-                    );
-                    const country = _.get(recommendation, 'country');
+                    handler(
+                      "newMailSender",
+                      "actionSetSelectedCity"
+                    )(recommendation);
+                    const country = _.get(recommendation, "country");
                     if (country) {
-                      handler('newMailSender', 'actionSetSelectedCountry')(
-                        country
-                      );
+                      handler(
+                        "newMailSender",
+                        "actionSetSelectedCountry"
+                      )(country);
                     }
                   }}
-                  options={getter('recommendations', 'cities')}
+                  options={getter("recommendations", "cities")}
                   placeholder="Select City"
-                  value={getter('fields', 'newMailSender', 'city')}
+                  value={getter("fields", "newMailSender", "city")}
                 />
               </FormFieldControl>
 
@@ -181,9 +186,9 @@ const MailsAddNewView = ({ getter, handler }) => {
                     shrink: true
                   }}
                   onChange={event => {
-                    handler('newMailSender', 'setStreet')(event.target.value);
+                    handler("newMailSender", "setStreet")(event.target.value);
                   }}
-                  value={getter('fields', 'newMailSender', 'street')}
+                  value={getter("fields", "newMailSender", "street")}
                 />
               </FormFieldControl>
             </React.Fragment>
@@ -198,24 +203,26 @@ const MailsAddNewView = ({ getter, handler }) => {
               inputId="react-select-single"
               isClearable={true}
               isDisabled={
-                getter('ajaxInProgress', 'createNewMail') ||
-                getter('ajaxInProgress', 'mailSubjects')
+                getter("ajaxInProgress", "createNewMail") ||
+                getter("ajaxInProgress", "mailSubjects")
               }
-              isLoading={getter('ajaxInProgress', 'mailSubjects')}
+              isLoading={getter("ajaxInProgress", "mailSubjects")}
               label="Mail Subject"
               onChange={recommendation => {
-                handler('mailDetails', 'actionSetSelectedMailSubject')(
-                  recommendation
-                );
+                handler(
+                  "mailDetails",
+                  "actionSetSelectedMailSubject"
+                )(recommendation);
               }}
               onCreateOption={mailSubject => {
-                handler('mailDetails', 'actionCreateNewMailSubjectAndReFetch')(
-                  mailSubject
-                );
+                handler(
+                  "mailDetails",
+                  "actionCreateNewMailSubjectAndReFetch"
+                )(mailSubject);
               }}
-              options={getter('recommendations', 'mailSubjects')}
+              options={getter("recommendations", "mailSubjects")}
               placeholder="Select Mail Subject"
-              value={getter('fields', 'mailDetails', 'subject')}
+              value={getter("fields", "mailDetails", "subject")}
             />
           </FormFieldControl>
 
@@ -227,9 +234,9 @@ const MailsAddNewView = ({ getter, handler }) => {
               InputLabelProps={{
                 shrink: true
               }}
-              defaultValue={getter('fields', 'mailDetails', 'receivedDate')}
+              defaultValue={getter("fields", "mailDetails", "receivedDate")}
               onChange={event => {
-                handler('mailDetails', 'setReceivedDate')(event.target.value);
+                handler("mailDetails", "setReceivedDate")(event.target.value);
               }}
             />
           </FormFieldControl>
@@ -240,21 +247,21 @@ const MailsAddNewView = ({ getter, handler }) => {
         <FormPaper>
           <FormFieldControl>
             <FormFileUpload
-              selectedFile={getter('fields', 'document', 'file')}
-              fileName={getter('callbacks', 'document', 'fileName')()}
+              selectedFile={getter("fields", "document", "file")}
+              fileName={getter("callbacks", "document", "fileName")()}
               handleSetFile={_file => {
-                handler('document', 'setFile')(_file);
+                handler("document", "setFile")(_file);
               }}
               handleClearFile={() => {
-                handler('document', 'setFile')(null);
+                handler("document", "setFile")(null);
               }}
             />
           </FormFieldControl>
-          <DocumentPdf file={getter('fields', 'document', 'file')} />
+          <DocumentPdf file={getter("fields", "document", "file")} />
         </FormPaper>
       </FormStep>
 
-      <div style={{ height: '1em' }}></div>
+      <div style={{ height: "1em" }}></div>
       <FormPaper>
         <Button
           variant="contained"
@@ -262,17 +269,17 @@ const MailsAddNewView = ({ getter, handler }) => {
           size="large"
           fullWidth={true}
           disabled={
-            getter('ajaxInProgress', 'createNewMail') ||
-            !getter('callbacks', 'form', 'isReadyToSubmit')()
+            getter("ajaxInProgress", "createNewMail") ||
+            !getter("callbacks", "form", "isReadyToSubmit")()
           }
-          onClick={getter('callbacks', 'form', 'submit')}
+          onClick={getter("callbacks", "form", "submit")}
         >
-          {getter('callbacks', 'form', 'isReadyToSubmit')()
-            ? 'Submit mail'
-            : 'Please fill out the form before submitting'}
+          {getter("callbacks", "form", "isReadyToSubmit")()
+            ? "Submit mail"
+            : "Please fill out the form before submitting"}
         </Button>
       </FormPaper>
-      <div style={{ height: '2em' }}></div>
+      <div style={{ height: "2em" }}></div>
     </CustomLeftAlignedContainer>
   );
 };

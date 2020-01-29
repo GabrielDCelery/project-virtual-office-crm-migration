@@ -9,8 +9,8 @@ export const StyledContainer = styled(Container)`
 `;
 
 export const UILeftAlignedContainer = props => {
-  const { children } = props;
-  return <StyledContainer>{children}</StyledContainer>;
+  const { children, maxWidth } = props;
+  return <StyledContainer maxWidth={maxWidth}>{children}</StyledContainer>;
 };
 
 export default UILeftAlignedContainer;

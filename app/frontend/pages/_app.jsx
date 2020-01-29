@@ -1,17 +1,43 @@
 import { Provider } from 'react-redux';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import store from '../store';
 import UICookieAuthenticator from '../components/UI/CookieAuthenticator';
 import UILoginRedirector from '../components/UI/LoginRedirector';
+import config from '../config';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: config.styles.colors.primary
+    },
+    secondary: {
+      main: config.styles.colors.secondary
+    }
+  },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: '16px',
+        padding: '10px',
+        //color: 'yellow',
+        backgroundColor: config.styles.colors.primary
+      }
+    }
+  }
+});
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Provider store={store}>
-      <UICookieAuthenticator>
-        <UILoginRedirector>
-          <Component {...pageProps} />
-        </UILoginRedirector>
-      </UICookieAuthenticator>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <UICookieAuthenticator>
+          <UILoginRedirector>
+            <Component {...pageProps} />
+          </UILoginRedirector>
+        </UICookieAuthenticator>
+      </Provider>
+    </ThemeProvider>
   );
 }
 

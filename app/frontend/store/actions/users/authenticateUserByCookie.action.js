@@ -1,6 +1,6 @@
-import { USER_RESET, USER_SET_EMAIL, USER_SET_RULES } from '../constants';
-import services from '../../services';
-import { EServiceName, EServiceMethod } from '../../common/enums';
+import { USER_RESET, USER_SET_EMAIL, USER_SET_RULES } from '../../constants';
+import services from '../../../services';
+import { EServiceName, EServiceMethod } from '../../../common/enums';
 const { SERICE_NAME_API } = EServiceName;
 const { SERVICE_METHOD_AUTHENTICATE_USER_BY_COOKIE } = EServiceMethod;
 

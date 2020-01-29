@@ -1,9 +1,8 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { actionAuthenticateUserByCookie } from '../../../store';
 
 const mapStateToProps = state => {
-  return state;
+  return {};
 };
 
 const mapActionsToProps = {

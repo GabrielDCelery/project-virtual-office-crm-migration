@@ -1,9 +1,17 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 //import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import { userReducer } from './reducers';
+import {
+  formAddNewAddressReducer,
+  formAddNewContractReducer,
+  userReducer
+} from './reducers';
 
 const combinedReducers = combineReducers({
+  forms: combineReducers({
+    addNewContract: formAddNewContractReducer,
+    addNewAddress: formAddNewAddressReducer
+  }),
   user: userReducer
 });
 

@@ -33,7 +33,6 @@ module.exports = class Addresses extends RoutesGenerator {
 
         return res.status(STATUS_CODE_OK).json(addresses);
       } catch (error) {
-        console.log(error);
         return res
           .status(STATUS_CODE_INTERNAL_SERVER_ERROR)
           .send(error.message);

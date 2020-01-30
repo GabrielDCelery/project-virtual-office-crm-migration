@@ -1,10 +1,17 @@
 const { ERouter } = globalRequire('common/enums');
-const { ROUTER_ADDRESSES, ROUTER_USERS } = ERouter;
+const {
+  ROUTER_ADDRESSES,
+  ROUTER_CITIES,
+  ROUTER_COUNTRIES,
+  ROUTER_USERS
+} = ERouter;
 
 class RouterFactory {
   constructor() {
     this.routers = {
       [ROUTER_ADDRESSES]: require('./Addresses'),
+      [ROUTER_CITIES]: require('./Cities'),
+      [ROUTER_COUNTRIES]: require('./Countries'),
       [ROUTER_USERS]: require('./Users')
     };
   }

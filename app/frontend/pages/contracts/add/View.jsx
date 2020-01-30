@@ -22,8 +22,11 @@ import UIFormReactSelect from '../../../components/UI/FormReactSelect';
 
 const AddContractView = ({
   actionSetFieldAddNewContract,
-  stateFormAddNewContract
+  stateFormAddNewContract,
+  stateRecommendedAddresses,
+  stateRecommendedCountries
 }) => {
+  console.log(stateRecommendedCountries);
   return (
     <Box display="flex">
       <NavBar />
@@ -201,10 +204,15 @@ const AddContractView = ({
                             isDisabled={false}
                             isLoading={false}
                             label="Country"
-                            onChange={() => {}}
-                            options={[]}
+                            onChange={chosen => {
+                              actionSetFieldAddNewContract({
+                                fieldName: 'clientAddressId',
+                                fieldValue: chosen === null ? null : chosen.id
+                              });
+                            }}
+                            options={stateRecommendedAddresses}
                             placeholder="Select Country"
-                            value={''}
+                            value={stateFormAddNewContract.clientAddressId}
                           />
                         </FormControl>
 

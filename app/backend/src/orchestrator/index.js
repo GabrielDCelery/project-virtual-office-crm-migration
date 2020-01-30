@@ -13,7 +13,9 @@ const { EOrchestratorMethod } = globalRequire('common/enums');
 const {
   ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE,
   ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES,
-  ORCHESTRATOR_METHOD_LOGIN_USER
+  ORCHESTRATOR_METHOD_LOGIN_USER,
+  ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES,
+  ORCHESTRATOR_METHOD_GET_ALL_CITIES
 } = EOrchestratorMethod;
 
 class MethodExecutor {
@@ -45,13 +47,21 @@ class Orchestrator {
   }
 
   initialize({ services }) {
-    const { authenticateUserByCookie, getAllAddresses, loginUser } = methods;
+    const {
+      authenticateUserByCookie,
+      getAllAddresses,
+      getAllCities,
+      getAllCountries,
+      loginUser
+    } = methods;
 
     this.methods = {
       [ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE]: authenticateUserByCookie(
         { services }
       ),
       [ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES]: getAllAddresses({ services }),
+      [ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES]: getAllCountries({ services }),
+      [ORCHESTRATOR_METHOD_GET_ALL_CITIES]: getAllCities({ services }),
       [ORCHESTRATOR_METHOD_LOGIN_USER]: loginUser({ services })
     };
 

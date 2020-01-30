@@ -1,26 +1,29 @@
 import { connect } from 'react-redux';
-import { actionSetFieldAddNewContract } from '../../../store';
+import {
+  actionSetFieldAddNewContract,
+  actionRecommendationsGetAllAddresses,
+  actionRecommendationsGetAllCountries,
+  selectorGetAddressesRecommendations,
+  selectorGetCountriesRecommendations
+} from '../../../store';
 
 const mapStateToProps = state => {
   return {
-    stateFormAddNewContract: state.forms.addNewContract
+    stateFormAddNewContract: state.forms.addNewContract,
+    stateRecommendedAddresses: selectorGetAddressesRecommendations(state),
+    stateRecommendedCountries: selectorGetCountriesRecommendations(state)
   };
 };
 
 const mapActionsToProps = {
-  actionSetFieldAddNewContract
+  actionRecommendationsGetAllAddresses,
+  actionSetFieldAddNewContract,
+  actionRecommendationsGetAllCountries
 };
 
 export default function AddContractStore(ToWrapComponent) {
   let WrapperComponent = props => {
-    const { stateFormAddNewContract, actionSetFieldAddNewContract } = props;
-
-    return (
-      <ToWrapComponent
-        {...props}
-        {...{ actionSetFieldAddNewContract, stateFormAddNewContract }}
-      />
-    );
+    return <ToWrapComponent {...props} />;
   };
 
   return connect(mapStateToProps, mapActionsToProps)(WrapperComponent);

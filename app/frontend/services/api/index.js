@@ -1,12 +1,18 @@
-import authenticateUserByCookie from './authenticateUserByCookie';
-import loginUser from './loginUser';
-import logoutUser from './logoutUser';
 import { EServiceMethod } from '../../common/enums';
 const {
   SERVICE_METHOD_LOGIN_USER,
   SERVICE_METHOD_LOGOUT_USER,
-  SERVICE_METHOD_AUTHENTICATE_USER_BY_COOKIE
+  SERVICE_METHOD_AUTHENTICATE_USER_BY_COOKIE,
+  SERVICE_METHOD_GET_ALL_ADDRESSES,
+  SERVICE_METHOD_GET_ALL_COUNTRIES,
+  SERVICE_METHOD_GET_ALL_CITIES
 } = EServiceMethod;
+import authenticateUserByCookie from './authenticateUserByCookie';
+import loginUser from './loginUser';
+import logoutUser from './logoutUser';
+import getAllAddresses from './getAllAddresses';
+import getAllCities from './getAllCities';
+import getAllCountries from './getAllCountries';
 
 const wrapAPICall = method => {
   return async argsObj => {
@@ -31,5 +37,8 @@ export default {
     authenticateUserByCookie
   ),
   [SERVICE_METHOD_LOGIN_USER]: wrapAPICall(loginUser),
-  [SERVICE_METHOD_LOGOUT_USER]: wrapAPICall(logoutUser)
+  [SERVICE_METHOD_LOGOUT_USER]: wrapAPICall(logoutUser),
+  [SERVICE_METHOD_GET_ALL_ADDRESSES]: wrapAPICall(getAllAddresses),
+  [SERVICE_METHOD_GET_ALL_COUNTRIES]: wrapAPICall(getAllCountries),
+  [SERVICE_METHOD_GET_ALL_CITIES]: wrapAPICall(getAllCities)
 };

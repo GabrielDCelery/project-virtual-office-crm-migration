@@ -1,11 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
+//const cors = require('cors');
 const config = globalRequire('config');
 const routerFactory = globalRequire('api/routerFactory');
 const { ERouter } = globalRequire('common/enums');
-const { ROUTER_ADDRESSES, ROUTER_USERS } = ERouter;
+const {
+  ROUTER_ADDRESSES,
+  ROUTER_CITIES,
+  ROUTER_COUNTRIES,
+  ROUTER_USERS
+} = ERouter;
 
 module.exports = {
   start: async ({ middlewares, orchestrator }) => {
@@ -19,6 +24,22 @@ module.exports = {
       config.get('api.routerPathPrefix.addresses'),
       routerFactory.createRouter({
         routerClassName: ROUTER_ADDRESSES,
+        middlewares,
+        orchestrator
+      })
+    );
+    app.use(
+      config.get('api.routerPathPrefix.cities'),
+      routerFactory.createRouter({
+        routerClassName: ROUTER_CITIES,
+        middlewares,
+        orchestrator
+      })
+    );
+    app.use(
+      config.get('api.routerPathPrefix.countries'),
+      routerFactory.createRouter({
+        routerClassName: ROUTER_COUNTRIES,
         middlewares,
         orchestrator
       })

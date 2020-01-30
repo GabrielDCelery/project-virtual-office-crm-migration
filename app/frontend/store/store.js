@@ -4,7 +4,10 @@ import thunkMiddleware from 'redux-thunk';
 import {
   formAddNewAddressReducer,
   formAddNewContractReducer,
-  userReducer
+  userReducer,
+  recommendationsAddresses,
+  recommendationsCities,
+  recommendationsCountries
 } from './reducers';
 
 const combinedReducers = combineReducers({
@@ -12,7 +15,11 @@ const combinedReducers = combineReducers({
     addNewContract: formAddNewContractReducer,
     addNewAddress: formAddNewAddressReducer
   }),
-  recommendations: combineReducers({}),
+  recommendations: combineReducers({
+    addresses: recommendationsAddresses,
+    cities: recommendationsCities,
+    countries: recommendationsCountries
+  }),
   user: userReducer
 });
 

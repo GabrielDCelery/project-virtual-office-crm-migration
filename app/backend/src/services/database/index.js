@@ -12,7 +12,9 @@ const { EServiceMethod } = globalRequire('common/enums');
 const {
   SERVICE_METHOD_GET_ALL_ADDRESSES,
   SERVICE_METHOD_GET_USER_RULES,
-  SERVICE_METHOD_LOGIN_USER
+  SERVICE_METHOD_LOGIN_USER,
+  SERVICE_METHOD_GET_ALL_CITIES,
+  SERVICE_METHOD_GET_ALL_COUNTRIES
 } = EServiceMethod;
 
 class MethodExecutor {
@@ -149,6 +151,12 @@ class DB {
       },
       [SERVICE_METHOD_GET_USER_RULES]: async argsObj => {
         return await this._executeController('users', 'getRules', argsObj);
+      },
+      [SERVICE_METHOD_GET_ALL_CITIES]: async argsObj => {
+        return await this._executeController('cities', 'findAll', argsObj);
+      },
+      [SERVICE_METHOD_GET_ALL_COUNTRIES]: async argsObj => {
+        return await this._executeController('countries', 'findAll', argsObj);
       }
     };
   }

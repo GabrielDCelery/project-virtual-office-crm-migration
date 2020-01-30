@@ -1,1 +1,6 @@
-module.exports = ['ROUTER_ADDRESSES', 'ROUTER_USERS'];
+module.exports = [
+  'ROUTER_ADDRESSES',
+  'ROUTER_USERS',
+  'ROUTER_COUNTRIES',
+  'ROUTER_CITIES'
+];

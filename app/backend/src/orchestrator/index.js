@@ -15,7 +15,8 @@ const {
   ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES,
   ORCHESTRATOR_METHOD_LOGIN_USER,
   ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES,
-  ORCHESTRATOR_METHOD_GET_ALL_CITIES
+  ORCHESTRATOR_METHOD_GET_ALL_CITIES,
+  ORCHESTRATOR_METHOD_FILTER_ADDRESSES
 } = EOrchestratorMethod;
 const { MethodExecutor } = globalRequire('common/utils');
 
@@ -114,6 +115,7 @@ class Orchestrator {
 
     const {
       authenticateUserByCookie,
+      filterAddresses,
       getAllAddresses,
       getAllCities,
       getAllCountries,
@@ -140,6 +142,10 @@ class Orchestrator {
       .register({
         path: ORCHESTRATOR_METHOD_LOGIN_USER,
         method: loginUser({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_FILTER_ADDRESSES,
+        method: filterAddresses({ services })
       });
 
     this.initialized = true;

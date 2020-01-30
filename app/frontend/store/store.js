@@ -12,6 +12,7 @@ const combinedReducers = combineReducers({
     addNewContract: formAddNewContractReducer,
     addNewAddress: formAddNewAddressReducer
   }),
+  recommendations: combineReducers({}),
   user: userReducer
 });
 

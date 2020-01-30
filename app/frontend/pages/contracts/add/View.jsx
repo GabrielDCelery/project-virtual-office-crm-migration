@@ -18,6 +18,7 @@ import {
 import NavBar from '../../../components/Nav/Bar';
 import UILeftAlignedContainer from '../../../components/UI/LeftAlignedContainer';
 import UIAppBar from '../../../components/UI/AppBar';
+import UIFormReactSelect from '../../../components/UI/FormReactSelect';
 
 const AddContractView = ({
   actionSetFieldAddNewContract,
@@ -194,13 +195,16 @@ const AddContractView = ({
                         <Box height="2em" />
 
                         <FormControl style={{ width: '100%' }}>
-                          <TextField
-                            fullWidth={true}
-                            id="client-address-country"
+                          <UIFormReactSelect
+                            inputId="react-select-single"
+                            isClearable={true}
+                            isDisabled={false}
+                            isLoading={false}
                             label="Country"
                             onChange={() => {}}
+                            options={[]}
+                            placeholder="Select Country"
                             value={''}
-                            disabled={false}
                           />
                         </FormControl>
 

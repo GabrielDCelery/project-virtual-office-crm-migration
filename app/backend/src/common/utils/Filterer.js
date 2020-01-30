@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class Filterer {
   static createInstance() {
     return new Filterer();
@@ -8,7 +10,11 @@ class Filterer {
       const key = filterBys[i];
       const value = object[key];
 
-      if (value.toLowerCase().includes(filterTerm)) {
+      if (
+        _.toString(value)
+          .toLowerCase()
+          .includes(filterTerm)
+      ) {
         return true;
       }
     }

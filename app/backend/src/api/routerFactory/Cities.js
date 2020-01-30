@@ -1,8 +1,8 @@
 const RoutesGenerator = require('./RoutesGenerator');
-const { CStatusCode } = globalRequire('common/constants');
-const { EOrchestratorMethod } = globalRequire('common/enums');
-const { STATUS_CODE_OK, STATUS_CODE_INTERNAL_SERVER_ERROR } = CStatusCode;
-const { ORCHESTRATOR_METHOD_GET_ALL_CITIES } = EOrchestratorMethod;
+const { STATUS_CODE_OK, STATUS_CODE_INTERNAL_SERVER_ERROR } = globalRequire(
+  'common/constants'
+);
+const { ORCHESTRATOR_METHOD_GET_ALL_CITIES } = globalRequire('common/enums');
 
 module.exports = class Cities extends RoutesGenerator {
   _createRouter({ router, orchestrator }) {

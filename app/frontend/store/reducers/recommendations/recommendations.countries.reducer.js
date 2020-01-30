@@ -1,39 +1,39 @@
 import {
-  RECOMMENDATIONS_ADDRESSES_SET,
-  RECOMMENDATIONS_ADDRESSES_RESET,
-  RECOMMENDATIONS_ADDRESSES_AJAX_START,
-  RECOMMENDATIONS_ADDRESSES_AJAX_FINISH
-} from '../constants';
+  RECOMMENDATIONS_COUNTRIES_SET,
+  RECOMMENDATIONS_COUNTRIES_RESET,
+  RECOMMENDATIONS_COUNTRIES_AJAX_START,
+  RECOMMENDATIONS_COUNTRIES_AJAX_FINISH
+} from '../../constants';
 
 const initialState = {
   isAjaxInProgress: false,
   items: []
 };
 
-export const recommendationsAddresses = (
+export const recommendationsCountries = (
   state = initialState,
   { type, items }
 ) => {
   switch (type) {
-    case RECOMMENDATIONS_ADDRESSES_AJAX_START:
+    case RECOMMENDATIONS_COUNTRIES_AJAX_START:
       return {
         ...state,
         isAjaxInProgress: true
       };
 
-    case RECOMMENDATIONS_ADDRESSES_AJAX_FINISH:
+    case RECOMMENDATIONS_COUNTRIES_AJAX_FINISH:
       return {
         ...state,
         isAjaxInProgress: false
       };
 
-    case RECOMMENDATIONS_ADDRESSES_RESET:
+    case RECOMMENDATIONS_COUNTRIES_RESET:
       return {
         ...state,
         items: []
       };
 
-    case RECOMMENDATIONS_ADDRESSES_SET:
+    case RECOMMENDATIONS_COUNTRIES_SET:
       return {
         ...state,
         items

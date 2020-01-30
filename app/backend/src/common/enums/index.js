@@ -1,3 +1,4 @@
+const EConfigAuthentication = require('./EConfigAuthentication');
 const EOrchestratorMethod = require('./EOrchestratorMethod');
 const ERouter = require('./ERouter');
 const EServiceMethod = require('./EServiceMethod');
@@ -18,8 +19,14 @@ const createEnums = enums => {
 };
 
 module.exports = {
+  EConfigAuthentication: createEnums(EConfigAuthentication),
   EOrchestratorMethod: createEnums(EOrchestratorMethod),
   ERouter: createEnums(ERouter),
   EServiceMethod: createEnums(EServiceMethod),
-  EServiceName: createEnums(EServiceName)
+  EServiceName: createEnums(EServiceName),
+  ...createEnums(EConfigAuthentication),
+  ...createEnums(EOrchestratorMethod),
+  ...createEnums(ERouter),
+  ...createEnums(EServiceMethod),
+  ...createEnums(EServiceName)
 };

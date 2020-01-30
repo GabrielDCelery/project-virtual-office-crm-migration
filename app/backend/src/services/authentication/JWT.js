@@ -1,19 +1,19 @@
+const {
+  ERROR_CONTROLLER_AUTHENTICATION,
+  ERROR_MESSAGE_FAILED_TO_AUTHENTICATE,
+  ERROR_NAME_INVALID_JWT_TOKEN,
+  ERROR_NAME_JWT_TOKEN_EXPIRED
+} = globalRequire('common/constants');
+
 class JWT {
-  constructor({ config, constants, nodeModules }) {
+  constructor({ config, nodeModules }) {
     this.config = config;
-    this.constants = constants;
     this.nodeModules = nodeModules;
     this.verify = this.verify.bind(this);
     this.sign = this.sign.bind(this);
   }
 
   async verify({ jwtToken }) {
-    const {
-      AUTHENTICATION_ERROR_MESSAGE_FAILED_TO_AUTHENTICATE,
-      AUTHENTICATION_ERROR_NAME_CONTROLLER,
-      JWT_ERROR_NAME_TOKEN_EXPIRED,
-      JWT_ERROR_NAME_INVALID_TOKEN
-    } = this.constants;
     const { jsonwebtoken, verror } = this.nodeModules;
     const { VError } = verror;
 
@@ -21,19 +21,19 @@ class JWT {
       jsonwebtoken.verify(jwtToken, this.config.secret, (error, decoded) => {
         if (error) {
           if (
-            error.name === JWT_ERROR_NAME_TOKEN_EXPIRED ||
-            error.name === JWT_ERROR_NAME_INVALID_TOKEN
+            error.name === ERROR_NAME_JWT_TOKEN_EXPIRED ||
+            error.name === ERROR_NAME_INVALID_JWT_TOKEN
           ) {
             return reject(
               new VError(
                 {
-                  name: AUTHENTICATION_ERROR_NAME_CONTROLLER,
+                  name: ERROR_CONTROLLER_AUTHENTICATION,
                   cause: error,
                   info: {
                     jwtToken
                   }
                 },
-                AUTHENTICATION_ERROR_MESSAGE_FAILED_TO_AUTHENTICATE
+                ERROR_MESSAGE_FAILED_TO_AUTHENTICATE
               )
             );
           }

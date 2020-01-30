@@ -1,10 +1,9 @@
-const { ERouter } = globalRequire('common/enums');
 const {
   ROUTER_ADDRESSES,
   ROUTER_CITIES,
   ROUTER_COUNTRIES,
   ROUTER_USERS
-} = ERouter;
+} = globalRequire('common/enums');
 
 class RouterFactory {
   constructor() {

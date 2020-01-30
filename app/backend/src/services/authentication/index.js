@@ -1,72 +1,45 @@
+const { MethodExecutor } = globalRequire('common/utils');
+const { SERVICE_METHOD_SIGN_JWT, SERVICE_METHOD_VERIFY_JWT } = globalRequire(
+  'common/enums'
+);
 const JWT = require('./JWT');
-const config = require('./config');
-const {
-  AUTHENTICATION_ERROR_MESSAGE_FAILED_TO_AUTHENTICATE,
-  AUTHENTICATION_ERROR_NAME_CONTROLLER,
-  AUTHENTICATION_SERVICE_NAME,
-  JWT_ERROR_NAME_INVALID_TOKEN,
-  JWT_ERROR_NAME_TOKEN_EXPIRED
-} = require('./constants');
-const { EServiceMethod } = globalRequire('common/enums');
-const { SERVICE_METHOD_SIGN_JWT, SERVICE_METHOD_VERIFY_JWT } = EServiceMethod;
-
-class MethodExecutor {
-  constructor(method) {
-    this.m = method;
-    this.execute = this.execute.bind(this);
-    this.result = this.result.bind(this);
-  }
-
-  async execute(argsObj) {
-    this.calcResult = await this.m(argsObj);
-
-    return this.calcResult;
-  }
-
-  result() {
-    return this.calcResult;
-  }
-}
 
 class Authentication {
   constructor() {
-    this.helpers = null;
+    this.methodExecutor = new MethodExecutor();
+    this._wrapController = this._wrapController.bind(this);
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
-    this._executeController = this._executeController.bind(this);
+  }
+
+  _wrapController(controller, method) {
+    return async parameters => {
+      return await this.controllers[controller][method](parameters);
+    };
   }
 
   initialize({ config, nodeModules }) {
     this.controllers = {
-      jwt: new JWT({
-        config: config['jwt'],
-        constants: {
-          AUTHENTICATION_ERROR_MESSAGE_FAILED_TO_AUTHENTICATE,
-          AUTHENTICATION_ERROR_NAME_CONTROLLER,
-          JWT_ERROR_NAME_INVALID_TOKEN,
-          JWT_ERROR_NAME_TOKEN_EXPIRED
-        },
-        nodeModules
-      })
+      jwt: new JWT({ config: config['jwt'], nodeModules })
     };
 
-    this.methods = {
-      [SERVICE_METHOD_SIGN_JWT]: async argsObj => {
-        return await this._executeController('jwt', 'sign', argsObj);
-      },
-      [SERVICE_METHOD_VERIFY_JWT]: async argsObj => {
-        return await this._executeController('jwt', 'verify', argsObj);
-      }
-    };
+    this.methodExecutor
+      .register({
+        path: SERVICE_METHOD_SIGN_JWT,
+        method: this._wrapController('jwt', 'sign')
+      })
+      .register({
+        path: SERVICE_METHOD_VERIFY_JWT,
+        method: this._wrapController('jwt', 'verify')
+      });
   }
 
-  async start({ environmentVariables, nodeModules, helpers }) {
+  async start({ config, nodeModules }) {
     if (this.initialized) {
       throw new Error('Tried to initialize the redis connection twice!');
     }
 
-    this.helpers = helpers;
-    this.initialize({ config: config(environmentVariables), nodeModules });
+    this.initialize({ config, nodeModules });
     this.initialized = true;
   }
 
@@ -74,27 +47,11 @@ class Authentication {
     this.initialized = false;
   }
 
-  method(method) {
-    return new MethodExecutor(this.methods[method]);
-  }
-
-  async _executeController(controller, method, args) {
-    const { ServiceResultWrapper } = this.helpers;
-
-    try {
-      return await this.controllers[controller][method](args);
-    } catch (error) {
-      throw error;
-      if (error.name !== AUTHENTICATION_ERROR_NAME_CONTROLLER) {
-        throw error;
-      }
-
-      return new ServiceResultWrapper().wrap({
-        type: ServiceResultWrapper.TYPE.FAIL,
-        service: AUTHENTICATION_SERVICE_NAME,
-        errors: [error]
-      });
-    }
+  async execute({ method, parameters }) {
+    return await this.methodExecutor.execute({
+      method,
+      parameters
+    });
   }
 }
 

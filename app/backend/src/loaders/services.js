@@ -5,14 +5,14 @@ const lodash = require('lodash');
 const AWS = require('aws-sdk');
 const uuidv4 = require('uuid/v4');
 const verror = require('verror');
+const config = globalRequire('config');
 
-const { EServiceName } = globalRequire('common/enums');
 const {
   SERVICE_NAME_AUTHENTICATION,
   SERVICE_NAME_CLOUD,
   SERVICE_NAME_DATABASE,
   SERVICE_NAME_REDIS
-} = EServiceName;
+} = globalRequire('common/enums');
 
 const {
   NODE_ENV,
@@ -60,6 +60,7 @@ module.exports = {
       helpers: helpers
     });
     await services.get(SERVICE_NAME_AUTHENTICATION).start({
+      config: config.get('authentication'),
       environmentVariables: {
         SERVICE_JWT_SECRET,
         SERVICE_JWT_EXPIRY_IN_SECONDS

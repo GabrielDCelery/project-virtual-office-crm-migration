@@ -1,7 +1,7 @@
 import {
   FORM_ADD_NEW_CONTRACT_SET_FIELD,
   FORM_ADD_NEW_CONTRACT_RESET
-} from '../constants';
+} from '../../constants';
 
 const initialState = {
   clientLongName: '',

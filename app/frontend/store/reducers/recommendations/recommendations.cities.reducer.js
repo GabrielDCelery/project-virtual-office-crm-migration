@@ -3,7 +3,7 @@ import {
   RECOMMENDATIONS_CITIES_RESET,
   RECOMMENDATIONS_CITIES_AJAX_START,
   RECOMMENDATIONS_CITIES_AJAX_FINISH
-} from '../constants';
+} from '../../constants';
 
 const initialState = {
   isAjaxInProgress: false,

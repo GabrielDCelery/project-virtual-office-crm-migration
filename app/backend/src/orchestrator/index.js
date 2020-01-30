@@ -17,33 +17,14 @@ const {
   ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES,
   ORCHESTRATOR_METHOD_GET_ALL_CITIES
 } = EOrchestratorMethod;
-
-class MethodExecutor {
-  constructor(method) {
-    this.m = method;
-    this.execute = this.execute.bind(this);
-    this.result = this.result.bind(this);
-  }
-
-  async execute(argsObj) {
-    this.calcResult = await this.m(argsObj);
-
-    return this.calcResult;
-  }
-
-  result() {
-    return this.calcResult;
-  }
-}
+const { MethodExecutor } = globalRequire('common/utils');
 
 class Orchestrator {
   constructor() {
     this.initialized = false;
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
-    this._execute = this._execute.bind(this);
-    this.method = this.method.bind(this);
-    this.executeOld = this.executeOld.bind(this);
+    this.methodExecutor = new MethodExecutor();
   }
 
   initialize({ services }) {
@@ -55,15 +36,27 @@ class Orchestrator {
       loginUser
     } = methods;
 
-    this.methods = {
-      [ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE]: authenticateUserByCookie(
-        { services }
-      ),
-      [ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES]: getAllAddresses({ services }),
-      [ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES]: getAllCountries({ services }),
-      [ORCHESTRATOR_METHOD_GET_ALL_CITIES]: getAllCities({ services }),
-      [ORCHESTRATOR_METHOD_LOGIN_USER]: loginUser({ services })
-    };
+    this.methodExecutor
+      .register({
+        path: ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE,
+        method: authenticateUserByCookie({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES,
+        method: getAllAddresses({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES,
+        method: getAllCountries({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_GET_ALL_CITIES,
+        method: getAllCities({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_LOGIN_USER,
+        method: loginUser({ services })
+      });
 
     this.instances = {
       addresses: {
@@ -118,7 +111,37 @@ class Orchestrator {
     if (this.initialized) {
       throw new Error('Tried to initialize orchestrator twice!');
     }
-    this.initialize({ services });
+
+    const {
+      authenticateUserByCookie,
+      getAllAddresses,
+      getAllCities,
+      getAllCountries,
+      loginUser
+    } = methods;
+
+    this.methodExecutor
+      .register({
+        path: ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE,
+        method: authenticateUserByCookie({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES,
+        method: getAllAddresses({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES,
+        method: getAllCountries({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_GET_ALL_CITIES,
+        method: getAllCities({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_LOGIN_USER,
+        method: loginUser({ services })
+      });
+
     this.initialized = true;
 
     return this;
@@ -128,28 +151,11 @@ class Orchestrator {
     this.initialized = false;
   }
 
-  async _execute(method, argsObj) {
-    try {
-      return {
-        success: true,
-        error: null,
-        payload: await this.methods[method](argsObj || {})
-      };
-    } catch (error) {
-      return {
-        success: false,
-        error,
-        payload: null
-      };
-    }
-  }
-
-  method(method) {
-    return new MethodExecutor(this.methods[method]);
-  }
-
-  async executeOld(instanceName, methodName, args) {
-    return this.instances[instanceName][methodName](args);
+  async execute({ method, parameters }) {
+    return await this.methodExecutor.execute({
+      method,
+      parameters
+    });
   }
 }
 

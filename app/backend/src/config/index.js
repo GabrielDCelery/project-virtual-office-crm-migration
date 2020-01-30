@@ -24,10 +24,34 @@ class Config {
     });
   }
 
+  init(processEnv) {
+    const {
+      NODE_ENV,
+      BACKEND_APP_PORT,
+      USER_JWT_SECRET,
+      USER_JWT_EXPIRY
+    } = processEnv;
+
+    this.nodeEnv = NODE_ENV;
+
+    this.host = host({
+      BACKEND_APP_PORT
+    });
+
+    this.api = api({});
+
+    this.authentication = authentication({
+      USER_JWT_SECRET,
+      USER_JWT_EXPIRY
+    });
+
+    return this;
+  }
+
   get(path) {
     const conf = _.get(this, path);
 
-    if (_.isNil(conf)) {
+    if (conf === undefined) {
       throw new Error(`Invalid path for configuration ${path}`);
     }
 

@@ -26,7 +26,6 @@ const AddContractView = ({
   stateRecommendedAddresses,
   stateRecommendedCountries
 }) => {
-  console.log(stateRecommendedCountries);
   return (
     <Box display="flex">
       <NavBar />
@@ -210,7 +209,7 @@ const AddContractView = ({
                                 fieldValue: chosen === null ? null : chosen.id
                               });
                             }}
-                            options={stateRecommendedAddresses}
+                            options={stateRecommendedCountries}
                             placeholder="Select Country"
                             value={stateFormAddNewContract.clientAddressId}
                           />

@@ -1,7 +1,7 @@
 import {
   FORM_ADD_NEW_ADDRESS_SET_FIELD,
   FORM_ADD_NEW_ADDRESS_RESET
-} from '../constants';
+} from '../../constants';
 
 const initialState = {
   postcode: '',

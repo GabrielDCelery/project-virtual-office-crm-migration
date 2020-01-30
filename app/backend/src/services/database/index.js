@@ -3,48 +3,55 @@ const config = require('./config');
 const controllers = require('./controllers');
 const models = require('./models');
 const { Model, transaction } = require('objection');
+const { MethodExecutor } = globalRequire('common/utils');
 const { RecordPreparator } = require('./helpers');
-const {
-  DB_SERVICE_NAME,
-  DB_ERROR_NAME_CONTROLLER_ERROR
-} = require('./constants');
-const { EServiceMethod } = globalRequire('common/enums');
 const {
   SERVICE_METHOD_GET_ALL_ADDRESSES,
   SERVICE_METHOD_GET_USER_RULES,
   SERVICE_METHOD_LOGIN_USER,
   SERVICE_METHOD_GET_ALL_CITIES,
   SERVICE_METHOD_GET_ALL_COUNTRIES
-} = EServiceMethod;
-
-class MethodExecutor {
-  constructor(method) {
-    this.m = method;
-    this.execute = this.execute.bind(this);
-    this.result = this.result.bind(this);
-  }
-
-  async execute(argsObj) {
-    const { result, transatction } = await this.m(argsObj);
-    this.calcResult = result;
-
-    return this.calcResult;
-  }
-
-  result() {
-    return this.calcResult;
-  }
-}
+} = globalRequire('common/enums');
 
 class DB {
   constructor() {
     this.knex = null;
     this.initialized = false;
+    this.methodExecutor = new MethodExecutor();
+    this._wrapController = this._wrapController.bind(this);
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.getKnex = this.getKnex.bind(this);
-    this._executeController = this._executeController.bind(this);
-    this.method = this.method.bind(this);
+    this.execute = this.execute.bind(this);
+  }
+
+  _wrapController(controller, method) {
+    return async parameters => {
+      const trx = parameters['transaction']
+        ? parameters['transaction']
+        : await transaction.start(Model.knex());
+
+      try {
+        const result = await this.controllers[controller][method]({
+          ...parameters,
+          transaction: trx
+        });
+
+        const returnObj = { result, transaction: null };
+
+        if (!parameters['bKeepTransactionAlive']) {
+          await trx.commit();
+        } else {
+          returnObj.transaction = trx;
+        }
+
+        return returnObj;
+      } catch (error) {
+        await trx.rollback();
+
+        throw error;
+      }
+    };
   }
 
   initialize({ nodeModules }) {
@@ -142,23 +149,27 @@ class DB {
       })
     };
 
-    this.methods = {
-      [SERVICE_METHOD_GET_ALL_ADDRESSES]: async argsObj => {
-        return await this._executeController('addresses', 'findAll', argsObj);
-      },
-      [SERVICE_METHOD_LOGIN_USER]: async argsObj => {
-        return await this._executeController('users', 'login', argsObj);
-      },
-      [SERVICE_METHOD_GET_USER_RULES]: async argsObj => {
-        return await this._executeController('users', 'getRules', argsObj);
-      },
-      [SERVICE_METHOD_GET_ALL_CITIES]: async argsObj => {
-        return await this._executeController('cities', 'findAll', argsObj);
-      },
-      [SERVICE_METHOD_GET_ALL_COUNTRIES]: async argsObj => {
-        return await this._executeController('countries', 'findAll', argsObj);
-      }
-    };
+    this.methodExecutor
+      .register({
+        path: SERVICE_METHOD_GET_ALL_ADDRESSES,
+        method: this._wrapController('addresses', 'findAll')
+      })
+      .register({
+        path: SERVICE_METHOD_LOGIN_USER,
+        method: this._wrapController('users', 'login')
+      })
+      .register({
+        path: SERVICE_METHOD_GET_USER_RULES,
+        method: this._wrapController('users', 'getRules')
+      })
+      .register({
+        path: SERVICE_METHOD_GET_ALL_CITIES,
+        method: this._wrapController('cities', 'findAll')
+      })
+      .register({
+        path: SERVICE_METHOD_GET_ALL_COUNTRIES,
+        method: this._wrapController('countries', 'findAll')
+      });
   }
 
   async start({ environmentVariables, nodeModules, helpers }) {
@@ -198,56 +209,11 @@ class DB {
     return await transaction.rollback();
   }
 
-  method(method) {
-    return new MethodExecutor(this.methods[method]);
-  }
-
-  async _executeController(controller, method, args = {}) {
-    const { ServiceResultWrapper } = this.helpers;
-
-    const trx = args['transaction']
-      ? args['transaction']
-      : await transaction.start(Model.knex());
-
-    try {
-      const result = await this.controllers[controller][method]({
-        ...args,
-        transaction: trx
-      });
-
-      const returnObj = {
-        result,
-        extra: { transaction: null }
-      };
-      /*
-      const returnObj = {
-        type: ServiceResultWrapper.TYPE.SUCCESS,
-        service: DB_SERVICE_NAME,
-        payload: result
-      };
-      */
-      if (!args['bKeepTransactionAlive']) {
-        await trx.commit();
-      } else {
-        returnObj.extra.transaction = trx;
-      }
-
-      return returnObj;
-    } catch (error) {
-      await trx.rollback();
-
-      throw error;
-
-      if (error.name !== DB_ERROR_NAME_CONTROLLER_ERROR) {
-        throw error;
-      }
-
-      return new ServiceResultWrapper().wrap({
-        type: ServiceResultWrapper.TYPE.FAIL,
-        service: DB_SERVICE_NAME,
-        errors: [error]
-      });
-    }
+  async execute({ method, parameters }) {
+    return await this.methodExecutor.execute({
+      method,
+      parameters
+    });
   }
 }
 

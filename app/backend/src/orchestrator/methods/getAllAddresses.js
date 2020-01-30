@@ -1,12 +1,14 @@
-const { EServiceName, EServiceMethod } = globalRequire('common/enums');
-const { SERVICE_NAME_DATABASE } = EServiceName;
-const { SERVICE_METHOD_GET_ALL_ADDRESSES } = EServiceMethod;
+const {
+  SERVICE_NAME_DATABASE,
+  SERVICE_METHOD_GET_ALL_ADDRESSES
+} = globalRequire('common/enums');
 
 module.exports = ({ services }) => {
   return async () => {
-    return await services
-      .get(SERVICE_NAME_DATABASE)
-      .method(SERVICE_METHOD_GET_ALL_ADDRESSES)
-      .execute();
+    const { result } = await services.get(SERVICE_NAME_DATABASE).execute({
+      method: SERVICE_METHOD_GET_ALL_ADDRESSES
+    });
+
+    return result;
   };
 };

@@ -7,9 +7,9 @@ import {
 import services from '../../../services';
 import { EServiceName, EServiceMethod } from '../../../common/enums';
 const { SERICE_NAME_API } = EServiceName;
-const { SERVICE_METHOD_GET_ALL_COUNTRIES } = EServiceMethod;
+const { SERVICE_METHOD_GET_FILTERED_COUNTRIES } = EServiceMethod;
 
-export const actionRecommendationsGetAllCountries = () => {
+export const actionRecommendationsGetFilteredCountries = ({ filterTerm }) => {
   return async dispatch => {
     dispatch({ type: RECOMMENDATIONS_COUNTRIES_AJAX_START });
     dispatch({ type: RECOMMENDATIONS_COUNTRIES_RESET });
@@ -19,8 +19,8 @@ export const actionRecommendationsGetAllCountries = () => {
       //error,
       payload
     } = await services
-      .get(SERICE_NAME_API, SERVICE_METHOD_GET_ALL_COUNTRIES)
-      .execute();
+      .get(SERICE_NAME_API, SERVICE_METHOD_GET_FILTERED_COUNTRIES)
+      .execute({ filterTerm, limit: 5 });
 
     dispatch({ type: RECOMMENDATIONS_COUNTRIES_AJAX_FINISH });
 

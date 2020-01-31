@@ -16,7 +16,8 @@ const {
   ORCHESTRATOR_METHOD_LOGIN_USER,
   ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES,
   ORCHESTRATOR_METHOD_GET_ALL_CITIES,
-  ORCHESTRATOR_METHOD_FILTER_ADDRESSES
+  ORCHESTRATOR_METHOD_FILTER_ADDRESSES,
+  ORCHESTRATOR_METHOD_FILTER_COUNTRIES
 } = EOrchestratorMethod;
 const { MethodExecutor } = globalRequire('common/utils');
 
@@ -27,14 +28,15 @@ class Orchestrator {
     this.stop = this.stop.bind(this);
     this.methodExecutor = new MethodExecutor();
   }
-
+  /*
   initialize({ services }) {
     const {
       authenticateUserByCookie,
       getAllAddresses,
       getAllCities,
       getAllCountries,
-      loginUser
+      loginUser,
+      filterCountries
     } = methods;
 
     this.methodExecutor
@@ -57,6 +59,14 @@ class Orchestrator {
       .register({
         path: ORCHESTRATOR_METHOD_LOGIN_USER,
         method: loginUser({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_FILTER_ADDRESSES,
+        method: filterCountries({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_FILTER_COUNTRIES,
+        method: filterCountries({ services })
       });
 
     this.instances = {
@@ -107,7 +117,7 @@ class Orchestrator {
       }
     };
   }
-
+*/
   async start({ services }) {
     if (this.initialized) {
       throw new Error('Tried to initialize orchestrator twice!');
@@ -119,7 +129,8 @@ class Orchestrator {
       getAllAddresses,
       getAllCities,
       getAllCountries,
-      loginUser
+      loginUser,
+      filterCountries
     } = methods;
 
     this.methodExecutor
@@ -146,6 +157,10 @@ class Orchestrator {
       .register({
         path: ORCHESTRATOR_METHOD_FILTER_ADDRESSES,
         method: filterAddresses({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_FILTER_COUNTRIES,
+        method: filterCountries({ services })
       });
 
     this.initialized = true;

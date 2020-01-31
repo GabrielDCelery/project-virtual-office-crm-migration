@@ -4,7 +4,9 @@ import { ThemeProvider } from '@material-ui/styles';
 import store from '../store';
 import UICookieAuthenticator from '../components/UI/CookieAuthenticator';
 import UILoginRedirector from '../components/UI/LoginRedirector';
+import UIUserLanguageSetter from '../components/UI/UserLanguageSetter';
 import config from '../config';
+import '../language';
 
 const theme = createMuiTheme({
   palette: {
@@ -33,7 +35,9 @@ function MyApp({ Component, pageProps }) {
       <Provider store={store}>
         <UICookieAuthenticator>
           <UILoginRedirector>
-            <Component {...pageProps} />
+            <UIUserLanguageSetter>
+              <Component {...pageProps} />
+            </UIUserLanguageSetter>
           </UILoginRedirector>
         </UICookieAuthenticator>
       </Provider>

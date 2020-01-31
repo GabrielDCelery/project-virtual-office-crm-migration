@@ -9,8 +9,8 @@ export const selectorGetAddressesRecommendations = createSelector(
   addresses => {
     return addresses.map(
       ({ id, postcode, cityName, countryName, longStreet }) => ({
-        value: id,
-        label: `${postcode} ${countryName} ${cityName} ${longStreet}`
+        id,
+        name: `${postcode} ${countryName} ${cityName} ${longStreet}`
       })
     );
   }

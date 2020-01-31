@@ -8,9 +8,9 @@ module.exports = class Cities extends RoutesGenerator {
   _createRouter({ router, orchestrator }) {
     router.get('/getAll', async (req, res) => {
       try {
-        const addresses = await orchestrator
-          .method(ORCHESTRATOR_METHOD_GET_ALL_CITIES)
-          .execute();
+        const addresses = await orchestrator.execute({
+          method: ORCHESTRATOR_METHOD_GET_ALL_CITIES
+        });
 
         return res.status(STATUS_CODE_OK).json(addresses);
       } catch (error) {

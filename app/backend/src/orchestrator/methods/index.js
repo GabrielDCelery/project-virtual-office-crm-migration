@@ -4,6 +4,7 @@ const filterAddresses = require('./filterAddresses');
 const getAllCities = require('./getAllCities');
 const getAllCountries = require('./getAllCountries');
 const loginUser = require('./loginUser');
+const filterCountries = require('./filterCountries');
 
 module.exports = {
   authenticateUserByCookie,
@@ -11,5 +12,6 @@ module.exports = {
   getAllCities,
   getAllCountries,
   loginUser,
-  filterAddresses
+  filterAddresses,
+  filterCountries
 };

@@ -5,7 +5,9 @@ const {
   SERVICE_METHOD_AUTHENTICATE_USER_BY_COOKIE,
   SERVICE_METHOD_GET_ALL_ADDRESSES,
   SERVICE_METHOD_GET_ALL_COUNTRIES,
-  SERVICE_METHOD_GET_ALL_CITIES
+  SERVICE_METHOD_GET_ALL_CITIES,
+  SERVICE_METHOD_GET_FILTERED_COUNTRIES,
+  SERVICE_METHOD_GET_FILTERED_ADDRESSES
 } = EServiceMethod;
 import authenticateUserByCookie from './authenticateUserByCookie';
 import loginUser from './loginUser';
@@ -13,6 +15,8 @@ import logoutUser from './logoutUser';
 import getAllAddresses from './getAllAddresses';
 import getAllCities from './getAllCities';
 import getAllCountries from './getAllCountries';
+import getFilteredCountries from './getFilteredCountries';
+import getFilteredAddresses from './getFilteredAddresses';
 
 const wrapAPICall = method => {
   return async argsObj => {
@@ -40,5 +44,7 @@ export default {
   [SERVICE_METHOD_LOGOUT_USER]: wrapAPICall(logoutUser),
   [SERVICE_METHOD_GET_ALL_ADDRESSES]: wrapAPICall(getAllAddresses),
   [SERVICE_METHOD_GET_ALL_COUNTRIES]: wrapAPICall(getAllCountries),
-  [SERVICE_METHOD_GET_ALL_CITIES]: wrapAPICall(getAllCities)
+  [SERVICE_METHOD_GET_ALL_CITIES]: wrapAPICall(getAllCities),
+  [SERVICE_METHOD_GET_FILTERED_COUNTRIES]: wrapAPICall(getFilteredCountries),
+  [SERVICE_METHOD_GET_FILTERED_ADDRESSES]: wrapAPICall(getFilteredAddresses)
 };

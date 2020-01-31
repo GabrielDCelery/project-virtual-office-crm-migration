@@ -1,21 +1,10 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function AddContractBehaviour(ToWrapComponent) {
   let WrapperComponent = props => {
-    const {
-      actionRecommendationsGetAllAddresses,
-      actionRecommendationsGetAllCountries
-    } = props;
+    const [activeTab, setActiveTab] = useState(0);
 
-    useEffect(() => {
-      actionRecommendationsGetAllAddresses();
-      actionRecommendationsGetAllCountries();
-    }, [
-      actionRecommendationsGetAllAddresses,
-      actionRecommendationsGetAllCountries
-    ]);
-
-    return <ToWrapComponent {...props} />;
+    return <ToWrapComponent {...props} {...{ activeTab, setActiveTab }} />;
   };
 
   return WrapperComponent;

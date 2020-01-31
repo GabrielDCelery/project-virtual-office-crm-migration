@@ -8,8 +8,8 @@ export const selectorGetCountriesRecommendations = createSelector(
   [getCountries],
   countries => {
     return countries.map(({ id, name, shortName }) => ({
-      value: id,
-      label: `${name} (${shortName})`
+      id: id,
+      name: `${name} (${shortName})`
     }));
   }
 );

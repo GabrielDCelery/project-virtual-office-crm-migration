@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import {
   actionSetFieldAddNewContract,
-  actionRecommendationsGetAllAddresses,
-  actionRecommendationsGetAllCountries,
+  actionRecommendationsGetFilteredCountries,
   selectorGetAddressesRecommendations,
-  selectorGetCountriesRecommendations
+  selectorGetCountriesRecommendations,
+  actionRecommendationsGetFilteredAddresses
 } from '../../../store';
 
 const mapStateToProps = state => {
@@ -16,9 +16,9 @@ const mapStateToProps = state => {
 };
 
 const mapActionsToProps = {
-  actionRecommendationsGetAllAddresses,
   actionSetFieldAddNewContract,
-  actionRecommendationsGetAllCountries
+  actionRecommendationsGetFilteredCountries,
+  actionRecommendationsGetFilteredAddresses
 };
 
 export default function AddContractStore(ToWrapComponent) {

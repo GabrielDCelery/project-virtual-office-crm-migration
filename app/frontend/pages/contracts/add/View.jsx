@@ -14,18 +14,25 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import NavBar from '../../../components/Nav/Bar';
 import UILeftAlignedContainer from '../../../components/UI/LeftAlignedContainer';
 import UIAppBar from '../../../components/UI/AppBar';
-import UIFormReactSelect from '../../../components/UI/FormReactSelect';
+import UIAjaxAutoCompleteField from '../../../components/UI/AjaxAutoCompleteField';
 
 const AddContractView = ({
   actionSetFieldAddNewContract,
   stateFormAddNewContract,
   stateRecommendedAddresses,
-  stateRecommendedCountries
+  stateRecommendedCountries,
+  actionRecommendationsGetFilteredAddresses,
+  actionRecommendationsGetFilteredCountries,
+  activeTab,
+  setActiveTab
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Box display="flex">
       <NavBar />
@@ -169,19 +176,21 @@ const AddContractView = ({
 
                 <Tabs
                   indicatorColor="secondary"
-                  onChange={(event, newValue) => {}}
+                  onChange={(event, newValue) => {
+                    setActiveTab(newValue);
+                  }}
                   textColor="primary"
-                  value={0}
+                  value={activeTab}
                   style={{ background: '#eee' }}
                   variant="fullWidth"
                 >
-                  <Tab label="Choose existing address" />
-                  <Tab label="Add new address" />
+                  <Tab label={t('Choose existing address')} />
+                  <Tab label={t('Add new address')} />
                 </Tabs>
 
                 <Paper>
                   <Box padding="2em">
-                    {true === true ? (
+                    {activeTab === 1 ? (
                       <React.Fragment>
                         <FormControl style={{ width: '100%' }}>
                           <TextField
@@ -197,21 +206,13 @@ const AddContractView = ({
                         <Box height="2em" />
 
                         <FormControl style={{ width: '100%' }}>
-                          <UIFormReactSelect
-                            inputId="react-select-single"
-                            isClearable={true}
-                            isDisabled={false}
-                            isLoading={false}
-                            label="Country"
-                            onChange={chosen => {
-                              actionSetFieldAddNewContract({
-                                fieldName: 'clientAddressId',
-                                fieldValue: chosen === null ? null : chosen.id
+                          <UIAjaxAutoCompleteField
+                            handleChange={event => {
+                              actionRecommendationsGetFilteredCountries({
+                                filterTerm: event.target.value
                               });
                             }}
                             options={stateRecommendedCountries}
-                            placeholder="Select Country"
-                            value={stateFormAddNewContract.clientAddressId}
                           />
                         </FormControl>
 
@@ -244,16 +245,17 @@ const AddContractView = ({
                         <Box height="2em" />
                       </React.Fragment>
                     ) : null}
-                    {true === false ? (
+                    {activeTab === 0 ? (
                       <React.Fragment>
                         <FormControl style={{ width: '100%' }}>
-                          <TextField
-                            fullWidth={true}
-                            id="client-address-id"
-                            label="Long Name"
-                            onChange={() => {}}
-                            value={''}
-                            disabled={false}
+                          <UIAjaxAutoCompleteField
+                            label={t('Address')}
+                            handleChange={event => {
+                              actionRecommendationsGetFilteredAddresses({
+                                filterTerm: event.target.value
+                              });
+                            }}
+                            options={stateRecommendedAddresses}
                           />
                         </FormControl>
                       </React.Fragment>

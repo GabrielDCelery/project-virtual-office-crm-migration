@@ -16,10 +16,10 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
-import NavBar from '../../../components/Nav/Bar';
-import UILeftAlignedContainer from '../../../components/UI/LeftAlignedContainer';
-import UIAppBar from '../../../components/UI/AppBar';
-import UIAjaxAutoCompleteField from '../../../components/UI/AjaxAutoCompleteField';
+import NavBar from '~/components/Nav/Bar';
+import UILeftAlignedContainer from '~/components/UI/LeftAlignedContainer';
+import UIAppBar from '~/components/UI/AppBar';
+import UIAjaxAutoCompleteField from '~/components/UI/AjaxAutoCompleteField';
 
 const AddContractView = ({
   actionSetFieldAddNewContract,

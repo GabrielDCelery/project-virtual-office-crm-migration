@@ -28,6 +28,16 @@ class Addresses {
       return this.recordPreparator.prepareDbRecordForReturn(flattenedDbRecord);
     });
   }
+
+  async create({ postcode, city, street, transaction }) {
+    const dbRecord = await this.models.Addresses.query(transaction)
+      .insertAndFetch({ postcode, city_id: city, long_street: street })
+      .eager('city.country');
+
+    const flattenedDbRecord = Addresses.flattenRecord(dbRecord);
+
+    return this.recordPreparator.prepareDbRecordForReturn(flattenedDbRecord);
+  }
 }
 
 module.exports = Addresses;

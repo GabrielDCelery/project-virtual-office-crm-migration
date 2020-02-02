@@ -8,7 +8,7 @@ import {
   CardContent,
   TextField
 } from '@material-ui/core';
-import UIFlexboxCenterPositioner from '../../components/UI/FlexboxCenterPositioner';
+import UIFlexboxCenterPositioner from '~/components/UI/FlexboxCenterPositioner';
 
 const LoginPageView = ({ actionLoginUser }) => {
   const [email, setEmail] = useState('');

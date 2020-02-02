@@ -10,7 +10,8 @@ const {
   SERVICE_METHOD_GET_USER_RULES,
   SERVICE_METHOD_LOGIN_USER,
   SERVICE_METHOD_GET_ALL_CITIES,
-  SERVICE_METHOD_GET_ALL_COUNTRIES
+  SERVICE_METHOD_GET_ALL_COUNTRIES,
+  SERVICE_METHOD_CREATE_ADDRESS
 } = globalRequire('common/enums');
 
 class DB {
@@ -169,6 +170,10 @@ class DB {
       .register({
         path: SERVICE_METHOD_GET_ALL_COUNTRIES,
         method: this._wrapController('countries', 'findAll')
+      })
+      .register({
+        path: SERVICE_METHOD_CREATE_ADDRESS,
+        method: this._wrapController('addresses', 'create')
       });
   }
 

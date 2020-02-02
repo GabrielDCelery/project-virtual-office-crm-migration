@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import config from '../../config';
+import config from '~/config';
 import Color from 'color';
 import { Drawer } from '@material-ui/core';
 

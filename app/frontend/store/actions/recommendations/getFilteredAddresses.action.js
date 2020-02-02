@@ -3,9 +3,9 @@ import {
   RECOMMENDATIONS_ADDRESSES_RESET,
   RECOMMENDATIONS_ADDRESSES_AJAX_START,
   RECOMMENDATIONS_ADDRESSES_AJAX_FINISH
-} from '../../constants';
-import services from '../../../services';
-import { EServiceName, EServiceMethod } from '../../../common/enums';
+} from '~/store/constants';
+import services from '~/services';
+import { EServiceName, EServiceMethod } from '~/common/enums';
 const { SERICE_NAME_API } = EServiceName;
 const { SERVICE_METHOD_GET_FILTERED_ADDRESSES } = EServiceMethod;
 

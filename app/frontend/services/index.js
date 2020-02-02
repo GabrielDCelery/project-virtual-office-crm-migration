@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import apiService from './api';
-import { EServiceName } from '../common/enums';
+import { EServiceName } from '~/common/enums';
 const { SERICE_NAME_API } = EServiceName;
 
 class ServicesFactory {

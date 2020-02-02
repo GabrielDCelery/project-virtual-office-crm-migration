@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { selectorIsUserLoggedIn } from '../../../store';
+import { selectorIsUserLoggedIn } from '~/store';
 
 const mapStateToProps = state => {
   return {

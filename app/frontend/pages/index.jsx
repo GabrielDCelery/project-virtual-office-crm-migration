@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Hidden } from '@material-ui/core';
-import NavBar from '../components/Nav/Bar';
+import NavBar from '~/components/Nav/Bar';
 
 const IndexPage = () => {
   return (

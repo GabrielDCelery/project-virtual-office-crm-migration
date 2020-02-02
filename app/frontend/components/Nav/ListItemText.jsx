@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import config from '../../config';
+import config from '~/config';
 import { ListItemText } from '@material-ui/core';
 
 export const NavListItemText = styled(ListItemText)`

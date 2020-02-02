@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import config from '../../config';
+import config from '~/config';
 
 export const NavDrawerContainer = styled.nav`
   @media (min-width: 600px) {

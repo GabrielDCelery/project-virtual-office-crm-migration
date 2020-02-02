@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import NavBar from '../../../components/Nav/Bar';
+import NavBar from '~/components/Nav/Bar';
 
 const SearchContractView = () => {
   return (

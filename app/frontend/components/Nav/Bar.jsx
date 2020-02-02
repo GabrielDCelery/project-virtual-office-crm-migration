@@ -6,7 +6,7 @@ import NavDrawerContainer from './DrawerContainer';
 import NavListItem from './ListItem';
 import NavListItemIcon from './ListItemIcon';
 import NavListItemText from './ListItemText';
-import config from '../../config';
+import config from '~/config';
 import {
   ContactMail as ContactMailIcon,
   Dashboard as DashboardIcon,

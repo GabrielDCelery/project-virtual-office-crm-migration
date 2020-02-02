@@ -1,35 +1,29 @@
 import {
   Box,
-  Button,
-  Container,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Paper,
   Select,
-  Tabs,
-  Tab,
   TextField,
   Toolbar,
-  Typography
+  Typography,
+  FormControlLabel,
+  Checkbox,
+  FormGroup
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-
 import NavBar from '~/components/Nav/Bar';
 import UILeftAlignedContainer from '~/components/UI/LeftAlignedContainer';
 import UIAppBar from '~/components/UI/AppBar';
-import UIAjaxAutoCompleteField from '~/components/UI/AjaxAutoCompleteField';
+import ContainerFormAddress from '~/components/Container/FormAddress';
+import UIFormStepAppBar from '~/components/UI/FormStepAppBar';
+import { UstartCase, UstartCaseEveryWord } from '~/common/utils';
 
 const AddContractView = ({
   actionSetFieldAddNewContract,
-  stateFormAddNewContract,
-  stateRecommendedAddresses,
-  stateRecommendedCountries,
-  actionRecommendationsGetFilteredAddresses,
-  actionRecommendationsGetFilteredCountries,
-  activeTab,
-  setActiveTab
+  stateFormAddNewContract
 }) => {
   const { t } = useTranslation();
 
@@ -42,7 +36,9 @@ const AddContractView = ({
           <UILeftAlignedContainer maxWidth="xl">
             <UIAppBar position="static" background="primary">
               <Toolbar>
-                <Typography component="h3">ADD NEW CONTRACT</Typography>
+                <Typography component="h3">
+                  {t('add new contract').toUpperCase()}
+                </Typography>
               </Toolbar>
             </UIAppBar>
 
@@ -50,15 +46,7 @@ const AddContractView = ({
 
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
-                <UIAppBar
-                  height="narrow"
-                  position="static"
-                  background="secondary"
-                >
-                  <Toolbar>
-                    <Typography component="h4">CLIENT DETAILS</Typography>
-                  </Toolbar>
-                </UIAppBar>
+                <UIFormStepAppBar label={t('client details')} />
 
                 <Box height="1em" />
 
@@ -68,7 +56,7 @@ const AddContractView = ({
                       <TextField
                         fullWidth={true}
                         id="client-long-name"
-                        label="Long Name"
+                        label={UstartCase(t('long name'))}
                         onChange={event => {
                           actionSetFieldAddNewContract({
                             fieldName: 'clientLongName',
@@ -86,7 +74,7 @@ const AddContractView = ({
                       <TextField
                         fullWidth={true}
                         id="client-short-name"
-                        label="Short Name"
+                        label={UstartCase(t('short name'))}
                         onChange={event => {
                           actionSetFieldAddNewContract({
                             fieldName: 'clientShortName',
@@ -102,7 +90,7 @@ const AddContractView = ({
 
                     <FormControl style={{ width: '100%' }}>
                       <InputLabel id="demo-simple-select-label">
-                        Type
+                        {UstartCase(t('type'))}
                       </InputLabel>
                       <Select
                         labelId="client-type-label"
@@ -116,7 +104,7 @@ const AddContractView = ({
                         }}
                       >
                         <MenuItem value={'limited liability company'}>
-                          Limited Liability Company
+                          {UstartCaseEveryWord(t('limited liability company'))}
                         </MenuItem>
                       </Select>
                     </FormControl>
@@ -127,7 +115,7 @@ const AddContractView = ({
                       <TextField
                         fullWidth={true}
                         id="client-registration-id"
-                        label="Registration ID"
+                        label={UstartCase(t('registration id'))}
                         onChange={event => {
                           actionSetFieldAddNewContract({
                             fieldName: 'clientRegistrationId',
@@ -145,7 +133,7 @@ const AddContractView = ({
                       <TextField
                         fullWidth={true}
                         id="client-tax-id"
-                        label="Tax ID"
+                        label={UstartCase(t('tax id'))}
                         onChange={event => {
                           actionSetFieldAddNewContract({
                             fieldName: 'clientTaxId',
@@ -162,120 +150,71 @@ const AddContractView = ({
                 </Paper>
               </Grid>
               <Grid item xs={12} md={6}>
-                <UIAppBar
-                  height="narrow"
-                  position="static"
-                  background="secondary"
-                >
-                  <Toolbar>
-                    <Typography component="h4">CLIENT ADDRESS</Typography>
-                  </Toolbar>
-                </UIAppBar>
-
-                <Box height="1em" />
-
-                <Tabs
-                  indicatorColor="secondary"
-                  onChange={(event, newValue) => {
-                    setActiveTab(newValue);
+                <ContainerFormAddress
+                  label={t('client address')}
+                  defaultAddress={stateFormAddNewContract.clientAddress}
+                  handleSelectAddress={value => {
+                    actionSetFieldAddNewContract({
+                      fieldName: 'clientAddress',
+                      fieldValue: value
+                    });
                   }}
-                  textColor="primary"
-                  value={activeTab}
-                  style={{ background: '#eee' }}
-                  variant="fullWidth"
-                >
-                  <Tab label={t('Choose existing address')} />
-                  <Tab label={t('Add new address')} />
-                </Tabs>
-
-                <Paper>
-                  <Box padding="2em">
-                    {activeTab === 1 ? (
-                      <React.Fragment>
-                        <FormControl style={{ width: '100%' }}>
-                          <TextField
-                            fullWidth={true}
-                            id="client-address-postcode"
-                            label="Postcode"
-                            onChange={() => {}}
-                            value={''}
-                            disabled={false}
-                          />
-                        </FormControl>
-
-                        <Box height="2em" />
-
-                        <FormControl style={{ width: '100%' }}>
-                          <UIAjaxAutoCompleteField
-                            handleChange={event => {
-                              actionRecommendationsGetFilteredCountries({
-                                filterTerm: event.target.value
-                              });
-                            }}
-                            options={stateRecommendedCountries}
-                          />
-                        </FormControl>
-
-                        <Box height="2em" />
-
-                        <FormControl style={{ width: '100%' }}>
-                          <TextField
-                            fullWidth={true}
-                            id="client-address-city"
-                            label="City"
-                            onChange={() => {}}
-                            value={''}
-                            disabled={false}
-                          />
-                        </FormControl>
-
-                        <Box height="2em" />
-
-                        <FormControl style={{ width: '100%' }}>
-                          <TextField
-                            fullWidth={true}
-                            id="client-address-street"
-                            label="Street"
-                            onChange={() => {}}
-                            value={''}
-                            disabled={false}
-                          />
-                        </FormControl>
-
-                        <Box height="2em" />
-                      </React.Fragment>
-                    ) : null}
-                    {activeTab === 0 ? (
-                      <React.Fragment>
-                        <FormControl style={{ width: '100%' }}>
-                          <UIAjaxAutoCompleteField
-                            label={t('Address')}
-                            handleChange={event => {
-                              actionRecommendationsGetFilteredAddresses({
-                                filterTerm: event.target.value
-                              });
-                            }}
-                            options={stateRecommendedAddresses}
-                          />
-                        </FormControl>
-                      </React.Fragment>
-                    ) : null}
-                  </Box>
-                </Paper>
+                />
               </Grid>
             </Grid>
 
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
-                <UIAppBar
-                  height="narrow"
-                  position="static"
-                  background="secondary"
-                >
-                  <Toolbar>
-                    <Typography component="h4">SERVICE PROVIDER</Typography>
-                  </Toolbar>
-                </UIAppBar>
+                <UIFormStepAppBar label={t('client signatory')} />
+
+                <Box height="1em" />
+
+                <Paper>
+                  <Box padding="2em">
+                    <FormControl style={{ width: '100%' }}>
+                      <TextField
+                        fullWidth={true}
+                        id="client-signatory-first-name"
+                        label={UstartCase(t('first name'))}
+                        onChange={event => {
+                          actionSetFieldAddNewContract({
+                            fieldName: 'signatoryFirstName',
+                            fieldValue: event.target.value
+                          });
+                        }}
+                        value={stateFormAddNewContract.signatoryFirstName}
+                        disabled={false}
+                      />
+                    </FormControl>
+
+                    <Box height="2em" />
+
+                    <FormControl style={{ width: '100%' }}>
+                      <TextField
+                        fullWidth={true}
+                        id="client-signatory-first-name"
+                        label={UstartCase(t('last name'))}
+                        onChange={event => {
+                          actionSetFieldAddNewContract({
+                            fieldName: 'signatoryLastName',
+                            fieldValue: event.target.value
+                          });
+                        }}
+                        value={stateFormAddNewContract.signatoryLastName}
+                        disabled={false}
+                      />
+                    </FormControl>
+
+                    <Box height="2em" />
+                  </Box>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={6}></Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <UIFormStepAppBar label={t('service provider')} />
 
                 <Box height="1em" />
 
@@ -285,7 +224,7 @@ const AddContractView = ({
                       <TextField
                         fullWidth={true}
                         id="service-provider"
-                        label="Service Provider"
+                        label={UstartCase(t('name'))}
                         onChange={() => {}}
                         value={''}
                         disabled={false}
@@ -295,15 +234,34 @@ const AddContractView = ({
                 </Paper>
               </Grid>
               <Grid item xs={12} md={6}>
-                <UIAppBar
-                  height="narrow"
-                  position="static"
-                  background="secondary"
-                >
-                  <Toolbar>
-                    <Typography component="h4">SERVICES</Typography>
-                  </Toolbar>
-                </UIAppBar>
+                <UIFormStepAppBar label={t('services')} />
+
+                <Box height="1em" />
+
+                <Paper>
+                  <Box padding="2em">
+                    <FormControl style={{ width: '100%' }}>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={false}
+                              onChange={() => {}}
+                              value="gilad"
+                            />
+                          }
+                          label={UstartCase(t('monthly posting of mails'))}
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  </Box>
+                </Paper>
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <UIFormStepAppBar label={t('contract')} />
 
                 <Box height="1em" />
 
@@ -311,17 +269,45 @@ const AddContractView = ({
                   <Box padding="2em">
                     <FormControl style={{ width: '100%' }}>
                       <TextField
-                        fullWidth={true}
-                        id="service-provider-services"
-                        label="Services"
-                        onChange={() => {}}
-                        value={''}
-                        disabled={false}
+                        id="contract-start-date"
+                        label={UstartCase(t('start date'))}
+                        type="date"
+                        value={stateFormAddNewContract['contractStartDate']}
+                        onChange={event => {
+                          actionSetFieldAddNewContract({
+                            fieldName: 'contractStartDate',
+                            fieldValue: event.target.value
+                          });
+                        }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                      />
+                    </FormControl>
+
+                    <Box height="2em" />
+
+                    <FormControl style={{ width: '100%' }}>
+                      <TextField
+                        id="contract-end-date"
+                        label={UstartCase(t('end date'))}
+                        type="date"
+                        value={stateFormAddNewContract['contractEndDate']}
+                        onChange={event => {
+                          actionSetFieldAddNewContract({
+                            fieldName: 'contractEndDate',
+                            fieldValue: event.target.value
+                          });
+                        }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
                       />
                     </FormControl>
                   </Box>
                 </Paper>
               </Grid>
+              <Grid item xs={12} md={6}></Grid>
             </Grid>
           </UILeftAlignedContainer>
         </Box>

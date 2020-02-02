@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import config from '../../config';
+import config from '~/config';
 import { ListItemIcon } from '@material-ui/core';
 
 export const NavListItemIcon = styled(ListItemIcon)`

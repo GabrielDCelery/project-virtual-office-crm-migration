@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Box } from '@material-ui/core';
-import NavBar from '../../components/Nav/Bar';
+import NavBar from '~/components/Nav/Bar';
 
 const LogoutPageView = ({ actionLogoutUser }) => {
   useEffect(() => {

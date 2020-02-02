@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar } from '@material-ui/core';
 import styled from 'styled-components';
-import config from '../../config';
+import config from '~/config';
 import Color from 'color';
 
 const createBaseBackground = colorName => {

@@ -10,18 +10,14 @@ class Cities {
     return {
       id: record.id,
       name: record.name,
-      country_id: record.country_id
-      /*
+      country_id: record.country_id,
       country_name: record.country.name,
       country_short_name: record.country.short_name
-      */
     };
   }
 
   async findAll({ transaction }) {
-    const cities = await this.models.Cities.query(
-      transaction
-    ); /*.eager('country')*/
+    const cities = await this.models.Cities.query(transaction).eager('country');
 
     return cities.map(dbRecord => {
       const flattenedDbRecord = Cities.flattenRecord(dbRecord);

@@ -1,48 +1,66 @@
 const _ = require('lodash');
-const host = require('./host');
-const authentication = require('./authentication');
 const api = require('./api');
+const authentication = require('./authentication');
+const host = require('./host');
+const redis = require('./redis');
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const {
   NODE_ENV,
-  BACKEND_APP_PORT,
-  USER_JWT_SECRET,
-  USER_JWT_EXPIRY
+  ENV_BACKEND_APP_PORT,
+  ENV_SERVICE_JWT_SECRET,
+  ENV_SERVICE_JWT_EXPIRY_IN_SECONDS
 } = process.env;
+
+let singleton = null;
 
 class Config {
   constructor() {
     this.nodeEnv = NODE_ENV;
     this.host = host({
-      BACKEND_APP_PORT
+      ENV_BACKEND_APP_PORT
     });
     this.api = api({});
     this.authentication = authentication({
-      USER_JWT_SECRET,
-      USER_JWT_EXPIRY
+      ENV_SERVICE_JWT_SECRET,
+      ENV_SERVICE_JWT_EXPIRY_IN_SECONDS
     });
+  }
+
+  static createSingleton() {
+    if (!singleton) {
+      singleton = new Config();
+    }
+
+    return singleton;
   }
 
   init(processEnv) {
     const {
       NODE_ENV,
-      BACKEND_APP_PORT,
-      USER_JWT_SECRET,
-      USER_JWT_EXPIRY
+      ENV_SERVICE_REDIS_PORT,
+      ENV_SERVICE_REDIS_HOST,
+      ENV_SERVICE_JWT_SECRET,
+      ENV_SERVICE_JWT_EXPIRY_IN_SECONDS,
+      ENV_BACKEND_APP_PORT
     } = processEnv;
 
     this.nodeEnv = NODE_ENV;
 
     this.host = host({
-      BACKEND_APP_PORT
+      ENV_BACKEND_APP_PORT
     });
 
     this.api = api({});
 
     this.authentication = authentication({
-      USER_JWT_SECRET,
-      USER_JWT_EXPIRY
+      ENV_SERVICE_JWT_SECRET,
+      ENV_SERVICE_JWT_EXPIRY_IN_SECONDS
+    });
+
+    this.redis = redis({
+      ENV_SERVICE_REDIS_HOST,
+      ENV_SERVICE_REDIS_PORT
     });
 
     return this;
@@ -59,4 +77,4 @@ class Config {
   }
 }
 
-module.exports = new Config();
+module.exports = Config;

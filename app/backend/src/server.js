@@ -3,15 +3,13 @@ global.globalRequire = path => {
 };
 
 const loaders = require('./loaders');
-const config = require('./config');
-
 let server = null;
 
 const start = async (callback = () => {}) => {
   try {
-    const { app } = await loaders.start();
+    const { app, config } = await loaders.start();
 
-    server = app.listen(config.host.port, error => {
+    server = app.listen(config.get('host.port'), error => {
       if (error) {
         return process.exit(1);
       }

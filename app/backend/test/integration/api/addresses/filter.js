@@ -9,8 +9,8 @@ module.exports = () => {
 
     it('returns a filtered list of addresses', async () => {
       // Given
-      const { BACKEND_APP_PORT } = process.env;
-      const endpoint = `http://localhost:${BACKEND_APP_PORT}/api/addresses/filter`;
+      const { ENV_BACKEND_APP_PORT } = process.env;
+      const endpoint = `http://localhost:${ENV_BACKEND_APP_PORT}/api/addresses/filter`;
       const parameters = {
         filterTerm: 'mi',
         limit: 5

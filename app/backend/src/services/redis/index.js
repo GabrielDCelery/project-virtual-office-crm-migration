@@ -1,26 +1,18 @@
-const { promisify } = require('util');
-const redis = require('redis');
-const config = require('./config');
-const { MethodExecutor } = globalRequire('common/utils');
-const {
-  SERVICE_METHOD_SET_REDIS_VALUE,
-  SERVICE_METHOD_GET_REDIS_VALUE
-} = globalRequire('common/enums');
-
 class Redis {
   constructor() {
     this.client = null;
-    this.methodExecutor = new MethodExecutor();
     this.flushRedis = this.flushRedis.bind(this);
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.execute = this.execute.bind(this);
   }
 
-  async _startRedisClient({ host, port }) {
+  async _startRedisClient({ config, nodeModules }) {
+    const { redis, promisify } = nodeModules;
+
     this.client = redis.createClient({
-      host,
-      port
+      host: config.get('redis.host'),
+      port: config.get('redis.port')
     });
     this.client.getAsync = promisify(this.client.get).bind(this.client);
     this.client.setAsync = promisify(this.client.set).bind(this.client);
@@ -84,12 +76,17 @@ class Redis {
     });
   }
 
-  async start({ environmentVariables }) {
+  async start({ EServiceMethod, config, nodeModules, utils }) {
     if (this.initialized) {
       throw new Error('Tried to initialize the redis connection twice!');
     }
 
-    this.methodExecutor
+    const {
+      SERVICE_METHOD_SET_REDIS_VALUE,
+      SERVICE_METHOD_GET_REDIS_VALUE
+    } = EServiceMethod;
+
+    this.methodExecutor = utils.MethodExecutor.createInstance()
       .register({
         path: SERVICE_METHOD_SET_REDIS_VALUE,
         method: async ({ key, value }) => {
@@ -103,7 +100,7 @@ class Redis {
         }
       });
 
-    await this._startRedisClient(config(environmentVariables));
+    await this._startRedisClient({ config, nodeModules });
 
     this.initialized = true;
   }

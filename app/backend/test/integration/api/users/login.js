@@ -25,8 +25,8 @@ module.exports = () => {
 
     it('successfully authenticates a registered user', async () => {
       // Given
-      const { BACKEND_APP_PORT } = process.env;
-      const endpoint = `http://localhost:${BACKEND_APP_PORT}/api/users/login`;
+      const { ENV_BACKEND_APP_PORT } = process.env;
+      const endpoint = `http://localhost:${ENV_BACKEND_APP_PORT}/api/users/login`;
 
       // When
       const result = await axios.post(endpoint, {
@@ -48,8 +48,8 @@ module.exports = () => {
       const REGEXP_COOKIE = /PVOCRM_SESSION_ID=[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+\/=]*;\sPath=\/;\sHttpOnly;\sSecure/;
 
       // Given
-      const { BACKEND_APP_PORT } = process.env;
-      const endpoint = `http://localhost:${BACKEND_APP_PORT}/api/users/login`;
+      const { ENV_BACKEND_APP_PORT } = process.env;
+      const endpoint = `http://localhost:${ENV_BACKEND_APP_PORT}/api/users/login`;
 
       // When
       const result = await axios.post(endpoint, {

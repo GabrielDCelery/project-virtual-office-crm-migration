@@ -19,10 +19,10 @@ class APIFactory {
       orchestrator
     };
     this.routes = {
-      [ERoute.ROUTE_ADDRESSES]: require('./routers/addresses'),
-      [ERoute.ROUTE_CITIES]: require('./routers/cities'),
-      [ERoute.ROUTE_COUNTRIES]: require('./routers/countries'),
-      [ERoute.ROUTE_USERS]: require('./routers/users')
+      [ERoute.ROUTE_ADDRESSES]: require('./routes/addresses'),
+      [ERoute.ROUTE_CITIES]: require('./routes/cities'),
+      [ERoute.ROUTE_COUNTRIES]: require('./routes/countries'),
+      [ERoute.ROUTE_USERS]: require('./routes/users')
     };
   }
 

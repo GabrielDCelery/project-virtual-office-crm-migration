@@ -25,8 +25,8 @@ module.exports = () => {
 
     it('successfully authenticates a registered user', async () => {
       // Given
-      const { BACKEND_APP_PORT } = process.env;
-      const url = `http://localhost:${BACKEND_APP_PORT}/api/users/authenticateByCookie`;
+      const { ENV_BACKEND_APP_PORT } = process.env;
+      const url = `http://localhost:${ENV_BACKEND_APP_PORT}/api/users/authenticateByCookie`;
 
       // When
       const result = await axios({

@@ -1,10 +1,12 @@
-module.exports = ({ USER_JWT_SECRET, USER_JWT_EXPIRY }) => {
+module.exports = ({
+  ENV_SERVICE_JWT_SECRET,
+  ENV_SERVICE_JWT_EXPIRY_IN_SECONDS
+}) => {
   return {
     jwt: {
-      secret: USER_JWT_SECRET || 'super_secret',
-      expiry:
-        parseInt(USER_JWT_EXPIRY, 10) ||
-        Math.floor(new Date() / 1000) + 60 * 60 * 24
+      secret: ENV_SERVICE_JWT_SECRET || 'super_secret',
+      expiryInSeconds:
+        parseInt(ENV_SERVICE_JWT_EXPIRY_IN_SECONDS, 10) || 60 * 60 * 24
     }
   };
 };

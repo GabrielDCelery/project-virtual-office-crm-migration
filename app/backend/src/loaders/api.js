@@ -2,13 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 //const cors = require('cors');
-const config = globalRequire('config');
 const APIFactory = globalRequire('api');
 const { ERoute, EOrchestratorMethod } = globalRequire('common/enums');
 const { CStatusCode } = globalRequire('common/constants');
 
 module.exports = {
-  start: async ({ middlewares, orchestrator }) => {
+  start: async ({ config, middlewares, orchestrator }) => {
     const app = express();
     app.use(bodyParser.json());
     app.use(cookieParser());

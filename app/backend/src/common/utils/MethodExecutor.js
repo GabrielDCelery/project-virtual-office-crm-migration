@@ -7,6 +7,10 @@ class MethodExecutor {
     this.register = this.register.bind(this);
   }
 
+  static createInstance() {
+    return new MethodExecutor();
+  }
+
   register({ path, method }) {
     if (_.get(this.methods, path) !== undefined) {
       throw new Error(`Method path already taken ${path}`);

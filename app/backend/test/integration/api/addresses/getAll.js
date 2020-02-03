@@ -9,8 +9,8 @@ module.exports = () => {
 
     it('returns a list of addresses', async () => {
       // Given
-      const { BACKEND_APP_PORT } = process.env;
-      const endpoint = `http://localhost:${BACKEND_APP_PORT}/api/addresses/getAll`;
+      const { ENV_BACKEND_APP_PORT } = process.env;
+      const endpoint = `http://localhost:${ENV_BACKEND_APP_PORT}/api/addresses/getAll`;
 
       // When
       const result = await axios.get(endpoint);

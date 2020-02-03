@@ -2,10 +2,14 @@ const services = globalRequire('services');
 const helpers = globalRequire('helpers');
 const jsonwebtoken = require('jsonwebtoken');
 const lodash = require('lodash');
+const redis = require('redis');
+const { promisify } = require('util');
 const AWS = require('aws-sdk');
 const uuidv4 = require('uuid/v4');
 const verror = require('verror');
-const config = globalRequire('config');
+const { MethodExecutor } = globalRequire('common/utils');
+const { EServiceMethod } = globalRequire('common/enums');
+const { CErrorController, CErrorMessage } = globalRequire('common/constants');
 
 const {
   SERVICE_NAME_AUTHENTICATION,
@@ -16,34 +20,30 @@ const {
 
 const {
   NODE_ENV,
-  SERVICE_DB_CLIENT,
-  SERVICE_DB_USER,
-  SERVICE_DB_HOST,
-  SERVICE_DB_PASSWORD,
-  SERVICE_DB_DATABASE,
-  SERVICE_DB_CHARSET,
-  SERVICE_DB_PORT,
-  SERVICE_REDIS_HOST,
-  SERVICE_REDIS_PORT,
-  SERVICE_JWT_SECRET,
-  SERVICE_JWT_EXPIRY_IN_SECONDS,
-  SERVICE_CLOUD_S3_ACCESS_KEY_ID,
-  SERVICE_CLOUD_S3_SECRET_ACCESS_KEY,
-  SERVICE_CLOUD_S3_ENDPOINT
+  ENV_SERVICE_DB_CLIENT,
+  ENV_SERVICE_DB_USER,
+  ENV_SERVICE_DB_HOST,
+  ENV_SERVICE_DB_PASSWORD,
+  ENV_SERVICE_DB_DATABASE,
+  ENV_SERVICE_DB_CHARSET,
+  ENV_SERVICE_DB_PORT,
+  ENV_SERVICE_CLOUD_S3_ACCESS_KEY_ID,
+  ENV_SERVICE_CLOUD_S3_SECRET_ACCESS_KEY,
+  ENV_SERVICE_CLOUD_S3_ENDPOINT
 } = process.env;
 
 module.exports = {
-  start: async () => {
+  start: async ({ config }) => {
     await services.get(SERVICE_NAME_DATABASE).start({
       environmentVariables: {
         NODE_ENV,
-        SERVICE_DB_CLIENT,
-        SERVICE_DB_USER,
-        SERVICE_DB_HOST,
-        SERVICE_DB_PASSWORD,
-        SERVICE_DB_DATABASE,
-        SERVICE_DB_CHARSET,
-        SERVICE_DB_PORT
+        ENV_SERVICE_DB_CLIENT,
+        ENV_SERVICE_DB_USER,
+        ENV_SERVICE_DB_HOST,
+        ENV_SERVICE_DB_PASSWORD,
+        ENV_SERVICE_DB_DATABASE,
+        ENV_SERVICE_DB_CHARSET,
+        ENV_SERVICE_DB_PORT
       },
       nodeModules: {
         lodash,
@@ -53,30 +53,35 @@ module.exports = {
       helpers: helpers
     });
     await services.get(SERVICE_NAME_REDIS).start({
-      environmentVariables: {
-        SERVICE_REDIS_HOST,
-        SERVICE_REDIS_PORT
+      EServiceMethod,
+      config,
+      nodeModules: {
+        redis,
+        promisify
       },
-      helpers: helpers
+      utils: {
+        MethodExecutor
+      }
     });
     await services.get(SERVICE_NAME_AUTHENTICATION).start({
-      config: config.get('authentication'),
-      environmentVariables: {
-        SERVICE_JWT_SECRET,
-        SERVICE_JWT_EXPIRY_IN_SECONDS
-      },
-      helpers: helpers,
+      CErrorController,
+      CErrorMessage,
+      EServiceMethod,
+      config,
       nodeModules: {
         jsonwebtoken,
         verror
+      },
+      utils: {
+        MethodExecutor
       }
     });
     /*
     await services.get(SERVICE_NAME_CLOUD).start({
       environmentVariables: {
-        SERVICE_CLOUD_S3_ACCESS_KEY_ID,
-        SERVICE_CLOUD_S3_SECRET_ACCESS_KEY,
-        SERVICE_CLOUD_S3_ENDPOINT
+        ENV_SERVICE_CLOUD_S3_ACCESS_KEY_ID,
+        ENV_SERVICE_CLOUD_S3_SECRET_ACCESS_KEY,
+        ENV_SERVICE_CLOUD_S3_ENDPOINT
       },
       helpers: helpers,
       nodeModules: {
@@ -92,6 +97,6 @@ module.exports = {
     await services.get(SERVICE_NAME_DATABASE).stop();
     await services.get(SERVICE_NAME_AUTHENTICATION).stop();
     await services.get(SERVICE_NAME_REDIS).stop();
-    await services.get(SERVICE_NAME_CLOUD).stop();
+    //await services.get(SERVICE_NAME_CLOUD).stop();
   }
 };

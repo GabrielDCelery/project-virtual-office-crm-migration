@@ -7,8 +7,8 @@ module.exports = () => {
 
     it('confirms if the service is running', async () => {
       // Given
-      const { BACKEND_APP_PORT } = process.env;
-      const endpoint = `http://localhost:${BACKEND_APP_PORT}/health`;
+      const { ENV_BACKEND_APP_PORT } = process.env;
+      const endpoint = `http://localhost:${ENV_BACKEND_APP_PORT}/health`;
 
       // When
       const result = await axios.get(endpoint);

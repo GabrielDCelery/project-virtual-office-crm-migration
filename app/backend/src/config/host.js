@@ -1,5 +1,5 @@
-module.exports = ({ BACKEND_APP_PORT }) => {
+module.exports = ({ ENV_BACKEND_APP_PORT }) => {
   return {
-    port: parseInt(BACKEND_APP_PORT, 10) || 8080
+    port: parseInt(ENV_BACKEND_APP_PORT, 10) || 8080
   };
 };

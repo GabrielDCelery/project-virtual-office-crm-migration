@@ -15,20 +15,20 @@ services:
     depends_on:
       - redis
     environment:
-      BACKEND_APP_PORT: 8080
-      SERVICE_DB_CLIENT: pg
-      SERVICE_DB_USER: postgres
-      SERVICE_DB_HOST: db
-      SERVICE_DB_PASSWORD: docker
-      SERVICE_DB_DATABASE: postgres_pvocrm
-      SERVICE_DB_PORT: 5432
-      SERVICE_REDIS_HOST: redis
-      SERVICE_REDIS_PORT: 6379
-      SERVICE_JWT_SECRET: super_secret
-      SERVICE_JWT_EXPIRY_IN_SECONDS: null
-      SERVICE_CLOUD_S3_ENDPOINT: http://aws_s3:9000
-      SERVICE_CLOUD_S3_ACCESS_KEY_ID: minio_access_key
-      SERVICE_CLOUD_S3_SECRET_ACCESS_KEY: minio_secret_key
+      ENV_BACKEND_APP_PORT: 8080
+      ENV_SERVICE_DB_CLIENT: pg
+      ENV_SERVICE_DB_USER: postgres
+      ENV_SERVICE_DB_HOST: db
+      ENV_SERVICE_DB_PASSWORD: docker
+      ENV_SERVICE_DB_DATABASE: postgres_pvocrm
+      ENV_SERVICE_DB_PORT: 5432
+      ENV_SERVICE_REDIS_HOST: redis
+      ENV_SERVICE_REDIS_PORT: 6379
+      ENV_SERVICE_JWT_SECRET: super_secret
+      ENV_SERVICE_JWT_EXPIRY_IN_SECONDS: null
+      ENV_SERVICE_CLOUD_S3_ENDPOINT: http://aws_s3:9000
+      ENV_SERVICE_CLOUD_S3_ACCESS_KEY_ID: minio_access_key
+      ENV_SERVICE_CLOUD_S3_SECRET_ACCESS_KEY: minio_secret_key
   frontend:
     container_name: pvocrm_frontend
     build:
@@ -39,7 +39,7 @@ services:
     depends_on:
       - backend
     environment:
-      FRONTEND_APP_PORT: 3000
+      ENV_FRONTEND_APP_PORT: 3000
   webserver:
     container_name: pvocrm_nginx
     image: nginx

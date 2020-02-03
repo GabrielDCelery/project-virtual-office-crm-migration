@@ -1,11 +1,7 @@
-const {
-  SERVICE_NAME_DATABASE,
-  SERVICE_NAME_AUTHENTICATION,
-  SERVICE_METHOD_LOGIN_USER,
-  SERVICE_METHOD_SIGN_JWT
-} = globalRequire('common/enums');
+module.exports = ({ EServiceMethod, EServiceName, services }) => {
+  const { SERVICE_NAME_DATABASE, SERVICE_NAME_AUTHENTICATION } = EServiceName;
+  const { SERVICE_METHOD_LOGIN_USER, SERVICE_METHOD_SIGN_JWT } = EServiceMethod;
 
-module.exports = ({ services }) => {
   return async ({ email, password }) => {
     const {
       result: { id, rules }

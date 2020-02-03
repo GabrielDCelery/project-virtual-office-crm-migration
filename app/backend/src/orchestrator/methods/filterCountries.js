@@ -1,16 +1,20 @@
-const {
-  SERVICE_NAME_REDIS,
-  SERVICE_NAME_DATABASE,
-  SERVICE_METHOD_GET_ALL_COUNTRIES,
-  SERVICE_METHOD_GET_REDIS_VALUE,
-  SERVICE_METHOD_SET_REDIS_VALUE,
-  REDIS_KEY_COUNTRIES
-} = globalRequire('common/enums');
-const { Filterer } = globalRequire('common/utils');
+module.exports = ({
+  EServiceMethod,
+  EServiceName,
+  ERedisKeys,
+  services,
+  utils
+}) => {
+  const { SERVICE_NAME_REDIS, SERVICE_NAME_DATABASE } = EServiceName;
+  const {
+    SERVICE_METHOD_GET_ALL_COUNTRIES,
+    SERVICE_METHOD_GET_REDIS_VALUE,
+    SERVICE_METHOD_SET_REDIS_VALUE
+  } = EServiceMethod;
+  const { REDIS_KEY_COUNTRIES } = ERedisKeys;
 
-module.exports = ({ services }) => {
   const filterCountryRecords = ({ filterTerm, limit, records }) => {
-    return Filterer.createInstance().filterObjects({
+    return utils.Filterer.createInstance().filterObjects({
       filterTerm,
       filterBys: ['name', 'shortName'],
       limit,

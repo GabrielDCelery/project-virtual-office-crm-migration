@@ -1,5 +1,5 @@
 const orchestrator = globalRequire('orchestrator');
-const { MethodExecutor } = globalRequire('common/utils');
+const { Filterer, MethodExecutor } = globalRequire('common/utils');
 const {
   EOrchestratorMethod,
   EServiceMethod,
@@ -15,7 +15,7 @@ module.exports = {
       EServiceName,
       ERedisKeys,
       services,
-      utils: { MethodExecutor }
+      utils: { Filterer, MethodExecutor }
     });
 
     return orchestrator;

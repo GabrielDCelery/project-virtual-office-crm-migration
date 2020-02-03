@@ -71,6 +71,7 @@ class Orchestrator {
         path: ORCHESTRATOR_METHOD_FILTER_ADDRESSES,
         method: methods.filterAddresses({
           services,
+          utils,
           EServiceMethod,
           EServiceName,
           ERedisKeys
@@ -80,13 +81,21 @@ class Orchestrator {
         path: ORCHESTRATOR_METHOD_FILTER_COUNTRIES,
         method: methods.filterCountries({
           services,
+          utils,
           EServiceMethod,
-          EServiceName
+          EServiceName,
+          ERedisKeys
         })
       })
       .register({
         path: ORCHESTRATOR_METHOD_FILTER_CITIES,
-        method: methods.filterCities({ services, EServiceMethod, EServiceName })
+        method: methods.filterCities({
+          services,
+          utils,
+          EServiceMethod,
+          EServiceName,
+          ERedisKeys
+        })
       })
       .register({
         path: ORCHESTRATOR_METHOD_CREATE_ADDRESS,
@@ -99,9 +108,10 @@ class Orchestrator {
       .register({
         path: ORCHESTRATOR_METHOD_FILTER_NATURAL_PEOPLE,
         method: methods.filterNaturalPeople({
-          services,
           EServiceMethod,
-          EServiceName
+          EServiceName,
+          services,
+          utils
         })
       })
       .register({

@@ -1,9 +1,7 @@
-const {
-  SERVICE_NAME_DATABASE,
-  SERVICE_METHOD_GET_ALL_COUNTRIES
-} = globalRequire('common/enums');
+module.exports = ({ EServiceMethod, EServiceName, services }) => {
+  const { SERVICE_NAME_DATABASE } = EServiceName;
+  const { SERVICE_METHOD_GET_ALL_COUNTRIES } = EServiceMethod;
 
-module.exports = ({ services }) => {
   return async () => {
     const { result } = await services
       .get(SERVICE_NAME_DATABASE)

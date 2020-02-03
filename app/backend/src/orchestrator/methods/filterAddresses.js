@@ -1,6 +1,10 @@
-const { Filterer } = globalRequire('common/utils');
-
-module.exports = ({ EServiceMethod, EServiceName, ERedisKeys, services }) => {
+module.exports = ({
+  EServiceMethod,
+  EServiceName,
+  ERedisKeys,
+  services,
+  utils
+}) => {
   const { SERVICE_NAME_DATABASE, SERVICE_NAME_REDIS } = EServiceName;
   const {
     SERVICE_METHOD_GET_ALL_ADDRESSES,
@@ -10,7 +14,7 @@ module.exports = ({ EServiceMethod, EServiceName, ERedisKeys, services }) => {
   const { REDIS_KEY_ADDRESSES } = ERedisKeys;
 
   const filterAddressRecords = ({ filterTerm, limit, records }) => {
-    return Filterer.createInstance().filterObjects({
+    return utils.Filterer.createInstance().filterObjects({
       filterTerm,
       filterBys: [
         'cityName',

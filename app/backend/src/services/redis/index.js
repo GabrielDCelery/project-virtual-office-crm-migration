@@ -1,11 +1,17 @@
 const { promisify } = require('util');
 const redis = require('redis');
 const config = require('./config');
+const { MethodExecutor } = globalRequire('common/utils');
+const {
+  SERVICE_METHOD_SET_REDIS_VALUE,
+  SERVICE_METHOD_GET_REDIS_VALUE
+} = globalRequire('common/enums');
 
 class Redis {
   constructor() {
     this.client = null;
     this.helpers = null;
+    this.methodExecutor = new MethodExecutor();
     this.flushRedis = this.flushRedis.bind(this);
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
@@ -50,7 +56,13 @@ class Redis {
   }
 
   async _setAsync(key, value) {
-    return this.client.setAsync(key, JSON.stringify(value));
+    const result = this.client.setAsync(key, JSON.stringify(value));
+
+    if (result !== 'OK') {
+      throw new Error(`Failed to save Redis key ${key}`);
+    }
+
+    return null;
   }
 
   _safeStringifyJSON(value) {
@@ -80,6 +92,20 @@ class Redis {
 
     this.helpers = helpers;
 
+    this.methodExecutor
+      .register({
+        path: SERVICE_METHOD_SET_REDIS_VALUE,
+        method: async ({ key, value }) => {
+          return await this._setAsync(key, value);
+        }
+      })
+      .register({
+        path: SERVICE_METHOD_GET_REDIS_VALUE,
+        method: async ({ key }) => {
+          return await this._getAsync(key);
+        }
+      });
+
     await this._startRedisClient(config(environmentVariables));
 
     this.initialized = true;
@@ -90,15 +116,11 @@ class Redis {
     this.initialized = false;
   }
 
-  async execute(key, methodName, value) {
-    try {
-      return this.helpers.wrapResult(
-        'success',
-        await this[`_${methodName}`](key, value)
-      );
-    } catch (error) {
-      return this.helpers.wrapResult('fail', error.message);
-    }
+  async execute({ method, parameters }) {
+    return await this.methodExecutor.execute({
+      method,
+      parameters
+    });
   }
 }
 

@@ -3,6 +3,7 @@ const EOrchestratorMethod = require('./EOrchestratorMethod');
 const ERouter = require('./ERouter');
 const EServiceMethod = require('./EServiceMethod');
 const EServiceName = require('./EServiceName');
+const ERedisKeys = require('./ERedisKeys');
 
 const createEnums = enums => {
   const enumsObj = {};
@@ -24,9 +25,11 @@ module.exports = {
   ERouter: createEnums(ERouter),
   EServiceMethod: createEnums(EServiceMethod),
   EServiceName: createEnums(EServiceName),
+  ERedisKeys: createEnums(ERedisKeys),
   ...createEnums(EConfigAuthentication),
   ...createEnums(EOrchestratorMethod),
   ...createEnums(ERouter),
   ...createEnums(EServiceMethod),
-  ...createEnums(EServiceName)
+  ...createEnums(EServiceName),
+  ...createEnums(ERedisKeys)
 };

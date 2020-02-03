@@ -4,14 +4,16 @@ const controllers = require('./controllers');
 const models = require('./models');
 const { Model, transaction } = require('objection');
 const { MethodExecutor } = globalRequire('common/utils');
-const { RecordPreparator } = require('./helpers');
+const { RecordPreparator, RecordFlattener } = require('./helpers');
 const {
   SERVICE_METHOD_GET_ALL_ADDRESSES,
   SERVICE_METHOD_GET_USER_RULES,
   SERVICE_METHOD_LOGIN_USER,
   SERVICE_METHOD_GET_ALL_CITIES,
   SERVICE_METHOD_GET_ALL_COUNTRIES,
-  SERVICE_METHOD_CREATE_ADDRESS
+  SERVICE_METHOD_CREATE_ADDRESS,
+  SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE,
+  SERVICE_METHOD_CREATE_NATURAL_PERSON
 } = globalRequire('common/enums');
 
 class DB {
@@ -76,6 +78,7 @@ class DB {
 
     this.controllers = {
       addresses: new Addresses({
+        helpers: { RecordFlattener, RecordPreparator },
         models,
         nodeModules,
         recordPreparator: new RecordPreparator({ nodeModules })
@@ -140,6 +143,7 @@ class DB {
         recordPreparator: new RecordPreparator({ nodeModules })
       }),
       naturalPeople: new NaturalPeople({
+        helpers: { RecordFlattener },
         models,
         nodeModules,
         recordPreparator: new RecordPreparator({ nodeModules })
@@ -174,6 +178,13 @@ class DB {
       .register({
         path: SERVICE_METHOD_CREATE_ADDRESS,
         method: this._wrapController('addresses', 'create')
+      })
+      .register({
+        path: SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE,
+        method: this._wrapController(
+          'naturalPeople',
+          'getLatestVersionsOfAllRecords'
+        )
       });
   }
 

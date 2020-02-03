@@ -25,9 +25,6 @@ class NaturalPeople extends Model {
         birth_date: {
           type: 'date'
         },
-        identifier_document_id: {
-          type: 'integer'
-        },
         permanent_address_id: {
           type: 'id'
         }
@@ -40,14 +37,6 @@ class NaturalPeople extends Model {
     const Documents = require('./Documents');
 
     return {
-      identifier_document: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Documents,
-        join: {
-          from: `${NaturalPeople.tableName}.identifier_document_id`,
-          to: `${Documents.tableName}.id`
-        }
-      },
       permanent_address: {
         relation: Model.BelongsToOneRelation,
         modelClass: Addresses,

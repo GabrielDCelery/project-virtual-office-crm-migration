@@ -1,15 +1,4 @@
-const addresses = require('./addresses');
-const cities = require('./cities');
-const countries = require('./countries');
-const legalEntities = require('./legalEntities');
-const mailSenderNames = require('./mailSenderNames');
-const mailSenders = require('./mailSenders');
-const mailSubjects = require('./mailSubjects');
-const mails = require('./mails');
-const mailsPendingActions = require('./mailsPendingActions');
-const users = require('./users');
 const methods = require('./methods');
-const { EOrchestratorMethod } = globalRequire('common/enums');
 const {
   ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE,
   ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES,
@@ -19,8 +8,10 @@ const {
   ORCHESTRATOR_METHOD_FILTER_ADDRESSES,
   ORCHESTRATOR_METHOD_FILTER_COUNTRIES,
   ORCHESTRATOR_METHOD_FILTER_CITIES,
-  ORCHESTRATOR_METHOD_CREATE_ADDRESS
-} = EOrchestratorMethod;
+  ORCHESTRATOR_METHOD_CREATE_ADDRESS,
+  ORCHESTRATOR_METHOD_FILTER_NATURAL_PEOPLE,
+  ORCHESTRATOR_METHOD_CREATE_NATURAL_PERSON
+} = globalRequire('common/enums');
 const { MethodExecutor } = globalRequire('common/utils');
 
 class Orchestrator {
@@ -134,7 +125,9 @@ class Orchestrator {
       loginUser,
       filterCountries,
       filterCities,
-      createAddress
+      createAddress,
+      createNaturalPerson,
+      filterNaturalPeople
     } = methods;
 
     this.methodExecutor
@@ -173,6 +166,14 @@ class Orchestrator {
       .register({
         path: ORCHESTRATOR_METHOD_CREATE_ADDRESS,
         method: createAddress({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_FILTER_NATURAL_PEOPLE,
+        method: filterNaturalPeople({ services })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_CREATE_NATURAL_PERSON,
+        method: createNaturalPerson({ services })
       });
 
     this.initialized = true;

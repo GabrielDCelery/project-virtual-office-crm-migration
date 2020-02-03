@@ -192,7 +192,7 @@ const AddContractView = ({
                     <FormControl style={{ width: '100%' }}>
                       <TextField
                         fullWidth={true}
-                        id="client-signatory-first-name"
+                        id="client-signatory-last-name"
                         label={UstartCase(t('last name'))}
                         onChange={event => {
                           actionSetFieldAddNewContract({

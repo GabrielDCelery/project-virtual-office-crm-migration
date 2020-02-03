@@ -1,3 +1,4 @@
 module.exports = {
-  RecordPreparator: require('./RecordPreparator')
+  RecordPreparator: require('./RecordPreparator'),
+  RecordFlattener: require('./RecordFlattener')
 };

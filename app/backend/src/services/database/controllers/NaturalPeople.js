@@ -1,7 +1,8 @@
 const HistoryRecordChanges = require('./HistoryRecordChanges');
 
 class NaturalPeople {
-  constructor({ models, nodeModules, recordPreparator }) {
+  constructor({ helpers, models, nodeModules, recordPreparator }) {
+    this.helpers = helpers;
     this.models = models;
     this.nodeModules = nodeModules;
     this.recordPreparator = recordPreparator;
@@ -79,9 +80,32 @@ class NaturalPeople {
 
   async getLatestVersionsOfAllRecords({ transaction }) {
     const { prepareDbRecordForReturn } = this.recordPreparator;
-    const records = await this.models.NaturalPeople.query(transaction);
+    const { RecordFlattener } = this.helpers;
+    const records = await this.models.NaturalPeople.query(transaction)
+      .select(
+        'id',
+        'first_name',
+        'last_name',
+        'mother_name',
+        'birth_date',
+        'created_at',
+        'updated_at'
+      )
+      .eager('permanent_address.city.country');
 
-    return records.map(prepareDbRecordForReturn);
+    return records.map(record => {
+      const flattenedPermanentAddress = RecordFlattener.createInstance().flatten(
+        {
+          type: RecordFlattener.RECORD_TYPE.ADDRESS,
+          record: record.permanent_address
+        }
+      );
+
+      return prepareDbRecordForReturn({
+        ...record,
+        permanent_address: prepareDbRecordForReturn(flattenedPermanentAddress)
+      });
+    });
   }
 
   async getAllVersionsOfSingleRecord({ id, transaction }) {

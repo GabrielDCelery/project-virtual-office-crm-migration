@@ -379,10 +379,6 @@ exports.up = async knex => {
     table.string('mother_name');
     table.date('birth_date');
     table
-      .integer('identifier_document_id')
-      .references('id')
-      .inTable(Documents.tableName);
-    table
       .integer('permanent_address_id')
       .references('id')
       .inTable(Addresses.tableName);

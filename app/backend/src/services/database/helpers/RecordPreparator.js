@@ -11,6 +11,10 @@ class RecordPreparator {
     this.prepareRecordForUpdate = this.prepareRecordForUpdate.bind(this);
   }
 
+  static createInstance() {
+    return new RecordPreparator();
+  }
+
   setJsonSchema(jsonSchema) {
     this.jsonSchema = jsonSchema;
 
@@ -58,6 +62,10 @@ class RecordPreparator {
   }
 
   prepareDbRecordForReturn(dbRecord) {
+    if (!dbRecord) {
+      return null;
+    }
+
     const _ = this.nodeModules.lodash;
     const final = {};
 

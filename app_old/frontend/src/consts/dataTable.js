@@ -1,2 +1,0 @@
-export const FIELD_TYPE_STRING = 'FIELD_TYPE_STRING';
-export const FIELD_TYPE_DATE = 'FIELD_TYPE_DATE';

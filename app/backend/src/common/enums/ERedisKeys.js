@@ -1,0 +1,5 @@
+module.exports = [
+  'REDIS_KEY_ADDRESSES',
+  'REDIS_KEY_COUNTRIES',
+  'REDIS_KEY_CITIES'
+];

@@ -1,1 +1,0 @@
-export const STATIC_RBAC_RULE_CLIENTS_QUICK_SEARCH_PAGE_VISIT = 'clients-quick-search-page:visit';

@@ -71,6 +71,7 @@ module.exports = {
         verror
       }
     });
+    /*
     await services.get(SERVICE_NAME_CLOUD).start({
       environmentVariables: {
         SERVICE_CLOUD_S3_ACCESS_KEY_ID,
@@ -83,6 +84,7 @@ module.exports = {
         verror
       }
     });
+    */
 
     return services;
   },

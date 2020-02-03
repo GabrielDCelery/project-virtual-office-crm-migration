@@ -10,9 +10,7 @@ const { Filterer } = globalRequire('common/utils');
 
 module.exports = ({ services }) => {
   const filterAddressRecords = ({ filterTerm, limit, records }) => {
-    const filterer = Filterer.createInstance();
-
-    return filterer.filterObjects({
+    return Filterer.createInstance().filterObjects({
       filterTerm,
       filterBys: [
         'cityName',

@@ -9,7 +9,7 @@ const {
 const services = {
   [SERVICE_NAME_AUTHENTICATION]: require('./authentication'),
   [SERVICE_NAME_DATABASE]: require('./database'),
-  [SERVICE_NAME_CLOUD]: require('./cloud'),
+  //[SERVICE_NAME_CLOUD]: require('./cloud'),
   [SERVICE_NAME_REDIS]: require('./redis')
 };
 

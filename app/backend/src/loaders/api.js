@@ -3,89 +3,42 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 //const cors = require('cors');
 const config = globalRequire('config');
-const routerFactory = globalRequire('api/routerFactory');
-const { ERouter } = globalRequire('common/enums');
-const {
-  ROUTER_ADDRESSES,
-  ROUTER_CITIES,
-  ROUTER_COUNTRIES,
-  ROUTER_USERS
-} = ERouter;
+const APIFactory = globalRequire('api');
+const { ERoute, EOrchestratorMethod } = globalRequire('common/enums');
+const { CStatusCode } = globalRequire('common/constants');
 
 module.exports = {
   start: async ({ middlewares, orchestrator }) => {
     const app = express();
-
     app.use(bodyParser.json());
     app.use(cookieParser());
     //app.use(cors());
 
-    app.use(
-      config.get('api.routerPathPrefix.addresses'),
-      routerFactory.createRouter({
-        routerClassName: ROUTER_ADDRESSES,
-        middlewares,
-        orchestrator
+    APIFactory.createSingleton({
+      CStatusCode,
+      EOrchestratorMethod,
+      ERoute,
+      Router: express.Router,
+      app,
+      middlewares,
+      orchestrator
+    })
+      .createRouter({
+        path: config.get('api.routerPathPrefix.addresses'),
+        routeName: ERoute.ROUTE_ADDRESSES
       })
-    );
-    app.use(
-      config.get('api.routerPathPrefix.cities'),
-      routerFactory.createRouter({
-        routerClassName: ROUTER_CITIES,
-        middlewares,
-        orchestrator
+      .createRouter({
+        path: config.get('api.routerPathPrefix.cities'),
+        routeName: ERoute.ROUTE_CITIES
       })
-    );
-    app.use(
-      config.get('api.routerPathPrefix.countries'),
-      routerFactory.createRouter({
-        routerClassName: ROUTER_COUNTRIES,
-        middlewares,
-        orchestrator
+      .createRouter({
+        path: config.get('api.routerPathPrefix.countries'),
+        routeName: ERoute.ROUTE_COUNTRIES
       })
-    );
-    /*
-    app.use(
-      config.api.routerPathPrefix.cities,
-      cities({ Router, helpers, orchestrator })
-    );
-    app.use(
-      config.api.routerPathPrefix.countries,
-      countries({ Router, helpers, orchestrator })
-    );
-    app.use(
-      config.api.routerPathPrefix.legalEntities,
-      legalEntities({ Router, helpers, orchestrator })
-    );
-    app.use(
-      config.api.routerPathPrefix.mails,
-      mails({ Router, helpers, middlewares, orchestrator })
-    );
-    app.use(
-      config.api.routerPathPrefix.mailSenders,
-      mailSenders({ Router, helpers, orchestrator })
-    );
-    app.use(
-      config.api.routerPathPrefix.mailSenderNames,
-      mailSenderNames({ Router, helpers, orchestrator })
-    );
-    app.use(
-      config.api.routerPathPrefix.mailSubjects,
-      mailSubjects({ Router, helpers, orchestrator })
-    );
-    app.use(
-      config.api.routerPathPrefix.mailsPendingActions,
-      mailsPendingActions({ Router, helpers, orchestrator })
-    );
-    */
-    app.use(
-      config.get('api.routerPathPrefix.users'),
-      routerFactory.createRouter({
-        routerClassName: ROUTER_USERS,
-        middlewares,
-        orchestrator
-      })
-    );
+      .createRouter({
+        path: config.get('api.routerPathPrefix.users'),
+        routeName: ERoute.ROUTE_USERS
+      });
 
     // Path for performing health check on the service
     app.get('/health', (req, res) => {

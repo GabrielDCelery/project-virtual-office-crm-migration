@@ -10,7 +10,6 @@ const {
 class Redis {
   constructor() {
     this.client = null;
-    this.helpers = null;
     this.methodExecutor = new MethodExecutor();
     this.flushRedis = this.flushRedis.bind(this);
     this.start = this.start.bind(this);
@@ -85,12 +84,10 @@ class Redis {
     });
   }
 
-  async start({ environmentVariables, helpers }) {
+  async start({ environmentVariables }) {
     if (this.initialized) {
       throw new Error('Tried to initialize the redis connection twice!');
     }
-
-    this.helpers = helpers;
 
     this.methodExecutor
       .register({

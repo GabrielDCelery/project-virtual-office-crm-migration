@@ -1,3 +1,0 @@
---recursive
---file ./test/global.setup.js
---file ./test/global.teardown.js

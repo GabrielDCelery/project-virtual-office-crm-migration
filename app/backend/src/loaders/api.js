@@ -24,19 +24,19 @@ module.exports = {
       orchestrator
     })
       .createRouter({
-        path: config.get('api.routerPathPrefix.addresses'),
+        path: config.get('api.addresses'),
         routeName: ERoute.ROUTE_ADDRESSES
       })
       .createRouter({
-        path: config.get('api.routerPathPrefix.cities'),
+        path: config.get('api.cities'),
         routeName: ERoute.ROUTE_CITIES
       })
       .createRouter({
-        path: config.get('api.routerPathPrefix.countries'),
+        path: config.get('api.countries'),
         routeName: ERoute.ROUTE_COUNTRIES
       })
       .createRouter({
-        path: config.get('api.routerPathPrefix.users'),
+        path: config.get('api.users'),
         routeName: ERoute.ROUTE_USERS
       });
 

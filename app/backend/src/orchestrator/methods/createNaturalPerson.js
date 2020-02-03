@@ -1,9 +1,7 @@
-const {
-  SERVICE_NAME_DATABASE,
-  SERVICE_METHOD_CREATE_NATURAL_PERSON
-} = globalRequire('common/enums');
+module.exports = ({ EServiceMethod, EServiceName, services }) => {
+  const { SERVICE_NAME_DATABASE } = EServiceName;
+  const { SERVICE_METHOD_CREATE_NATURAL_PERSON } = EServiceMethod;
 
-module.exports = ({ services }) => {
   return async ({
     firstName,
     lastName,

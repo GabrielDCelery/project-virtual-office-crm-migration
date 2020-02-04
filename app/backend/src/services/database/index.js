@@ -1,6 +1,6 @@
 const controllers = require('./controllers');
 const models = require('./models');
-const { RecordPreparator, RecordFlattener } = require('./helpers');
+const dbUtils = require('./utils');
 
 class DB {
   constructor() {
@@ -45,7 +45,7 @@ class DB {
     };
   }
 
-  async start({ EServiceMethod, config, nodeModules, utils }) {
+  async start({ CErrorMessage, EServiceMethod, config, nodeModules, utils }) {
     if (this.initialized) {
       throw new Error('Tried to initialize the database twice!');
     }
@@ -67,100 +67,14 @@ class DB {
     this.knex = Knex(config.get(['database', config.get('nodeEnv')]));
     Model.knex(this.knex);
 
-    const {
-      Addresses,
-      Cities,
-      Countries,
-      Documents,
-      DocumentsCloud,
-      DocumentsTemporary,
-      LegalEntities,
-      MailsAuditTrails,
-      MailsPendingActions,
-      MailSenderNames,
-      MailSenders,
-      MailSubjects,
-      Mails,
-      NaturalPeople,
-      Users
-    } = controllers;
+    const { Addresses, Cities, Countries, NaturalPeople, Users } = controllers;
 
     this.controllers = {
-      addresses: new Addresses({
-        helpers: { RecordFlattener, RecordPreparator },
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      cities: new Cities({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      countries: new Countries({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      documents: new Documents({
-        models,
-        nodeModules
-      }),
-      documentsCloud: new DocumentsCloud({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      documentsTemporary: new DocumentsTemporary({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      legalEntities: new LegalEntities({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      mails: new Mails({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      mailSenders: new MailSenders({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      mailSenderNames: new MailSenderNames({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      mailSubjects: new MailSubjects({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      mailsAuditTrails: new MailsAuditTrails({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      mailsPendingActions: new MailsPendingActions({
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      naturalPeople: new NaturalPeople({
-        helpers: { RecordFlattener },
-        models,
-        nodeModules,
-        recordPreparator: new RecordPreparator({ nodeModules })
-      }),
-      users: new Users({
-        models,
-        nodeModules
-      })
+      addresses: new Addresses({ dbUtils, models }),
+      cities: new Cities({ dbUtils, models }),
+      countries: new Countries({ dbUtils, models }),
+      naturalPeople: new NaturalPeople({ dbUtils, models }),
+      users: new Users({ CErrorMessage, dbUtils, models })
     };
 
     this.methodExecutor = utils.MethodExecutor.createInstance()

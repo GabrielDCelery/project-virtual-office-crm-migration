@@ -22,6 +22,7 @@ const {
 module.exports = {
   start: async ({ config }) => {
     await services.get(SERVICE_NAME_DATABASE).start({
+      CErrorMessage,
       EServiceMethod,
       config,
       nodeModules: {

@@ -1,27 +1,18 @@
 class Cities {
-  constructor({ models, nodeModules, recordPreparator }) {
+  constructor({ dbUtils, models }) {
+    this.dbUtils = dbUtils;
     this.models = models;
-    this.nodeModules = nodeModules;
-    this.recordPreparator = recordPreparator;
-    this.findAll = this.findAll.bind(this);
-  }
-
-  static flattenRecord(record) {
-    return {
-      id: record.id,
-      name: record.name,
-      country_id: record.country_id,
-      country_name: record.country.name,
-      country_short_name: record.country.short_name
-    };
   }
 
   async findAll({ transaction }) {
-    const cities = await this.models.Cities.query(transaction).eager('country');
+    const { prepareDbRecordForReturn } = this.dbUtils.record.preparator;
+    const { flattenCity } = this.dbUtils.record.flattener;
+    const records = await this.models.Cities.query(transaction).eager(
+      'country'
+    );
 
-    return cities.map(dbRecord => {
-      const flattenedDbRecord = Cities.flattenRecord(dbRecord);
-      return this.recordPreparator.prepareDbRecordForReturn(flattenedDbRecord);
+    return records.map(record => {
+      return prepareDbRecordForReturn(flattenCity(record));
     });
   }
 }

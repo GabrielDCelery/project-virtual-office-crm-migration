@@ -1,16 +1,15 @@
 class Countries {
-  constructor({ models, nodeModules, recordPreparator }) {
+  constructor({ dbUtils, models }) {
+    this.dbUtils = dbUtils;
     this.models = models;
-    this.nodeModules = nodeModules;
-    this.recordPreparator = recordPreparator;
-    this.findAll = this.findAll.bind(this);
   }
 
   async findAll({ transaction }) {
-    const countries = await this.models.Countries.query(transaction);
+    const { prepareDbRecordForReturn } = this.dbUtils.record.preparator;
+    const records = await this.models.Countries.query(transaction);
 
-    return countries.map(dbRecord => {
-      return this.recordPreparator.prepareDbRecordForReturn(dbRecord);
+    return records.map(record => {
+      return prepareDbRecordForReturn(record);
     });
   }
 }

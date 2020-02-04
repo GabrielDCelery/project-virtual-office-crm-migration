@@ -1,7 +1,7 @@
+const _ = require('lodash');
+
 class RecordPreparator {
-  constructor({ nodeModules }) {
-    this.jsonSchema = null;
-    this.nodeModules = nodeModules;
+  constructor() {
     this.flattenDbRecord = this.flattenDbRecord.bind(this);
     this.flattenEagerLoadedDbRecords = this.flattenEagerLoadedDbRecords.bind(
       this
@@ -15,15 +15,7 @@ class RecordPreparator {
     return new RecordPreparator();
   }
 
-  setJsonSchema(jsonSchema) {
-    this.jsonSchema = jsonSchema;
-
-    return this;
-  }
-
   flattenDbRecord({ dbRecord, fieldsMap }) {
-    const _ = this.nodeModules.lodash;
-
     const flatRecord = {};
 
     _.forEach(fieldsMap, (pathToValue, key) => {
@@ -44,7 +36,6 @@ class RecordPreparator {
     eagerLoadedRecordsPath,
     keyForEagerLoadedRecord
   }) {
-    const _ = this.nodeModules.lodash;
     const eagerLoadedRecords = _.get(dbRecord, eagerLoadedRecordsPath);
 
     if (eagerLoadedRecords === undefined) {
@@ -66,7 +57,6 @@ class RecordPreparator {
       return null;
     }
 
-    const _ = this.nodeModules.lodash;
     const final = {};
 
     _.forEach(dbRecord, (value, key) => {
@@ -77,7 +67,6 @@ class RecordPreparator {
   }
 
   prepareRecordForDbInsert(recordToPrepare) {
-    const _ = this.nodeModules.lodash;
     const final = {};
 
     _.forEach(recordToPrepare, (value, key) => {
@@ -88,8 +77,6 @@ class RecordPreparator {
   }
 
   prepareRecordForUpdate(recordToPrepare) {
-    const _ = this.nodeModules.lodash;
-
     const final = {};
 
     _.forEach(recordToPrepare, (value, key) => {

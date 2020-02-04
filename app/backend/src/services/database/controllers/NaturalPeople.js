@@ -1,11 +1,9 @@
 const HistoryRecordChanges = require('./HistoryRecordChanges');
 
 class NaturalPeople {
-  constructor({ helpers, models, nodeModules, recordPreparator }) {
-    this.helpers = helpers;
+  constructor({ dbUtils, models }) {
+    this.dbUtils = dbUtils;
     this.models = models;
-    this.nodeModules = nodeModules;
-    this.recordPreparator = recordPreparator;
     this.create = this.create.bind(this);
     this.update = this.update.bind(this);
     this.getLatestVersionsOfAllRecords = this.getLatestVersionsOfAllRecords.bind(
@@ -31,20 +29,22 @@ class NaturalPeople {
     const {
       prepareRecordForDbInsert,
       prepareDbRecordForReturn
-    } = this.recordPreparator;
+    } = this.dbUtils.record.preparator;
 
-    return prepareDbRecordForReturn(
-      await this.models.NaturalPeople.query(transaction).insert(
-        prepareRecordForDbInsert({
-          firstName,
-          lastName,
-          motherName,
-          birthDate,
-          identifierDocumentId,
-          permanentAddressId
-        })
-      )
+    const recordToInsert = prepareRecordForDbInsert({
+      firstName,
+      lastName,
+      motherName,
+      birthDate,
+      identifierDocumentId,
+      permanentAddressId
+    });
+
+    const record = await this.models.NaturalPeople.query(transaction).insert(
+      recordToInsert
     );
+
+    return prepareDbRecordForReturn(record);
   }
 
   async update({ id, transaction, ...inputs }) {
@@ -52,7 +52,7 @@ class NaturalPeople {
       prepareDbRecordForReturn,
       prepareRecordForUpdate,
       prepareRecordForDbInsert
-    } = this.recordPreparator;
+    } = this.dbUtils.record.preparator;
 
     const oldRecord = await this.models.NaturalPeople.query(
       transaction
@@ -79,7 +79,7 @@ class NaturalPeople {
   }
 
   async getLatestVersionsOfAllRecordsForQuickSearch({ transaction }) {
-    const { prepareDbRecordForReturn } = this.recordPreparator;
+    const { prepareDbRecordForReturn } = this.dbUtils.record.preparator;
     const records = await this.models.NaturalPeople.query(transaction).select(
       'id',
       'first_name',
@@ -93,7 +93,7 @@ class NaturalPeople {
   }
 
   async getLatestVersionsOfAllRecords({ transaction }) {
-    const { prepareDbRecordForReturn } = this.recordPreparator;
+    const { prepareDbRecordForReturn } = this.dbUtils.record.preparator;
     const { RecordFlattener } = this.helpers;
     const records = await this.models.NaturalPeople.query(transaction)
       .select(
@@ -123,7 +123,7 @@ class NaturalPeople {
   }
 
   async getAllVersionsOfSingleRecord({ id, transaction }) {
-    const { prepareDbRecordForReturn } = this.recordPreparator;
+    const { prepareDbRecordForReturn } = this.dbUtils.record.preparator;
     const record = await this.models.NaturalPeople.query(transaction).findById(
       id
     );
@@ -141,7 +141,7 @@ class NaturalPeople {
   }
 
   async getAllVersionsOfAllRecords({ transaction }) {
-    const { prepareDbRecordForReturn } = this.recordPreparator;
+    const { prepareDbRecordForReturn } = this.dbUtils.record.preparator;
     const records = await this.models.NaturalPeople.query(transaction);
 
     const changes = await this.models.HistoryRecordChanges.query(

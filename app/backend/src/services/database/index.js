@@ -12,7 +12,7 @@ const {
   SERVICE_METHOD_GET_ALL_CITIES,
   SERVICE_METHOD_GET_ALL_COUNTRIES,
   SERVICE_METHOD_CREATE_ADDRESS,
-  SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE,
+  SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH,
   SERVICE_METHOD_CREATE_NATURAL_PERSON
 } = globalRequire('common/enums');
 
@@ -180,10 +180,10 @@ class DB {
         method: this._wrapController('addresses', 'create')
       })
       .register({
-        path: SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE,
+        path: SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH,
         method: this._wrapController(
           'naturalPeople',
-          'getLatestVersionsOfAllRecords'
+          'getLatestVersionsOfAllRecordsForQuickSearch'
         )
       });
   }

@@ -78,6 +78,20 @@ class NaturalPeople {
     );
   }
 
+  async getLatestVersionsOfAllRecordsForQuickSearch({ transaction }) {
+    const { prepareDbRecordForReturn } = this.recordPreparator;
+    const records = await this.models.NaturalPeople.query(transaction).select(
+      'id',
+      'first_name',
+      'last_name',
+      'mother_name'
+    );
+
+    return records.map(record => {
+      return prepareDbRecordForReturn(record);
+    });
+  }
+
   async getLatestVersionsOfAllRecords({ transaction }) {
     const { prepareDbRecordForReturn } = this.recordPreparator;
     const { RecordFlattener } = this.helpers;

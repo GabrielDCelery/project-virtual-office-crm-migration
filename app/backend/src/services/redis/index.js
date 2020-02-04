@@ -47,7 +47,7 @@ class Redis {
   }
 
   async _setAsync(key, value) {
-    const result = this.client.setAsync(key, JSON.stringify(value));
+    const result = await this.client.setAsync(key, JSON.stringify(value));
 
     if (result !== 'OK') {
       throw new Error(`Failed to save Redis key ${key}`);

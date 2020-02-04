@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const services = globalRequire('services');
 const {
   SERVICE_NAME_DATABASE,
-  SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE
+  SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH
 } = globalRequire('common/enums');
 
 module.exports = () => {
@@ -30,7 +30,9 @@ module.exports = () => {
       // When
       const { result, transaction } = await services
         .get(SERVICE_NAME_DATABASE)
-        .execute({ method: SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE });
+        .execute({
+          method: SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH
+        });
 
       // Then
       expect(result).to.deep.equal([

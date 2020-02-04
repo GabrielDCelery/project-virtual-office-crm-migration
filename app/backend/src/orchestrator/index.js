@@ -110,6 +110,7 @@ class Orchestrator {
         method: methods.filterNaturalPeople({
           EServiceMethod,
           EServiceName,
+          ERedisKeys,
           services,
           utils
         })

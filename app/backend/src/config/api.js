@@ -4,11 +4,12 @@ module.exports = () => {
     cities: '/api/cities',
     countries: '/api/countries',
     legalEntities: '/api/legalEntities',
-    mails: '/api/mails',
-    mailSenders: '/api/mailSenders',
     mailSenderNames: '/api/mailSenderNames',
+    mailSenders: '/api/mailSenders',
     mailSubjects: '/api/mailSubjects',
+    mails: '/api/mails',
     mailsPendingActions: '/api/mailsPendingActions',
+    naturalPeople: '/api/naturalPeople',
     users: '/api/users'
   };
 };

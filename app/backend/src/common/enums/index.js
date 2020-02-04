@@ -8,12 +8,12 @@ const ERedisKeys = require('./ERedisKeys');
 const createEnums = enums => {
   const enumsObj = {};
 
-  enums.forEach((e, index) => {
+  enums.forEach((e /*, index*/) => {
     if (enumsObj[e]) {
       throw new Error(`Enum already declared ${e}`);
     }
 
-    enumsObj[e] = index;
+    enumsObj[e] = e;
   });
 
   return enumsObj;

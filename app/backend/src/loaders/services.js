@@ -1,6 +1,5 @@
 const AWS = require('aws-sdk');
 const Knex = require('knex');
-const helpers = globalRequire('helpers');
 const jsonwebtoken = require('jsonwebtoken');
 const lodash = require('lodash');
 const objection = require('objection');
@@ -32,7 +31,6 @@ module.exports = {
         uuidv4,
         verror
       },
-      helpers: helpers,
       utils: {
         MethodExecutor
       }
@@ -68,7 +66,6 @@ module.exports = {
         ENV_SERVICE_CLOUD_S3_SECRET_ACCESS_KEY,
         ENV_SERVICE_CLOUD_S3_ENDPOINT
       },
-      helpers: helpers,
       nodeModules: {
         AWS,
         verror

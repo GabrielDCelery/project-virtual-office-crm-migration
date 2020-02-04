@@ -45,7 +45,7 @@ class DB {
     };
   }
 
-  async start({ EServiceMethod, config, nodeModules, utils, helpers }) {
+  async start({ EServiceMethod, config, nodeModules, utils }) {
     if (this.initialized) {
       throw new Error('Tried to initialize the database twice!');
     }
@@ -221,7 +221,6 @@ class DB {
         })
       });
 
-    this.helpers = helpers;
     this.initialized = true;
   }
 

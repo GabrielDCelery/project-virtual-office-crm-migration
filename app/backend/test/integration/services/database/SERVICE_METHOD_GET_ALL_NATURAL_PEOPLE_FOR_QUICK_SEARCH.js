@@ -7,7 +7,7 @@ const {
 } = globalRequire('common/enums');
 
 module.exports = () => {
-  describe('getAllVersionsOfAllRecords', () => {
+  describe('SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH', () => {
     let clock = null;
     beforeEach(async () => {
       await services

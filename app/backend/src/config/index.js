@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const api = require('./api');
 const authentication = require('./authentication');
+const database = require('./database');
 const host = require('./host');
 const redis = require('./redis');
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -42,10 +43,27 @@ class Config {
       ENV_SERVICE_REDIS_HOST,
       ENV_SERVICE_JWT_SECRET,
       ENV_SERVICE_JWT_EXPIRY_IN_SECONDS,
-      ENV_BACKEND_APP_PORT
+      ENV_BACKEND_APP_PORT,
+      ENV_SERVICE_DB_CLIENT,
+      ENV_SERVICE_DB_USER,
+      ENV_SERVICE_DB_HOST,
+      ENV_SERVICE_DB_PASSWORD,
+      ENV_SERVICE_DB_DATABASE,
+      ENV_SERVICE_DB_CHARSET,
+      ENV_SERVICE_DB_PORT
     } = processEnv;
 
     this.nodeEnv = NODE_ENV;
+
+    this.database = database({
+      ENV_SERVICE_DB_CLIENT,
+      ENV_SERVICE_DB_USER,
+      ENV_SERVICE_DB_HOST,
+      ENV_SERVICE_DB_PASSWORD,
+      ENV_SERVICE_DB_DATABASE,
+      ENV_SERVICE_DB_CHARSET,
+      ENV_SERVICE_DB_PORT
+    });
 
     this.host = host({
       ENV_BACKEND_APP_PORT

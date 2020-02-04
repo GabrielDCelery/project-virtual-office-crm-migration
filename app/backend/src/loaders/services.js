@@ -1,15 +1,17 @@
-const services = globalRequire('services');
+const AWS = require('aws-sdk');
+const Knex = require('knex');
 const helpers = globalRequire('helpers');
 const jsonwebtoken = require('jsonwebtoken');
 const lodash = require('lodash');
+const objection = require('objection');
 const redis = require('redis');
-const { promisify } = require('util');
-const AWS = require('aws-sdk');
+const services = globalRequire('services');
 const uuidv4 = require('uuid/v4');
 const verror = require('verror');
-const { MethodExecutor } = globalRequire('common/utils');
-const { EServiceMethod } = globalRequire('common/enums');
 const { CErrorController, CErrorMessage } = globalRequire('common/constants');
+const { EServiceMethod } = globalRequire('common/enums');
+const { MethodExecutor } = globalRequire('common/utils');
+const { promisify } = require('util');
 
 const {
   SERVICE_NAME_AUTHENTICATION,
@@ -18,39 +20,22 @@ const {
   SERVICE_NAME_REDIS
 } = globalRequire('common/enums');
 
-const {
-  NODE_ENV,
-  ENV_SERVICE_DB_CLIENT,
-  ENV_SERVICE_DB_USER,
-  ENV_SERVICE_DB_HOST,
-  ENV_SERVICE_DB_PASSWORD,
-  ENV_SERVICE_DB_DATABASE,
-  ENV_SERVICE_DB_CHARSET,
-  ENV_SERVICE_DB_PORT,
-  ENV_SERVICE_CLOUD_S3_ACCESS_KEY_ID,
-  ENV_SERVICE_CLOUD_S3_SECRET_ACCESS_KEY,
-  ENV_SERVICE_CLOUD_S3_ENDPOINT
-} = process.env;
-
 module.exports = {
   start: async ({ config }) => {
     await services.get(SERVICE_NAME_DATABASE).start({
-      environmentVariables: {
-        NODE_ENV,
-        ENV_SERVICE_DB_CLIENT,
-        ENV_SERVICE_DB_USER,
-        ENV_SERVICE_DB_HOST,
-        ENV_SERVICE_DB_PASSWORD,
-        ENV_SERVICE_DB_DATABASE,
-        ENV_SERVICE_DB_CHARSET,
-        ENV_SERVICE_DB_PORT
-      },
+      EServiceMethod,
+      config,
       nodeModules: {
+        Knex,
+        objection,
         lodash,
         uuidv4,
         verror
       },
-      helpers: helpers
+      helpers: helpers,
+      utils: {
+        MethodExecutor
+      }
     });
     await services.get(SERVICE_NAME_REDIS).start({
       EServiceMethod,

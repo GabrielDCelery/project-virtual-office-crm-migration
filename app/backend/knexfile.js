@@ -1,26 +1,5 @@
-const config = require('./src/services/database/config');
+const Config = require('./src/config');
+const config = Config.createSingleton();
+config.init(process.env);
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-const {
-  NODE_ENV,
-  ENV_BACKEND_APP_PORT,
-  ENV_SERVICE_DB_CLIENT,
-  ENV_SERVICE_DB_USER,
-  ENV_SERVICE_DB_HOST,
-  ENV_SERVICE_DB_PASSWORD,
-  ENV_SERVICE_DB_DATABASE,
-  ENV_SERVICE_DB_CHARSET,
-  ENV_SERVICE_DB_PORT
-} = process.env;
-
-module.exports = config({
-  NODE_ENV,
-  ENV_BACKEND_APP_PORT,
-  ENV_SERVICE_DB_CLIENT,
-  ENV_SERVICE_DB_USER,
-  ENV_SERVICE_DB_HOST,
-  ENV_SERVICE_DB_PASSWORD,
-  ENV_SERVICE_DB_DATABASE,
-  ENV_SERVICE_DB_CHARSET,
-  ENV_SERVICE_DB_PORT
-})['connection'];
+module.exports = config.get(['database', config.get('nodeEnv')]);

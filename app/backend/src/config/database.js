@@ -21,10 +21,16 @@ module.exports = ({
         port: ENV_SERVICE_DB_PORT
       },
       migrations: {
-        directory: path.join(__dirname, '../migrations/development')
+        directory: path.join(
+          __dirname,
+          '../services/database/migrations/development'
+        )
       },
       seeds: {
-        directory: path.join(__dirname, '../seeds/development')
+        directory: path.join(
+          __dirname,
+          '../services/database/seeds/development'
+        )
       }
     },
     development: {
@@ -38,10 +44,16 @@ module.exports = ({
         port: ENV_SERVICE_DB_PORT
       },
       migrations: {
-        directory: path.join(__dirname, '../migrations/development')
+        directory: path.join(
+          __dirname,
+          '../services/database/migrations/development'
+        )
       },
       seeds: {
-        directory: path.join(__dirname, '../seeds/development')
+        directory: path.join(
+          __dirname,
+          '../services/database/seeds/development'
+        )
       }
     },
     staging: {
@@ -74,7 +86,10 @@ module.exports = ({
         max: 10
       },
       migrations: {
-        directory: path.join(__dirname, '../migrations/production')
+        directory: path.join(
+          __dirname,
+          '../services/database/migrations/production'
+        )
       }
     }
   };

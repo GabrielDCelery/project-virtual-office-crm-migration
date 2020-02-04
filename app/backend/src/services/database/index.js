@@ -1,26 +1,12 @@
-const Knex = require('knex');
-const config = require('./config');
 const controllers = require('./controllers');
 const models = require('./models');
-const { Model, transaction } = require('objection');
-const { MethodExecutor } = globalRequire('common/utils');
 const { RecordPreparator, RecordFlattener } = require('./helpers');
-const {
-  SERVICE_METHOD_GET_ALL_ADDRESSES,
-  SERVICE_METHOD_GET_USER_RULES,
-  SERVICE_METHOD_LOGIN_USER,
-  SERVICE_METHOD_GET_ALL_CITIES,
-  SERVICE_METHOD_GET_ALL_COUNTRIES,
-  SERVICE_METHOD_CREATE_ADDRESS,
-  SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH,
-  SERVICE_METHOD_CREATE_NATURAL_PERSON
-} = globalRequire('common/enums');
 
 class DB {
   constructor() {
     this.knex = null;
     this.initialized = false;
-    this.methodExecutor = new MethodExecutor();
+    this.methodExecutor = null;
     this._wrapController = this._wrapController.bind(this);
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
@@ -28,7 +14,9 @@ class DB {
     this.execute = this.execute.bind(this);
   }
 
-  _wrapController(controller, method) {
+  _wrapController({ controller, method, objection }) {
+    const { Model, transaction } = objection;
+
     return async parameters => {
       const trx = parameters['transaction']
         ? parameters['transaction']
@@ -57,7 +45,28 @@ class DB {
     };
   }
 
-  initialize({ nodeModules }) {
+  async start({ EServiceMethod, config, nodeModules, utils, helpers }) {
+    if (this.initialized) {
+      throw new Error('Tried to initialize the database twice!');
+    }
+
+    const {
+      SERVICE_METHOD_GET_ALL_ADDRESSES,
+      SERVICE_METHOD_GET_USER_RULES,
+      SERVICE_METHOD_LOGIN_USER,
+      SERVICE_METHOD_GET_ALL_CITIES,
+      SERVICE_METHOD_GET_ALL_COUNTRIES,
+      SERVICE_METHOD_CREATE_ADDRESS,
+      SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH,
+      SERVICE_METHOD_CREATE_NATURAL_PERSON
+    } = EServiceMethod;
+
+    const { Knex, objection } = nodeModules;
+    const { Model } = objection;
+
+    this.knex = Knex(config.get(['database', config.get('nodeEnv')]));
+    Model.knex(this.knex);
+
     const {
       Addresses,
       Cities,
@@ -154,52 +163,64 @@ class DB {
       })
     };
 
-    this.methodExecutor
+    this.methodExecutor = utils.MethodExecutor.createInstance()
       .register({
         path: SERVICE_METHOD_GET_ALL_ADDRESSES,
-        method: this._wrapController('addresses', 'findAll')
+        method: this._wrapController({
+          objection,
+          controller: 'addresses',
+          method: 'findAll'
+        })
       })
       .register({
         path: SERVICE_METHOD_LOGIN_USER,
-        method: this._wrapController('users', 'login')
+        method: this._wrapController({
+          objection,
+          controller: 'users',
+          method: 'login'
+        })
       })
       .register({
         path: SERVICE_METHOD_GET_USER_RULES,
-        method: this._wrapController('users', 'getRules')
+        method: this._wrapController({
+          objection,
+          controller: 'users',
+          method: 'getRules'
+        })
       })
       .register({
         path: SERVICE_METHOD_GET_ALL_CITIES,
-        method: this._wrapController('cities', 'findAll')
+        method: this._wrapController({
+          objection,
+          controller: 'cities',
+          method: 'findAll'
+        })
       })
       .register({
         path: SERVICE_METHOD_GET_ALL_COUNTRIES,
-        method: this._wrapController('countries', 'findAll')
+        method: this._wrapController({
+          objection,
+          controller: 'countries',
+          method: 'findAll'
+        })
       })
       .register({
         path: SERVICE_METHOD_CREATE_ADDRESS,
-        method: this._wrapController('addresses', 'create')
+        method: this._wrapController({
+          objection,
+          controller: 'addresses',
+          method: 'create'
+        })
       })
       .register({
         path: SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH,
-        method: this._wrapController(
-          'naturalPeople',
-          'getLatestVersionsOfAllRecordsForQuickSearch'
-        )
+        method: this._wrapController({
+          objection,
+          controller: 'naturalPeople',
+          method: 'getLatestVersionsOfAllRecordsForQuickSearch'
+        })
       });
-  }
 
-  async start({ environmentVariables, nodeModules, helpers }) {
-    if (this.initialized) {
-      throw new Error('Tried to initialize the database twice!');
-    }
-
-    const initializedConfig = config(environmentVariables);
-    const { NODE_ENV } = environmentVariables;
-    this.knex = Knex(initializedConfig['connection'][NODE_ENV]);
-    Model.knex(this.knex);
-    this.initialize({
-      nodeModules
-    });
     this.helpers = helpers;
     this.initialized = true;
   }

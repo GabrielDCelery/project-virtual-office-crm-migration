@@ -11,9 +11,26 @@ class EntityNames {
   }
 
   async create({ name, transaction }) {
+    const {
+      removeExtraWhiteSpaces,
+      startCaseWords
+    } = this.dbUtils.data.normalizer;
+
+    const normalizedName = startCaseWords(removeExtraWhiteSpaces(name));
+
+    const existingRecord = await this.models.EntityNames.query(
+      transaction
+    ).findOne({
+      name: normalizedName
+    });
+
+    if (existingRecord) {
+      return existingRecord;
+    }
+
     const record = await this.models.EntityNames.query(
       transaction
-    ).insertAndFetch({ name });
+    ).insertAndFetch({ name: normalizedName });
 
     return record;
   }

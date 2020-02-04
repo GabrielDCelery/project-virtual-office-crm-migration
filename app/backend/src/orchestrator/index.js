@@ -32,13 +32,24 @@ class Orchestrator {
       ORCHESTRATOR_METHOD_CREATE_ADDRESS,
       ORCHESTRATOR_METHOD_FILTER_NATURAL_PEOPLE,
       ORCHESTRATOR_METHOD_CREATE_NATURAL_PERSON,
-      ORCHESTRATOR_METHOD_FILTER_ENTITY_NAMES
+      ORCHESTRATOR_METHOD_FILTER_ENTITY_NAMES,
+      ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME
     } = EOrchestratorMethod;
 
     this.methodExecutor = utils.MethodExecutor.createInstance()
       .register({
         path: ORCHESTRATOR_METHOD_FILTER_ENTITY_NAMES,
         method: methods.filterEntityNames({
+          services,
+          EServiceMethod,
+          EServiceName,
+          ERedisKeys,
+          utils
+        })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME,
+        method: methods.createEntityName({
           services,
           EServiceMethod,
           EServiceName,

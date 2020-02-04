@@ -59,7 +59,8 @@ class DB {
       SERVICE_METHOD_CREATE_ADDRESS,
       SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH,
       SERVICE_METHOD_CREATE_NATURAL_PERSON,
-      SERVICE_METHOD_GET_ALL_ENTITY_NAMES
+      SERVICE_METHOD_GET_ALL_ENTITY_NAMES,
+      SERVICE_METHOD_CREATE_ENTITY_NAME
     } = EServiceMethod;
 
     const { Knex, objection } = nodeModules;
@@ -93,6 +94,14 @@ class DB {
           objection,
           controller: 'entityNames',
           method: 'findAll'
+        })
+      })
+      .register({
+        path: SERVICE_METHOD_CREATE_ENTITY_NAME,
+        method: this._wrapController({
+          objection,
+          controller: 'entityNames',
+          method: 'create'
         })
       })
       .register({

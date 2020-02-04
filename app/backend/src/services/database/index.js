@@ -58,7 +58,8 @@ class DB {
       SERVICE_METHOD_GET_ALL_COUNTRIES,
       SERVICE_METHOD_CREATE_ADDRESS,
       SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH,
-      SERVICE_METHOD_CREATE_NATURAL_PERSON
+      SERVICE_METHOD_CREATE_NATURAL_PERSON,
+      SERVICE_METHOD_GET_ALL_ENTITY_NAMES
     } = EServiceMethod;
 
     const { Knex, objection } = nodeModules;
@@ -67,23 +68,47 @@ class DB {
     this.knex = Knex(config.get(['database', config.get('nodeEnv')]));
     Model.knex(this.knex);
 
-    const { Addresses, Cities, Countries, NaturalPeople, Users } = controllers;
+    const {
+      Addresses,
+      Cities,
+      Countries,
+      EntityNames,
+      NaturalPeople,
+      Users
+    } = controllers;
 
     this.controllers = {
       addresses: new Addresses({ dbUtils, models }),
       cities: new Cities({ dbUtils, models }),
       countries: new Countries({ dbUtils, models }),
+      entityNames: new EntityNames({ dbUtils, models }),
       naturalPeople: new NaturalPeople({ dbUtils, models }),
       users: new Users({ CErrorMessage, dbUtils, models })
     };
 
     this.methodExecutor = utils.MethodExecutor.createInstance()
       .register({
+        path: SERVICE_METHOD_GET_ALL_ENTITY_NAMES,
+        method: this._wrapController({
+          objection,
+          controller: 'entityNames',
+          method: 'findAll'
+        })
+      })
+      .register({
         path: SERVICE_METHOD_GET_ALL_ADDRESSES,
         method: this._wrapController({
           objection,
           controller: 'addresses',
           method: 'findAll'
+        })
+      })
+      .register({
+        path: SERVICE_METHOD_CREATE_ADDRESS,
+        method: this._wrapController({
+          objection,
+          controller: 'addresses',
+          method: 'create'
         })
       })
       .register({
@@ -116,14 +141,6 @@ class DB {
           objection,
           controller: 'countries',
           method: 'findAll'
-        })
-      })
-      .register({
-        path: SERVICE_METHOD_CREATE_ADDRESS,
-        method: this._wrapController({
-          objection,
-          controller: 'addresses',
-          method: 'create'
         })
       })
       .register({

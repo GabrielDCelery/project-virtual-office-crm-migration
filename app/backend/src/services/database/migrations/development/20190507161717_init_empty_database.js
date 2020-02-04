@@ -21,10 +21,17 @@ const {
   NaturalPeople,
   Phones,
   Services,
-  Users
+  Users,
+  EntityNames
 } = require('../../models');
 
 exports.up = async knex => {
+  await knex.schema.createTable(EntityNames.tableName, table => {
+    table.increments('id').primary();
+    table.string('name').notNullable();
+    table.unique('name');
+  });
+
   await knex.schema.createTable(HistoryRecordChanges.tableName, table => {
     table.increments('id').primary();
     table
@@ -598,4 +605,5 @@ exports.down = async knex => {
   await knex.schema.dropTableIfExists(Invoices.tableName);
   await knex.schema.dropTableIfExists(HistoryManyToManyChanges.tableName);
   await knex.schema.dropTableIfExists(HistoryRecordChanges.tableName);
+  await knex.schema.dropTableIfExists(EntityNames.tableName);
 };

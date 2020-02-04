@@ -22,6 +22,7 @@ class APIFactory {
       [ERoute.ROUTE_ADDRESSES]: require('./routes/addresses'),
       [ERoute.ROUTE_CITIES]: require('./routes/cities'),
       [ERoute.ROUTE_COUNTRIES]: require('./routes/countries'),
+      [ERoute.ROUTE_ENTITY_NAMES]: require('./routes/entityNames'),
       [ERoute.ROUTE_NATURAL_PEOPLE]: require('./routes/naturalPeople'),
       [ERoute.ROUTE_USERS]: require('./routes/users')
     };

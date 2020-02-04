@@ -9,6 +9,7 @@ const {
   DocumentsCloud,
   DocumentsTemporary,
   Emails,
+  EntityNames,
   HistoryManyToManyChanges,
   HistoryRecordChanges,
   Invoices,
@@ -55,4 +56,5 @@ exports.seed = async knex => {
   await knex(Invoices.tableName).del();
   await knex(HistoryManyToManyChanges.tableName).del();
   await knex(HistoryRecordChanges.tableName).del();
+  await knex(EntityNames.tableName).del();
 };

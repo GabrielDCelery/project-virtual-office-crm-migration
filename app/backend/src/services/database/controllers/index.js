@@ -5,13 +5,14 @@ module.exports = {
   Documents: require('./Documents'),
   DocumentsCloud: require('./DocumentsCloud'),
   DocumentsTemporary: require('./DocumentsTemporary'),
+  EntityNames: require('./EntityNames'),
   LegalEntities: require('./LegalEntities'),
-  MailsAuditTrails: require('./MailsAuditTrails'),
-  MailsPendingActions: require('./MailsPendingActions'),
   MailSenderNames: require('./MailSenderNames'),
   MailSenders: require('./MailSenders'),
   MailSubjects: require('./MailSubjects'),
   Mails: require('./Mails'),
+  MailsAuditTrails: require('./MailsAuditTrails'),
+  MailsPendingActions: require('./MailsPendingActions'),
   NaturalPeople: require('./NaturalPeople'),
   Users: require('./Users')
 };

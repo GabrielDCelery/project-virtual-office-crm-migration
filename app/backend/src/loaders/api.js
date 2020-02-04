@@ -35,6 +35,10 @@ module.exports = {
         routeName: ERoute.ROUTE_COUNTRIES
       })
       .createRouter({
+        path: config.get('api.entityNames'),
+        routeName: ERoute.ROUTE_ENTITY_NAMES
+      })
+      .createRouter({
         path: config.get('api.naturalPeople'),
         routeName: ERoute.ROUTE_NATURAL_PEOPLE
       })

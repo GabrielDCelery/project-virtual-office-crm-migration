@@ -5,13 +5,15 @@ class RecordFlattener {
   }
 
   flattenCity(record) {
-    return {
-      id: record.id,
-      name: record.name,
-      country_id: record.country_id,
-      country_name: record.country.name,
-      country_short_name: record.country.short_name
-    };
+    return record
+      ? {
+          id: record.id,
+          name: record.name,
+          country_id: record.country_id,
+          country_name: record.country.name,
+          country_short_name: record.country.short_name
+        }
+      : null;
   }
 
   flattenAddress(record) {

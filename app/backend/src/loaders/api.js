@@ -3,11 +3,13 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 //const cors = require('cors');
 const APIFactory = globalRequire('api');
-const { ERoute, EOrchestratorMethod } = globalRequire('common/enums');
+const { EMiddlewareMethod, ERoute, EOrchestratorMethod } = globalRequire(
+  'common/enums'
+);
 const { CStatusCode } = globalRequire('common/constants');
 
 module.exports = {
-  start: async ({ config, middlewares, orchestrator }) => {
+  start: async ({ config, logger, middlewares, orchestrator }) => {
     const app = express();
     app.use(bodyParser.json());
     app.use(cookieParser());
@@ -15,10 +17,12 @@ module.exports = {
 
     APIFactory.createSingleton({
       CStatusCode,
+      EMiddlewareMethod,
       EOrchestratorMethod,
       ERoute,
       Router: express.Router,
       app,
+      logger,
       middlewares,
       orchestrator
     })

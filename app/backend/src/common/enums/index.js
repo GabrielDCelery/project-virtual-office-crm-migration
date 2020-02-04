@@ -1,9 +1,10 @@
 const EConfigAuthentication = require('./EConfigAuthentication');
+const EMiddlewareMethod = require('./EMiddlewareMethod');
 const EOrchestratorMethod = require('./EOrchestratorMethod');
+const ERedisKeys = require('./ERedisKeys');
 const ERoute = require('./ERoute');
 const EServiceMethod = require('./EServiceMethod');
 const EServiceName = require('./EServiceName');
-const ERedisKeys = require('./ERedisKeys');
 
 const createEnums = enums => {
   const enumsObj = {};
@@ -20,16 +21,18 @@ const createEnums = enums => {
 };
 
 module.exports = {
-  EConfigAuthentication: createEnums(EConfigAuthentication),
-  EOrchestratorMethod: createEnums(EOrchestratorMethod),
-  ERoute: createEnums(ERoute),
-  EServiceMethod: createEnums(EServiceMethod),
   EServiceName: createEnums(EServiceName),
+  EServiceMethod: createEnums(EServiceMethod),
+  ERoute: createEnums(ERoute),
   ERedisKeys: createEnums(ERedisKeys),
-  ...createEnums(EConfigAuthentication),
-  ...createEnums(EOrchestratorMethod),
-  ...createEnums(ERoute),
-  ...createEnums(EServiceMethod),
+  EOrchestratorMethod: createEnums(EOrchestratorMethod),
+  EMiddlewareMethod: createEnums(EMiddlewareMethod),
+  EConfigAuthentication: createEnums(EConfigAuthentication),
   ...createEnums(EServiceName),
-  ...createEnums(ERedisKeys)
+  ...createEnums(EServiceMethod),
+  ...createEnums(ERoute),
+  ...createEnums(ERedisKeys),
+  ...createEnums(EOrchestratorMethod),
+  ...createEnums(EMiddlewareMethod),
+  ...createEnums(EConfigAuthentication)
 };

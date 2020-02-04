@@ -1,6 +1,7 @@
 module.exports = ({
   CStatusCode,
   EOrchestratorMethod,
+  logger,
   orchestrator,
   router
 }) => {
@@ -20,6 +21,7 @@ module.exports = ({
 
       return res.status(STATUS_CODE_OK).json(addresses);
     } catch (error) {
+      await logger.handleError({ error });
       return res.status(STATUS_CODE_INTERNAL_SERVER_ERROR).send(error.message);
     }
   });
@@ -34,6 +36,7 @@ module.exports = ({
 
       return res.status(STATUS_CODE_OK).json(addresses);
     } catch (error) {
+      await logger.handleError({ error });
       return res.status(STATUS_CODE_INTERNAL_SERVER_ERROR).send(error.message);
     }
   });

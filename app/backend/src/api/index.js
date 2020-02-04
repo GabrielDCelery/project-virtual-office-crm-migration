@@ -3,10 +3,12 @@ let singleton = null;
 class APIFactory {
   constructor({
     CStatusCode,
+    EMiddlewareMethod,
     EOrchestratorMethod,
     ERoute,
     Router,
     app,
+    logger,
     middlewares,
     orchestrator
   }) {
@@ -14,7 +16,9 @@ class APIFactory {
     this.Router = Router;
     this.routeDependencies = {
       CStatusCode,
+      EMiddlewareMethod,
       EOrchestratorMethod,
+      logger,
       middlewares,
       orchestrator
     };

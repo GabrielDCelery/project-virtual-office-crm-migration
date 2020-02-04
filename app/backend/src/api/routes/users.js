@@ -1,6 +1,7 @@
 module.exports = ({
   CStatusCode,
   EOrchestratorMethod,
+  logger,
   orchestrator,
   router
 }) => {
@@ -21,8 +22,8 @@ module.exports = ({
 
       res
         .cookie(COOKIE_SESSION_ID, token, {
-          httpOnly: true,
-          secure: true
+          httpOnly: true
+          //secure: true
         })
         .status(STATUS_CODE_OK)
         .json({
@@ -30,6 +31,7 @@ module.exports = ({
           rules
         });
     } catch (error) {
+      await logger.handleError({ error });
       return res.status(STATUS_CODE_UNAUTHORIZED).send(error.message);
     }
   });
@@ -54,6 +56,7 @@ module.exports = ({
         rules
       });
     } catch (error) {
+      await logger.handleError({ error });
       return res.status(STATUS_CODE_UNAUTHORIZED).send(error.message);
     }
   });

@@ -7,6 +7,7 @@ exports.seed = async knex => {
   ).insert([
     {
       contract_id: 1,
+      name_id: 1,
       email_id: 1
     }
   ]);

@@ -12,7 +12,7 @@ module.exports = {
     const logger = await loggerLoader.start({ config });
     const services = await servicesLoader.start({ config });
     const orchestrator = await orchestratorLoader.start({ services });
-    const middlewares = await middlewaresLoader.start({ orchestrator });
+    const middlewares = await middlewaresLoader.start({ config, orchestrator });
     const app = await apiLoader.start({
       config,
       logger,

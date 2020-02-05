@@ -5,6 +5,13 @@ class NaturalPeople extends Model {
     return 'natural_people';
   }
 
+  static get IDENTIFIER_DOCUMENT_TYPES() {
+    return {
+      IDENTITY_CARD: 'identity card',
+      PASSPORT: 'passport'
+    };
+  }
+
   static get jsonSchema() {
     return {
       type: 'object',
@@ -24,6 +31,16 @@ class NaturalPeople extends Model {
         },
         birth_date: {
           type: 'date'
+        },
+        identifier_document_type: {
+          type: 'string',
+          enum: [
+            NaturalPeople.IDENTIFIER_DOCUMENT_TYPES.IDENTITY_CARD,
+            NaturalPeople.IDENTIFIER_DOCUMENT_TYPES.PASSPORT
+          ]
+        },
+        identifier_document_number: {
+          type: 'string'
         },
         permanent_address_id: {
           type: 'id'

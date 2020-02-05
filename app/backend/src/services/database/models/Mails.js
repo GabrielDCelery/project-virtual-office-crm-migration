@@ -30,7 +30,6 @@ class Mails extends Model {
   }
 
   static get relationMappings() {
-    const Contacts = require('./Contacts');
     const Documents = require('./Documents');
     const LegalEntities = require('./LegalEntities');
     const MailSubjects = require('./MailSubjects');
@@ -43,14 +42,6 @@ class Mails extends Model {
         join: {
           from: `${Mails.tableName}.legal_entity_id`,
           to: `${LegalEntities.tableName}.id`
-        }
-      },
-      sender: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Contacts,
-        join: {
-          from: `${Mails.tableName}.sender_id`,
-          to: `${Contacts.tableName}.id`
         }
       },
       subject: {

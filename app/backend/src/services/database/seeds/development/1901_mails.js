@@ -5,7 +5,8 @@ exports.seed = async knex => {
     {
       id: 1,
       legal_entity_id: 1,
-      sender_id: 4,
+      sender_name_id: 7,
+      sender_address_id: 5,
       subject_id: 2,
       document_id: 2
     }

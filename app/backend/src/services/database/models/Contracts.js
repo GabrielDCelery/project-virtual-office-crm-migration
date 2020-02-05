@@ -17,6 +17,15 @@ class Contracts extends Model {
     };
   }
 
+  static get RENEWAL_PERIODS() {
+    return {
+      MONTHLY: 'monthly',
+      QUARTERLY: 'quarterly',
+      SEMI_ANNUALLY: 'semi-annually',
+      ANNUALLY: 'annually'
+    };
+  }
+
   static get jsonSchema() {
     return {
       type: 'object',
@@ -45,6 +54,18 @@ class Contracts extends Model {
           type: 'string',
           enum: [Contracts.TYPES.MANAGER]
         },
+        renewal_fee_monthly: {
+          type: 'integer'
+        },
+        renewal_period: {
+          type: 'string',
+          enum: [
+            Contracts.RENEWAL_PERIODS.MONTHLY,
+            Contracts.RENEWAL_PERIODS.QUARTERLY,
+            Contracts.RENEWAL_PERIODS.SEMI_ANNUALLY,
+            Contracts.RENEWAL_PERIODS.ANNUALLY
+          ]
+        },
         start_at: {
           type: 'date'
         },
@@ -60,7 +81,6 @@ class Contracts extends Model {
   }
 
   static get relationMappings() {
-    const Contacts = require('./Contacts');
     const Emails = require('./Emails');
     const Invoices = require('./Invoices');
     const Phones = require('./Phones');
@@ -101,30 +121,6 @@ class Contracts extends Model {
             to: `${Contracts.tableName}_contact_${Phones.tableName}.phone_id`
           },
           to: `${Phones.tableName}.id`
-        }
-      },
-      mail_receivers: {
-        relation: Model.ManyToManyRelation,
-        modelClass: Contacts,
-        join: {
-          from: `${Contracts.tableName}.id`,
-          through: {
-            from: `${Contracts.tableName}_mail_receivers.contract_id`,
-            to: `${Contracts.tableName}_mail_receivers.mail_receiver_id`
-          },
-          to: `${Contacts.tableName}.id`
-        }
-      },
-      document_keepers: {
-        relation: Model.ManyToManyRelation,
-        modelClass: Contacts,
-        join: {
-          from: `${Contracts.tableName}.id`,
-          through: {
-            from: `${Contracts.tableName}_document_keepers.contract_id`,
-            to: `${Contracts.tableName}_document_keepers.document_keeper_id`
-          },
-          to: `${Contacts.tableName}.id`
         }
       },
       invoices: {

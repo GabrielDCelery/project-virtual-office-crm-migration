@@ -1,8 +1,6 @@
 const {
   Addresses,
   Cities,
-  ContactNames,
-  Contacts,
   Contracts,
   Countries,
   Documents,
@@ -233,40 +231,6 @@ exports.up = async knex => {
     table.unique(['postcode', 'city_id', 'long_street']);
   });
 
-  await knex.schema.createTable(ContactNames.tableName, table => {
-    table.increments('id').primary();
-    table.string('name').notNullable();
-    table.unique(['name']);
-  });
-
-  await knex.schema.createTable(Contacts.tableName, table => {
-    table.increments('id').primary();
-    table
-      .integer('address_id')
-      .references('id')
-      .inTable(Addresses.tableName)
-      .notNullable();
-    table
-      .integer('name_id')
-      .references('id')
-      .inTable(ContactNames.tableName)
-      .notNullable();
-    table
-      .boolean('is_mail_sender')
-      .defaultTo(false)
-      .index();
-    table
-      .boolean('is_mail_receiver')
-      .defaultTo(false)
-      .index();
-    table
-      .boolean('is_document_keeper')
-      .defaultTo(false)
-      .index();
-    table.unique(['address_id', 'name_id']);
-    table.timestamps();
-  });
-
   await knex.schema.createTable(MailSubjects.tableName, table => {
     table.increments('id').primary();
     table.string('long_subject').notNullable();
@@ -302,9 +266,14 @@ exports.up = async knex => {
       .notNullable()
       .index();
     table
-      .integer('sender_id')
+      .integer('sender_name_id')
       .references('id')
-      .inTable(Contacts.tableName)
+      .inTable(EntityNames.tableName)
+      .notNullable();
+    table
+      .integer('sender_address_id')
+      .references('id')
+      .inTable(Addresses.tableName)
       .notNullable();
     table
       .integer('subject_id')
@@ -386,9 +355,17 @@ exports.up = async knex => {
     table.string('mother_name');
     table.date('birth_date');
     table
+      .enum('identifier_document_type', [
+        NaturalPeople.IDENTIFIER_DOCUMENT_TYPES.IDENTITY_CARD,
+        NaturalPeople.IDENTIFIER_DOCUMENT_TYPES.PASSPORT
+      ])
+      .notNullable();
+    table.string('identifier_document_number').notNullable();
+    table
       .integer('permanent_address_id')
       .references('id')
-      .inTable(Addresses.tableName);
+      .inTable(Addresses.tableName)
+      .notNullable();
     table.timestamps();
   });
 
@@ -422,6 +399,15 @@ exports.up = async knex => {
         Contracts.SIGNATORY_TYPES.MANAGER
       ])
       .notNullable();
+    table.integer('renewal_fee_monthly').notNullable();
+    table
+      .enum('renewal_period', [
+        Contracts.RENEWAL_PERIODS.MONTHLY,
+        Contracts.RENEWAL_PERIODS.QUARTERLY,
+        Contracts.RENEWAL_PERIODS.SEMI_ANNUALLY,
+        Contracts.RENEWAL_PERIODS.ANNUALLY
+      ])
+      .notNullable();
     table.date('start_at');
     table.date('end_at');
     table.enum('status', [Contracts.STATUSES.ACTIVE]).notNullable();
@@ -435,6 +421,12 @@ exports.up = async knex => {
         .integer('contract_id')
         .references('id')
         .inTable(Contracts.tableName)
+        .notNullable()
+        .index();
+      table
+        .integer('name_id')
+        .references('id')
+        .inTable(EntityNames.tableName)
         .notNullable()
         .index();
       table
@@ -457,6 +449,12 @@ exports.up = async knex => {
         .notNullable()
         .index();
       table
+        .integer('name_id')
+        .references('id')
+        .inTable(EntityNames.tableName)
+        .notNullable()
+        .index();
+      table
         .integer('email_id')
         .references('id')
         .inTable(Emails.tableName)
@@ -473,6 +471,12 @@ exports.up = async knex => {
         .integer('contract_id')
         .references('id')
         .inTable(Contracts.tableName)
+        .notNullable()
+        .index();
+      table
+        .integer('name_id')
+        .references('id')
+        .inTable(EntityNames.tableName)
         .notNullable()
         .index();
       table
@@ -602,8 +606,6 @@ exports.down = async knex => {
   await knex.schema.dropTableIfExists(Mails.tableName);
   await knex.schema.dropTableIfExists(LegalEntities.tableName);
   await knex.schema.dropTableIfExists(MailSubjects.tableName);
-  await knex.schema.dropTableIfExists(Contacts.tableName);
-  await knex.schema.dropTableIfExists(ContactNames.tableName);
   await knex.schema.dropTableIfExists(Addresses.tableName);
   await knex.schema.dropTableIfExists(Users.tableName);
   await knex.schema.dropTableIfExists(DocumentsTemporary.tableName);

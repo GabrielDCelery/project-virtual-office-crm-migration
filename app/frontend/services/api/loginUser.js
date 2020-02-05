@@ -5,8 +5,7 @@ export const loginUser = async ({ email, password }) => {
     method: 'POST',
     url: `/api/users/login`,
     responseType: 'json',
-    data: { email, password },
-    withCredentials: true
+    data: { email, password }
   });
 
   const { data } = res;

@@ -7,11 +7,12 @@ const { CSession } = globalRequire('common/constants');
 const multer = require('multer');
 
 module.exports = {
-  start: async ({ orchestrator }) => {
+  start: async ({ config, orchestrator }) => {
     await middlewares.start({
       CSession,
       EMiddlewareMethod,
       EOrchestratorMethod,
+      config,
       orchestrator,
       utils,
       nodeModules: { multer }

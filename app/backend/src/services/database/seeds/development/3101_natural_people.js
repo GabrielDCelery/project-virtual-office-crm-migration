@@ -8,6 +8,9 @@ exports.seed = async knex => {
       last_name: 'Celery',
       mother_name: 'Ildiko Zeller',
       birth_date: new Date('1983-11-08'),
+      identifier_document_type:
+        NaturalPeople.IDENTIFIER_DOCUMENT_TYPES.IDENTITY_CARD,
+      identifier_document_number: 'EN06JHH',
       permanent_address_id: 1,
       created_at: new Date('2019-08-01T11:11:11'),
       updated_at: new Date('2019-08-01T11:11:11')
@@ -18,7 +21,10 @@ exports.seed = async knex => {
       last_name: 'Jefferson',
       mother_name: 'Jane Randolph Jefferson',
       birth_date: new Date('1743-04-13'),
-      permanent_address_id: null,
+      identifier_document_type:
+        NaturalPeople.IDENTIFIER_DOCUMENT_TYPES.PASSPORT,
+      identifier_document_number: 'ABCD',
+      permanent_address_id: 2,
       created_at: new Date('2018-06-03T11:11:11'),
       updated_at: new Date('2019-08-01T11:11:11')
     },
@@ -28,6 +34,9 @@ exports.seed = async knex => {
       last_name: 'Zeller',
       mother_name: 'Viszlovszki Ildikó',
       birth_date: new Date('1956-10-20'),
+      identifier_document_type:
+        NaturalPeople.IDENTIFIER_DOCUMENT_TYPES.PASSPORT,
+      identifier_document_number: 'EFGH',
       permanent_address_id: 3,
       created_at: new Date('2017-06-03T11:11:11'),
       updated_at: new Date('2017-06-03T11:11:11')

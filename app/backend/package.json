@@ -53,7 +53,7 @@
     "db-migrate-seed": "knex seed:run",
     "dev": "npm run db-migrate-rollback && npm run db-migrate-latest && npm run db-migrate-seed && nodemon ./app.js",
     "pretest": "NODE_ENV=test npm run db-migrate-rollback && NODE_ENV=test npm run db-migrate-latest && NODE_ENV=test npm run db-migrate-seed",
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha"
   },
   "author": "",
   "license": "ISC"

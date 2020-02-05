@@ -33,7 +33,7 @@ const AddContractView = ({
       <Box position="relative" flexGrow={1}>
         <Box position="relative" width="100%">
           <Box height="2em" />
-          <UILeftAlignedContainer maxWidth="xl">
+          <UILeftAlignedContainer maxWidth="md">
             <UIAppBar position="static" background="primary">
               <Toolbar>
                 <Typography component="h3">
@@ -45,7 +45,7 @@ const AddContractView = ({
             <Box height="1em" />
 
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <UIFormStepAppBar label={t('client details')} />
 
                 <Box height="1em" />
@@ -149,7 +149,7 @@ const AddContractView = ({
                   </Box>
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <ContainerFormAddress
                   label={t('client address')}
                   defaultAddress={stateFormAddNewContract.clientAddress}
@@ -164,7 +164,7 @@ const AddContractView = ({
             </Grid>
 
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <UIFormStepAppBar label={t('client signatory')} />
 
                 <Box height="1em" />
@@ -209,11 +209,11 @@ const AddContractView = ({
                   </Box>
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={6}></Grid>
+              <Grid item xs={12}></Grid>
             </Grid>
 
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <UIFormStepAppBar label={t('service provider')} />
 
                 <Box height="1em" />
@@ -233,7 +233,7 @@ const AddContractView = ({
                   </Box>
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <UIFormStepAppBar label={t('services')} />
 
                 <Box height="1em" />
@@ -260,7 +260,7 @@ const AddContractView = ({
             </Grid>
 
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <UIFormStepAppBar label={t('contract')} />
 
                 <Box height="1em" />
@@ -307,7 +307,7 @@ const AddContractView = ({
                   </Box>
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={6}></Grid>
+              <Grid item xs={12}></Grid>
             </Grid>
           </UILeftAlignedContainer>
         </Box>

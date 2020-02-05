@@ -45,7 +45,7 @@ module.exports = () => {
 
     it('returns a cookie in the header containing a JWT token for authenticated user', async () => {
       //Setup
-      const REGEXP_COOKIE = /PVOCRM_SESSION_ID=[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+\/=]*;\sPath=\/;\sHttpOnly;\sSecure/;
+      const REGEXP_COOKIE = /PVOCRM_SESSION_ID=[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+\/=]*/;
 
       // Given
       const { ENV_BACKEND_APP_PORT } = process.env;
@@ -61,9 +61,9 @@ module.exports = () => {
       // Then
       expect(headers.hasOwnProperty('set-cookie')).to.equal(true);
       expect(Array.isArray(headers['set-cookie'])).to.equal(true);
-      expect(new RegExp(REGEXP_COOKIE).test(headers['set-cookie'][0])).to.equal(
-        true
-      );
+      expect(
+        new RegExp(REGEXP_COOKIE).test(headers['set-cookie'][0].split(';')[0])
+      ).to.equal(true);
     });
   });
 };

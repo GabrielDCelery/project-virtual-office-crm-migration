@@ -13,6 +13,7 @@ class Middlewares {
     CSession,
     EMiddlewareMethod,
     EOrchestratorMethod,
+    config,
     orchestrator,
     utils,
     nodeModules
@@ -28,6 +29,7 @@ class Middlewares {
       method: methods.createAuthenticatorRules({
         CSession,
         EOrchestratorMethod,
+        config,
         orchestrator
       })
     });

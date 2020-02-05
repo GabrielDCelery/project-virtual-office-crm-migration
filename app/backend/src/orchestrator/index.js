@@ -21,7 +21,7 @@ class Orchestrator {
     }
 
     const {
-      ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE,
+      ORCHESTRATOR_METHOD_VERIFY_USER_BY_JWT,
       ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES,
       ORCHESTRATOR_METHOD_LOGIN_USER,
       ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES,
@@ -58,9 +58,10 @@ class Orchestrator {
         })
       })
       .register({
-        path: ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE,
+        path: ORCHESTRATOR_METHOD_VERIFY_USER_BY_JWT,
         method: methods.authenticateUserByCookie({
           services,
+          ERedisKeys,
           EServiceMethod,
           EServiceName
         })

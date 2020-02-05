@@ -4,11 +4,13 @@ exports.seed = async knex => {
   await knex(`${Contracts.tableName}_mail_receivers`).insert([
     {
       contract_id: 1,
-      mail_receiver_id: 7
+      name_id: 7,
+      address_id: 3
     },
     {
       contract_id: 2,
-      mail_receiver_id: 6
+      name_id: 6,
+      address_id: 1
     }
   ]);
 };

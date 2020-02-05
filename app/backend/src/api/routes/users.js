@@ -1,4 +1,5 @@
 module.exports = ({
+  CSession,
   CStatusCode,
   EOrchestratorMethod,
   logger,
@@ -8,9 +9,9 @@ module.exports = ({
   const { STATUS_CODE_OK, STATUS_CODE_UNAUTHORIZED } = CStatusCode;
   const {
     ORCHESTRATOR_METHOD_LOGIN_USER,
-    ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE
+    ORCHESTRATOR_METHOD_VERIFY_USER_BY_JWT
   } = EOrchestratorMethod;
-  const COOKIE_SESSION_ID = 'PVOCRM_SESSION_ID';
+  const { SESSION_COOKIE_ID } = CSession;
 
   router.post('/login', async (req, res) => {
     try {
@@ -21,7 +22,7 @@ module.exports = ({
       });
 
       res
-        .cookie(COOKIE_SESSION_ID, token, {
+        .cookie(SESSION_COOKIE_ID, token, {
           httpOnly: true
           //secure: true
         })
@@ -38,16 +39,16 @@ module.exports = ({
 
   router.post('/logout', async (req, res) => {
     return res
-      .clearCookie(COOKIE_SESSION_ID)
+      .clearCookie(SESSION_COOKIE_ID)
       .status(STATUS_CODE_OK)
       .send('OK');
   });
 
   router.post('/authenticateByCookie', async (req, res) => {
     try {
-      const jwtToken = req.cookies[COOKIE_SESSION_ID];
+      const jwtToken = req.cookies[SESSION_COOKIE_ID];
       const { email, rules } = await orchestrator.execute({
-        method: ORCHESTRATOR_METHOD_AUTHENTICATE_USER_BY_COOKIE,
+        method: ORCHESTRATOR_METHOD_VERIFY_USER_BY_JWT,
         parameters: { jwtToken }
       });
 

@@ -13,14 +13,12 @@ module.exports = ({
     ORCHESTRATOR_METHOD_FILTER_ADDRESSES,
     ORCHESTRATOR_METHOD_CREATE_ADDRESS
   } = EOrchestratorMethod;
-  const {
-    MIDDLEWARE_METHOD_CREATE_AUTHENTICATION_RBAC_RULES
-  } = EMiddlewareMethod;
+  const { MIDDLEWARE_METHOD_AUTHENTICATE_RBAC_RULES } = EMiddlewareMethod;
 
   router.get(
     '/getAll',
     middlewares.execute({
-      method: MIDDLEWARE_METHOD_CREATE_AUTHENTICATION_RBAC_RULES,
+      method: MIDDLEWARE_METHOD_AUTHENTICATE_RBAC_RULES,
       parameters: {
         rules: ['RBAC_RULE_READ_ADDRESSES']
       }
@@ -44,7 +42,7 @@ module.exports = ({
   router.post(
     '/filter',
     middlewares.execute({
-      method: MIDDLEWARE_METHOD_CREATE_AUTHENTICATION_RBAC_RULES,
+      method: MIDDLEWARE_METHOD_AUTHENTICATE_RBAC_RULES,
       parameters: {
         rules: ['RBAC_RULE_READ_ADDRESSES']
       }
@@ -70,7 +68,7 @@ module.exports = ({
   router.post(
     '/create',
     middlewares.execute({
-      method: MIDDLEWARE_METHOD_CREATE_AUTHENTICATION_RBAC_RULES,
+      method: MIDDLEWARE_METHOD_AUTHENTICATE_RBAC_RULES,
       parameters: {
         rules: ['RBAC_RULE_WRITE_ADDRESSES']
       }

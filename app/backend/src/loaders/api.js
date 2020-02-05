@@ -6,7 +6,7 @@ const APIFactory = globalRequire('api');
 const { EMiddlewareMethod, ERoute, EOrchestratorMethod } = globalRequire(
   'common/enums'
 );
-const { CStatusCode } = globalRequire('common/constants');
+const { CSession, CStatusCode } = globalRequire('common/constants');
 
 module.exports = {
   start: async ({ config, logger, middlewares, orchestrator }) => {
@@ -16,6 +16,7 @@ module.exports = {
     //app.use(cors());
 
     APIFactory.createSingleton({
+      CSession,
       CStatusCode,
       EMiddlewareMethod,
       EOrchestratorMethod,

@@ -7,6 +7,18 @@ class Redis {
     this.execute = this.execute.bind(this);
   }
 
+  static _createKey(key) {
+    if (typeof key === 'string') {
+      return key;
+    }
+
+    if (Array.isArray(key)) {
+      return key.join('_');
+    }
+
+    throw new Error(`Invalid key ${key}`);
+  }
+
   async _startRedisClient({ config, nodeModules }) {
     const { redis, promisify } = nodeModules;
 
@@ -37,7 +49,7 @@ class Redis {
   }
 
   async _getAsync(key) {
-    const value = await this.client.getAsync(key);
+    const value = await this.client.getAsync(Redis._createKey(key));
 
     try {
       return JSON.parse(value);
@@ -47,10 +59,13 @@ class Redis {
   }
 
   async _setAsync(key, value) {
-    const result = await this.client.setAsync(key, JSON.stringify(value));
+    const result = await this.client.setAsync(
+      Redis._createKey(key),
+      JSON.stringify(value)
+    );
 
     if (result !== 'OK') {
-      throw new Error(`Failed to save Redis key ${key}`);
+      throw new Error(`Failed to save Redis key ${Redis._createKey(key)}`);
     }
 
     return null;

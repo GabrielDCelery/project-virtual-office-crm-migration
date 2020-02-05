@@ -1,14 +1,15 @@
 const {
   Addresses,
   Cities,
-  Contacts,
   ContactNames,
+  Contacts,
   Contracts,
   Countries,
   Documents,
   DocumentsCloud,
   DocumentsTemporary,
   Emails,
+  EntityNames,
   HistoryManyToManyChanges,
   HistoryRecordChanges,
   Invoices,
@@ -21,8 +22,7 @@ const {
   NaturalPeople,
   Phones,
   Services,
-  Users,
-  EntityNames
+  Users
 } = require('../../models');
 
 exports.up = async knex => {
@@ -495,12 +495,18 @@ exports.up = async knex => {
         .notNullable()
         .index();
       table
-        .integer('mail_receiver_id')
+        .integer('name_id')
         .references('id')
-        .inTable(Contacts.tableName)
+        .inTable(EntityNames.tableName)
         .notNullable()
         .index();
-      table.unique(['contract_id', 'mail_receiver_id']);
+      table
+        .integer('address_id')
+        .references('id')
+        .inTable(Addresses.tableName)
+        .notNullable()
+        .index();
+      table.unique(['contract_id', 'name_id', 'address_id']);
     }
   );
 
@@ -514,12 +520,18 @@ exports.up = async knex => {
         .notNullable()
         .index();
       table
-        .integer('document_keeper_id')
+        .integer('name_id')
         .references('id')
-        .inTable(Contacts.tableName)
+        .inTable(EntityNames.tableName)
         .notNullable()
         .index();
-      table.unique(['contract_id', 'document_keeper_id']);
+      table
+        .integer('address_id')
+        .references('id')
+        .inTable(Addresses.tableName)
+        .notNullable()
+        .index();
+      table.unique(['contract_id', 'name_id', 'address_id']);
     }
   );
 

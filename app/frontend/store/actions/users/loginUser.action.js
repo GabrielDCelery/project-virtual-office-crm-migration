@@ -11,7 +11,7 @@ export const actionLoginUser = ({ email, password }) => {
     const {
       success,
       //error,
-      payload: { rules }
+      payload
     } = await services
       .get(SERICE_NAME_API, SERVICE_METHOD_LOGIN_USER)
       .execute({ email, password });
@@ -19,6 +19,8 @@ export const actionLoginUser = ({ email, password }) => {
     if (!success) {
       return;
     }
+
+    const { rules } = payload;
 
     dispatch({ type: USER_SET_EMAIL, email });
     dispatch({ type: USER_SET_RULES, rules });

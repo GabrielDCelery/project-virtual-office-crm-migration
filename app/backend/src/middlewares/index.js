@@ -9,18 +9,27 @@ class Middlewares {
     this.execute = this.execute.bind(this);
   }
 
-  async start({ EMiddlewareMethod, orchestrator, utils, nodeModules }) {
+  async start({
+    CSession,
+    EMiddlewareMethod,
+    EOrchestratorMethod,
+    orchestrator,
+    utils,
+    nodeModules
+  }) {
     if (this.initialized) {
       throw new Error('Tried to initialize middlewares twice!');
     }
 
-    const {
-      MIDDLEWARE_METHOD_CREATE_AUTHENTICATION_RBAC_RULES
-    } = EMiddlewareMethod;
+    const { MIDDLEWARE_METHOD_AUTHENTICATE_RBAC_RULES } = EMiddlewareMethod;
 
     this.methodExecutor = utils.MethodExecutor.createInstance().register({
-      path: MIDDLEWARE_METHOD_CREATE_AUTHENTICATION_RBAC_RULES,
-      method: methods.createAuthenticatorRules({ orchestrator })
+      path: MIDDLEWARE_METHOD_AUTHENTICATE_RBAC_RULES,
+      method: methods.createAuthenticatorRules({
+        CSession,
+        EOrchestratorMethod,
+        orchestrator
+      })
     });
 
     this.initialized = true;

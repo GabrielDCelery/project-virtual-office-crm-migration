@@ -6,8 +6,6 @@ const {
   ContractsContacts,
   Countries,
   Documents,
-  DocumentsCloud,
-  DocumentsTemporary,
   Emails,
   EntityNames,
   HistoryManyToManyChanges,
@@ -38,8 +36,6 @@ exports.seed = async knex => {
   await knex(MailSubjects.tableName).del();
   await knex(Contacts.tableName).del();
   await knex(Addresses.tableName).del();
-  await knex(DocumentsTemporary.tableName).del();
-  await knex(DocumentsCloud.tableName).del();
   await knex(Documents.tableName).del();
   await knex(Emails.tableName).del();
   await knex(Phones.tableName).del();

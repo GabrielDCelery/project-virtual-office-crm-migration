@@ -12,7 +12,7 @@ class Documents {
       name,
       type
     });
-
+    /*
     await this.models.DocumentsTemporary.query(transaction).insert({
       id: this.nodeModules.uuidv4(),
       document_id: documentRecord['id'],
@@ -21,7 +21,7 @@ class Documents {
       mimetype,
       extension
     });
-
+*/
     return {
       id: documentRecord['id']
     };

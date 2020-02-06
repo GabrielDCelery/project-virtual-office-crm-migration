@@ -6,8 +6,6 @@ const {
   ContractsContacts,
   Countries,
   Documents,
-  DocumentsCloud,
-  DocumentsTemporary,
   Emails,
   EntityNames,
   HistoryManyToManyChanges,
@@ -166,40 +164,13 @@ exports.up = async knex => {
         Documents.TYPES.SPECIMEN_SIGNATURE
       ])
       .notNullable();
-    table.timestamps();
-  });
-
-  await knex.schema.createTable(DocumentsTemporary.tableName, table => {
-    table.uuid('id').primary();
-    table
-      .integer('document_id')
-      .references('id')
-      .inTable(Documents.tableName)
-      .notNullable()
-      .index();
-    table.binary('file').notNullable();
-    table
-      .enum('mimetype', [DocumentsTemporary.MIMETYPES.APPLICATION_PDF])
-      .notNullable();
-    table.enum('extension', [DocumentsTemporary.EXTENSIONS.PDF]).notNullable();
+    table.enum('mimetype', [Documents.MIMETYPES.APPLICATION_PDF]).notNullable();
+    table.enum('extension', [Documents.EXTENSIONS.PDF]).notNullable();
     table.integer('size').notNullable();
-    table.timestamps();
-  });
-
-  await knex.schema.createTable(DocumentsCloud.tableName, table => {
-    table.uuid('id').primary();
     table
-      .integer('document_id')
-      .references('id')
-      .inTable(Documents.tableName)
-      .notNullable()
-      .index();
+      .enum('storage_provider', [Documents.STORAGE_PROVIDERS.DIGITALOCEAN])
+      .notNullable();
     table.jsonb('storage_details').notNullable();
-    table
-      .enum('mimetype', [DocumentsCloud.MIMETYPES.APPLICATION_PDF])
-      .notNullable();
-    table.enum('extension', [DocumentsCloud.EXTENSIONS.PDF]).notNullable();
-    table.integer('size').notNullable();
     table.timestamps();
   });
 
@@ -525,8 +496,6 @@ exports.down = async knex => {
   await knex.schema.dropTableIfExists(Contacts.tableName);
   await knex.schema.dropTableIfExists(Addresses.tableName);
   await knex.schema.dropTableIfExists(Users.tableName);
-  await knex.schema.dropTableIfExists(DocumentsTemporary.tableName);
-  await knex.schema.dropTableIfExists(DocumentsCloud.tableName);
   await knex.schema.dropTableIfExists(Documents.tableName);
   await knex.schema.dropTableIfExists(Emails.tableName);
   await knex.schema.dropTableIfExists(Phones.tableName);

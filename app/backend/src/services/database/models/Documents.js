@@ -7,10 +7,28 @@ class Documents extends Model {
 
   static get TYPES() {
     return {
-      DEED_OF_ASSOCIATION: 'deed Of association',
+      DEED_OF_ASSOCIATION: 'deed of association',
       IDENTITY_CARD: 'identity card',
       MAIL: 'mail',
       SPECIMEN_SIGNATURE: 'specimen signature'
+    };
+  }
+
+  static get EXTENSIONS() {
+    return {
+      PDF: 'pdf'
+    };
+  }
+
+  static get MIMETYPES() {
+    return {
+      APPLICATION_PDF: 'application/pdf'
+    };
+  }
+
+  static get STORAGE_PROVIDERS() {
+    return {
+      DIGITALOCEAN: 'digitalocean'
     };
   }
 
@@ -33,6 +51,24 @@ class Documents extends Model {
             Documents.TYPES.MAIL,
             Documents.TYPES.SPECIMEN_SIGNATURE
           ]
+        },
+        extension: {
+          type: 'string',
+          enum: [Documents.EXTENSIONS.PDF]
+        },
+        mimetype: {
+          type: 'string',
+          enum: [Documents.MIMETYPES.APPLICATION_PDF]
+        },
+        size: {
+          type: 'integer'
+        },
+        storage_provider: {
+          type: 'string',
+          enum: [Documents.STORAGE_PROVIDERS.DIGITALOCEAN]
+        },
+        storage_details: {
+          type: 'json'
         }
       }
     };
@@ -40,7 +76,6 @@ class Documents extends Model {
 
   static get relationMappings() {
     const Mails = require('./Mails');
-    const DocumentsTemporary = require('./DocumentsTemporary');
 
     return {
       mail: {
@@ -49,14 +84,6 @@ class Documents extends Model {
         join: {
           from: `${Documents.tableName}.id`,
           to: `${Mails.tableName}.document_id`
-        }
-      },
-      temporary_saves: {
-        relation: Model.HasManyRelation,
-        modelClass: DocumentsTemporary,
-        join: {
-          from: `${Documents.tableName}.id`,
-          to: `${DocumentsTemporary.tableName}.document_id`
         }
       }
     };

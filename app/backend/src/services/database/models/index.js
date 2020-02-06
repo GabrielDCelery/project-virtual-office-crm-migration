@@ -6,8 +6,6 @@ module.exports = {
   ContractsContacts: require('./ContractsContacts'),
   Countries: require('./Countries'),
   Documents: require('./Documents'),
-  DocumentsCloud: require('./DocumentsCloud'),
-  DocumentsTemporary: require('./DocumentsTemporary'),
   Emails: require('./Emails'),
   EntityNames: require('./EntityNames'),
   HistoryManyToManyChanges: require('./HistoryManyToManyChanges'),

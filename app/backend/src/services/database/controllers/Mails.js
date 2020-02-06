@@ -69,7 +69,7 @@ class Mails {
     });
 
     const documentId = newDocumentDbRecord['id'];
-
+    /*
     await this.models.DocumentsTemporary.query(transaction).insert({
       id: uuidv4(),
       document_id: documentId,
@@ -78,7 +78,7 @@ class Mails {
       extension: file['originalname'].split('.')[1],
       size: file['size']
     });
-
+*/
     const mailSenderId = await this._findOrCreateSender({
       sender,
       transaction

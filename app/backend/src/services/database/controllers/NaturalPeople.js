@@ -22,7 +22,8 @@ class NaturalPeople {
     lastName,
     motherName,
     birthDate,
-    identifierDocumentId,
+    identifierDocumentType,
+    identifierDocumentNumber,
     permanentAddressId,
     transaction
   }) {
@@ -36,13 +37,14 @@ class NaturalPeople {
       lastName,
       motherName,
       birthDate,
-      identifierDocumentId,
+      identifierDocumentType,
+      identifierDocumentNumber,
       permanentAddressId
     });
 
-    const record = await this.models.NaturalPeople.query(transaction).insert(
-      recordToInsert
-    );
+    const record = await this.models.NaturalPeople.query(
+      transaction
+    ).insertAndFetch(recordToInsert);
 
     return prepareDbRecordForReturn(record);
   }

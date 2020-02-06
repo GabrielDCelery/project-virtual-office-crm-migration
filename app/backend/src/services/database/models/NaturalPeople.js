@@ -51,7 +51,6 @@ class NaturalPeople extends Model {
 
   static get relationMappings() {
     const Addresses = require('./Addresses');
-    const Documents = require('./Documents');
 
     return {
       permanent_address: {

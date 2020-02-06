@@ -33,7 +33,9 @@ module.exports = ({
         lastName,
         motherName,
         birthDate,
-        permanentAddress
+        identifierDocumentType,
+        identifierDocumentNumber,
+        permanentAddressId
       } = req.body;
       const addresses = await orchestrator.execute({
         method: ORCHESTRATOR_METHOD_CREATE_NATURAL_PERSON,
@@ -42,7 +44,9 @@ module.exports = ({
           lastName,
           motherName,
           birthDate,
-          permanentAddress
+          identifierDocumentType,
+          identifierDocumentNumber,
+          permanentAddressId
         }
       });
 

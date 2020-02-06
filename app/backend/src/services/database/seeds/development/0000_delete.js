@@ -1,7 +1,9 @@
 const {
   Addresses,
   Cities,
+  Contacts,
   Contracts,
+  ContractsContacts,
   Countries,
   Documents,
   DocumentsCloud,
@@ -32,6 +34,7 @@ exports.seed = async knex => {
     `${Contracts.tableName}_mail_notification_${Emails.tableName}`
   ).del();
   await knex(`${Contracts.tableName}_contact_${Emails.tableName}`).del();
+  await knex(ContractsContacts.tableName).del();
   await knex(Contracts.tableName).del();
   await knex(NaturalPeople.tableName).del();
   await knex(MailsPendingActions.tableName).del();
@@ -40,6 +43,7 @@ exports.seed = async knex => {
   await knex(LegalEntities.tableName).del();
   await knex(Users.tableName).del();
   await knex(MailSubjects.tableName).del();
+  await knex(Contacts.tableName).del();
   await knex(Addresses.tableName).del();
   await knex(DocumentsTemporary.tableName).del();
   await knex(DocumentsCloud.tableName).del();

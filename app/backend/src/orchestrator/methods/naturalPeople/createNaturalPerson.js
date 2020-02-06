@@ -7,7 +7,9 @@ module.exports = ({ EServiceMethod, EServiceName, services }) => {
     lastName,
     motherName,
     birthDate,
-    permanentAddress
+    identifierDocumentType,
+    identifierDocumentNumber,
+    permanentAddressId
   }) => {
     const { result } = await services.get(SERVICE_NAME_DATABASE).execute({
       method: SERVICE_METHOD_CREATE_NATURAL_PERSON,
@@ -16,7 +18,9 @@ module.exports = ({ EServiceMethod, EServiceName, services }) => {
         lastName,
         motherName,
         birthDate,
-        permanentAddress
+        identifierDocumentType,
+        identifierDocumentNumber,
+        permanentAddressId
       }
     });
 

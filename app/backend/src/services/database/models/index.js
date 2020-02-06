@@ -1,7 +1,9 @@
 module.exports = {
   Addresses: require('./Addresses'),
   Cities: require('./Cities'),
+  Contacts: require('./Contacts'),
   Contracts: require('./Contracts'),
+  ContractsContacts: require('./ContractsContacts'),
   Countries: require('./Countries'),
   Documents: require('./Documents'),
   DocumentsCloud: require('./DocumentsCloud'),

@@ -37,6 +37,7 @@ class Addresses extends Model {
   static get relationMappings() {
     const Cities = require('./Cities');
     const LegalEntities = require('./LegalEntities');
+    const NaturalPeople = require('./NaturalPeople');
 
     return {
       city: {
@@ -53,6 +54,14 @@ class Addresses extends Model {
         join: {
           from: `${Addresses.tableName}.id`,
           to: `${LegalEntities.tableName}.permanent_address_id`
+        }
+      },
+      natural_people: {
+        relation: Model.HasManyRelation,
+        modelClass: NaturalPeople,
+        join: {
+          from: `${Addresses.tableName}.id`,
+          to: `${NaturalPeople.tableName}.permanent_address_id`
         }
       }
     };

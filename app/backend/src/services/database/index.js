@@ -159,6 +159,14 @@ class DB {
           controller: 'naturalPeople',
           method: 'getLatestVersionsOfAllRecordsForQuickSearch'
         })
+      })
+      .register({
+        path: SERVICE_METHOD_CREATE_NATURAL_PERSON,
+        method: this._wrapController({
+          objection,
+          controller: 'naturalPeople',
+          method: 'create'
+        })
       });
 
     this.initialized = true;

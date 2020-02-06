@@ -4,6 +4,8 @@ export default {
   'add new': 'új hozzáadása',
   'choose existing address': 'meglévő cím választása',
   'choose existing': 'meglévő választása',
+  client: 'ügyfél',
+  contacts: 'kapcsolattartok',
   'client address': 'ügyfél címe',
   'client details': 'ügyfél részletek',
   'client signatory': 'ügyfél alairo',

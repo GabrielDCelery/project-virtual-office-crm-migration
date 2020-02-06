@@ -4,6 +4,8 @@ export default {
   'add new': 'add new',
   'choose existing address': 'choose existing address',
   'choose existing': 'choose existing',
+  client: 'client',
+  contacts: 'contacts',
   'client address': 'client address',
   'client details': 'client details',
   'client signatory': 'client signatory',

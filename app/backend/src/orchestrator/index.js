@@ -36,17 +36,26 @@ class Orchestrator {
       ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME
     } = EOrchestratorMethod;
 
-    this.methodExecutor = utils.MethodExecutor.createInstance()
-      .register({
-        path: ORCHESTRATOR_METHOD_FILTER_ENTITY_NAMES,
-        method: methods.filterEntityNames({
+    const methodInitializer = ({ path, methodName }) => {
+      return {
+        path,
+        method: methods[methodName]({
           services,
           EServiceMethod,
           EServiceName,
           ERedisKeys,
           utils
         })
-      })
+      };
+    };
+
+    this.methodExecutor = utils.MethodExecutor.createInstance()
+      .register(
+        methodInitializer({
+          path: ORCHESTRATOR_METHOD_FILTER_ENTITY_NAMES,
+          methodName: 'filterEntityNames'
+        })
+      )
       .register({
         path: ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME,
         method: methods.createEntityName({
@@ -125,7 +134,8 @@ class Orchestrator {
         method: methods.createAddress({
           services,
           EServiceMethod,
-          EServiceName
+          EServiceName,
+          ERedisKeys
         })
       })
       .register({

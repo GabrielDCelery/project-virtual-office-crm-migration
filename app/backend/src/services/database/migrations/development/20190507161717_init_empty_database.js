@@ -4,6 +4,7 @@ const {
   Contacts,
   Contracts,
   ContractsContacts,
+  ContractsServices,
   Countries,
   Documents,
   Emails,
@@ -19,7 +20,6 @@ const {
   MailsPendingActions,
   NaturalPeople,
   Phones,
-  Services,
   Users
 } = require('../../models');
 
@@ -102,12 +102,6 @@ exports.up = async knex => {
     table.date('transfer_date').notNullable();
     table.unique('number');
     table.timestamps();
-  });
-
-  await knex.schema.createTable(Services.tableName, table => {
-    table.increments('id').primary();
-    table.string('name').notNullable();
-    table.unique('name');
   });
 
   await knex.schema.createTable(Countries.tableName, table => {
@@ -438,24 +432,22 @@ exports.up = async knex => {
     table.unique(['contract_id', 'contact_id', 'activity']);
   });
 
-  await knex.schema.createTable(
-    `${Contracts.tableName}_${Services.tableName}`,
-    table => {
-      table
-        .integer('contract_id')
-        .references('id')
-        .inTable(Contracts.tableName)
-        .notNullable()
-        .index();
-      table
-        .integer('service_id')
-        .references('id')
-        .inTable(Services.tableName)
-        .notNullable()
-        .index();
-      table.unique(['contract_id', 'service_id']);
-    }
-  );
+  await knex.schema.createTable(ContractsServices.tableName, table => {
+    table
+      .integer('contract_id')
+      .references('id')
+      .inTable(Contracts.tableName)
+      .notNullable()
+      .index();
+    table
+      .enum('service', [
+        ContractsServices.SERVICE_NAMES
+          .SEND_EMAIL_NOTIFICATION_OF_RECEIVED_EMAIL,
+        ContractsServices.SERVICE_NAMES.POST_MAILS_MONTHLY
+      ])
+      .notNullable();
+    table.unique(['contract_id', 'service']);
+  });
 
   await knex.schema.createTable(
     `${Contracts.tableName}_${Invoices.tableName}`,
@@ -481,9 +473,7 @@ exports.down = async knex => {
   await knex.schema.dropTableIfExists(
     `${Contracts.tableName}_${Invoices.tableName}`
   );
-  await knex.schema.dropTableIfExists(
-    `${Contracts.tableName}_${Services.tableName}`
-  );
+  await knex.schema.dropTableIfExists(ContractsServices.tableName);
   await knex.schema.dropTableIfExists(ContractsContacts.tableName);
   await knex.schema.dropTableIfExists(Contracts.tableName);
   await knex.schema.dropTableIfExists(NaturalPeople.tableName);
@@ -501,7 +491,6 @@ exports.down = async knex => {
   await knex.schema.dropTableIfExists(Phones.tableName);
   await knex.schema.dropTableIfExists(Cities.tableName);
   await knex.schema.dropTableIfExists(Countries.tableName);
-  await knex.schema.dropTableIfExists(Services.tableName);
   await knex.schema.dropTableIfExists(Invoices.tableName);
   await knex.schema.dropTableIfExists(HistoryManyToManyChanges.tableName);
   await knex.schema.dropTableIfExists(HistoryRecordChanges.tableName);

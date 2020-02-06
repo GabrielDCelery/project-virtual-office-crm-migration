@@ -4,6 +4,7 @@ const {
   Contacts,
   Contracts,
   ContractsContacts,
+  ContractsServices,
   Countries,
   Documents,
   Emails,
@@ -18,13 +19,12 @@ const {
   MailsPendingActions,
   NaturalPeople,
   Phones,
-  Services,
   Users
 } = require('../../models');
 
 exports.seed = async knex => {
   await knex(`${Contracts.tableName}_${Invoices.tableName}`).del();
-  await knex(`${Contracts.tableName}_${Services.tableName}`).del();
+  await knex(ContractsServices.tableName).del();
   await knex(ContractsContacts.tableName).del();
   await knex(Contracts.tableName).del();
   await knex(NaturalPeople.tableName).del();
@@ -41,7 +41,6 @@ exports.seed = async knex => {
   await knex(Phones.tableName).del();
   await knex(Cities.tableName).del();
   await knex(Countries.tableName).del();
-  await knex(Services.tableName).del();
   await knex(Invoices.tableName).del();
   await knex(HistoryManyToManyChanges.tableName).del();
   await knex(HistoryRecordChanges.tableName).del();

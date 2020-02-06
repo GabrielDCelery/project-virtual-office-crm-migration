@@ -81,46 +81,25 @@ class Contracts extends Model {
   }
 
   static get relationMappings() {
-    const Emails = require('./Emails');
+    const ContractsContacts = require('./ContractsContacts');
+    const ContractsServices = require('./ContractsContacts');
     const Invoices = require('./Invoices');
-    const Phones = require('./Phones');
-    const Services = require('./Services');
 
     return {
-      contact_emails: {
-        relation: Model.ManyToManyRelation,
-        modelClass: Emails,
+      contacts: {
+        relation: Model.HasManyRelation,
+        modelClass: ContractsContacts,
         join: {
           from: `${Contracts.tableName}.id`,
-          through: {
-            from: `${Contracts.tableName}_contact_${Emails.tableName}.contract_id`,
-            to: `${Contracts.tableName}_contact_${Emails.tableName}.email_id`
-          },
-          to: `${Emails.tableName}.id`
+          to: `${ContractsContacts.tableName}.contract_id`
         }
       },
-      mail_notification_emails: {
-        relation: Model.ManyToManyRelation,
-        modelClass: Emails,
+      services: {
+        relation: Model.HasManyRelation,
+        modelClass: ContractsServices,
         join: {
           from: `${Contracts.tableName}.id`,
-          through: {
-            from: `${Contracts.tableName}_mail_notification_${Emails.tableName}.contract_id`,
-            to: `${Contracts.tableName}_mail_notification_${Emails.tableName}.email_id`
-          },
-          to: `${Emails.tableName}.id`
-        }
-      },
-      contact_phones: {
-        relation: Model.ManyToManyRelation,
-        modelClass: Phones,
-        join: {
-          from: `${Contracts.tableName}.id`,
-          through: {
-            from: `${Contracts.tableName}_contact_${Phones.tableName}.contract_id`,
-            to: `${Contracts.tableName}_contact_${Phones.tableName}.phone_id`
-          },
-          to: `${Phones.tableName}.id`
+          to: `${ContractsServices.tableName}.contract_id`
         }
       },
       invoices: {
@@ -133,18 +112,6 @@ class Contracts extends Model {
             to: `${Contracts.tableName}_${Invoices.tableName}.invoice_id`
           },
           to: `${Invoices.tableName}.id`
-        }
-      },
-      services: {
-        relation: Model.ManyToManyRelation,
-        modelClass: Services,
-        join: {
-          from: `${Contracts.tableName}.id`,
-          through: {
-            from: `${Contracts.tableName}_${Services.tableName}.contract_id`,
-            to: `${Contracts.tableName}_${Services.tableName}.service_id`
-          },
-          to: `${Services.tableName}.id`
         }
       }
     };

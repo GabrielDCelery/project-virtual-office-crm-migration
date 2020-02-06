@@ -3,6 +3,7 @@ module.exports = {
   Cities: require('./Cities'),
   Contacts: require('./Contacts'),
   Contracts: require('./Contracts'),
+  ContractsServices: require('./ContractsServices'),
   ContractsContacts: require('./ContractsContacts'),
   Countries: require('./Countries'),
   Documents: require('./Documents'),
@@ -19,6 +20,5 @@ module.exports = {
   MailsPendingActions: require('./MailsPendingActions'),
   NaturalPeople: require('./NaturalPeople'),
   Phones: require('./Phones'),
-  Services: require('./Services'),
   Users: require('./Users')
 };

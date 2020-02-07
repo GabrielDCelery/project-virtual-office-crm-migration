@@ -1,23 +1,11 @@
 import { connect } from 'react-redux';
-import {
-  actionSetFieldAddNewNaturalPerson,
-  actionSubmitFormAddNewNaturalPerson,
-  selectorGetNaturalPeopleRecommendations
-} from '~/store';
+import {} from '~/store';
 
 const mapStateToProps = state => {
-  return {
-    stateFormAddNewAddress: state.forms.addNewNaturalPerson,
-    stateRecommendedNaturalPeople: selectorGetNaturalPeopleRecommendations(
-      state
-    )
-  };
+  return {};
 };
 
-const mapActionsToProps = {
-  actionSetFieldAddNewNaturalPerson,
-  actionSubmitFormAddNewNaturalPerson
-};
+const mapActionsToProps = {};
 
 export default function FormNaturalPersonStore(ToWrapComponent) {
   let WrapperComponent = props => {

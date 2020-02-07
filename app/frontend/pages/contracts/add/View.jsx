@@ -20,7 +20,10 @@ import NavBar from '~/components/Nav/Bar';
 import UILeftAlignedContainer from '~/components/UI/LeftAlignedContainer';
 import UIAppBar from '~/components/UI/AppBar';
 import ContainerFormAddress from '~/components/Container/FormAddress';
+import ContainerFormNaturalPerson from '~/components/Container/FormNaturalPerson';
+import ContainerFormAddNewAddress from '~/components/Container/FormAddNewAddress';
 import UIFormStepAppBar from '~/components/UI/FormStepAppBar';
+import UIUseExistingAddNewTab from '~/components/UI/UseExistingAddNewTab';
 import { UstartCase, UstartCaseEveryWord } from '~/common/utils';
 
 const TabPanelClient = ({
@@ -149,6 +152,33 @@ const TabPanelClient = ({
               });
             }}
           />
+
+          <Box height="2em" />
+
+          <UIFormStepAppBar label={t('client address')} />
+
+          <Box height="1em" />
+
+          <UIUseExistingAddNewTab
+            ExistingTabContent={
+              <React.Fragment>
+                <Paper>
+                  <Box padding="2em">existing</Box>
+                </Paper>
+              </React.Fragment>
+            }
+            NewTabContent={
+              <React.Fragment>
+                <Paper>
+                  <Box padding="2em">
+                    <ContainerFormAddNewAddress
+                      handleSubmitSuccessCallback={() => {}}
+                    />
+                  </Box>
+                </Paper>
+              </React.Fragment>
+            }
+          />
         </React.Fragment>
       )}
     </React.Fragment>
@@ -166,6 +196,17 @@ const TabPanelClientSignatory = ({
     <React.Fragment>
       {tabIndex === currentTabIndex && (
         <React.Fragment>
+          <ContainerFormNaturalPerson
+            labelPerson={t('client signatory')}
+            labelAddress={t('client signatory address')}
+            defaultPerson={''}
+            handleSelectAddress={value => {
+              actionSetFieldAddNewContract({
+                fieldName: 'clientAddress',
+                fieldValue: value
+              });
+            }}
+          />
           <UIFormStepAppBar label={t('client signatory')} />
 
           <Box height="1em" />

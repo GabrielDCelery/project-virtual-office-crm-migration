@@ -149,9 +149,23 @@ const TabPanelClient = ({
               });
             }}
           />
+        </React.Fragment>
+      )}
+    </React.Fragment>
+  );
+};
 
-          <Box height="2em" />
-
+const TabPanelClientSignatory = ({
+  actionSetFieldAddNewContract,
+  stateFormAddNewContract,
+  tabIndex,
+  currentTabIndex,
+  t
+}) => {
+  return (
+    <React.Fragment>
+      {tabIndex === currentTabIndex && (
+        <React.Fragment>
           <UIFormStepAppBar label={t('client signatory')} />
 
           <Box height="1em" />
@@ -191,10 +205,21 @@ const TabPanelClient = ({
                   disabled={false}
                 />
               </FormControl>
-
-              <Box height="2em" />
             </Box>
           </Paper>
+
+          <Box height="2em" />
+
+          <ContainerFormAddress
+            label={t('client signatory address')}
+            defaultAddress={stateFormAddNewContract.clientSignatoryAddress}
+            handleSelectAddress={value => {
+              actionSetFieldAddNewContract({
+                fieldName: 'clientSignatoryAddress',
+                fieldValue: value
+              });
+            }}
+          />
         </React.Fragment>
       )}
     </React.Fragment>
@@ -249,7 +274,21 @@ const TabPanelServiceProvider = ({
                         value="gilad"
                       />
                     }
-                    label={UstartCase(t('monthly posting of mails'))}
+                    label={UstartCase(
+                      t('email notification of received mails')
+                    )}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={false}
+                        onChange={() => {}}
+                        value="gilad"
+                      />
+                    }
+                    label={UstartCase(t('post mails monthly'))}
                   />
                 </FormGroup>
               </FormControl>
@@ -359,7 +398,7 @@ const AddContractView = ({
                     t
                   }}
                 />
-                <TabPanelServiceProvider
+                <TabPanelClientSignatory
                   {...{
                     actionSetFieldAddNewContract,
                     stateFormAddNewContract,
@@ -368,11 +407,20 @@ const AddContractView = ({
                     t
                   }}
                 />
-                <TabPanelContract
+                <TabPanelServiceProvider
                   {...{
                     actionSetFieldAddNewContract,
                     stateFormAddNewContract,
                     tabIndex: 2,
+                    currentTabIndex,
+                    t
+                  }}
+                />
+                <TabPanelContract
+                  {...{
+                    actionSetFieldAddNewContract,
+                    stateFormAddNewContract,
+                    tabIndex: 3,
                     currentTabIndex,
                     t
                   }}
@@ -387,6 +435,7 @@ const AddContractView = ({
                   }}
                 >
                   <Tab label={t('client')} />
+                  <Tab label={t('client signatory')} />
                   <Tab label={t('service provider')} />
                   <Tab label={t('contract')} />
                   <Tab label={t('contacts')} />

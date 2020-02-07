@@ -8,6 +8,7 @@ import ContainerUserLanguageSetter from '~/components/Container/UserLanguageSett
 import ContainerSnackBar from '~/components/Container/SnackBar';
 import config from '~/config';
 import '~/language';
+import './_app.css';
 
 const theme = createMuiTheme({
   palette: {

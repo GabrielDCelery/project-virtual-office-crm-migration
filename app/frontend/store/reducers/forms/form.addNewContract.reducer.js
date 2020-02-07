@@ -13,6 +13,7 @@ const initialState = {
   clientRegistrationId: '',
   clientTaxId: '',
   clientAddress: null,
+  clientSignatoryAddress: null,
   signatoryFirstName: '',
   signatoryLastName: '',
   signatoryMotherName: '',

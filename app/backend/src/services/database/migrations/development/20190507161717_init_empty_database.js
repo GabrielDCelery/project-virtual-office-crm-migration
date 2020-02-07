@@ -441,8 +441,7 @@ exports.up = async knex => {
       .index();
     table
       .enum('service', [
-        ContractsServices.SERVICE_NAMES
-          .SEND_EMAIL_NOTIFICATION_OF_RECEIVED_EMAIL,
+        ContractsServices.SERVICE_NAMES.EMAIL_NOTIFICATION_OF_RECEIVED_MAILS,
         ContractsServices.SERVICE_NAMES.POST_MAILS_MONTHLY
       ])
       .notNullable();

@@ -9,14 +9,12 @@ exports.seed = async knex => {
     {
       contract_id: 1,
       service:
-        ContractsServices.SERVICE_NAMES
-          .SEND_EMAIL_NOTIFICATION_OF_RECEIVED_EMAIL
+        ContractsServices.SERVICE_NAMES.EMAIL_NOTIFICATION_OF_RECEIVED_MAILS
     },
     {
       contract_id: 2,
       service:
-        ContractsServices.SERVICE_NAMES
-          .SEND_EMAIL_NOTIFICATION_OF_RECEIVED_EMAIL
+        ContractsServices.SERVICE_NAMES.EMAIL_NOTIFICATION_OF_RECEIVED_MAILS
     }
   ]);
 };

@@ -7,8 +7,8 @@ class ContractsServices extends Model {
 
   static get SERVICE_NAMES() {
     return {
-      SEND_EMAIL_NOTIFICATION_OF_RECEIVED_EMAIL:
-        'send email notification of received mail',
+      EMAIL_NOTIFICATION_OF_RECEIVED_MAILS:
+        'email notification of received mails',
       POST_MAILS_MONTHLY: 'post mails monthly'
     };
   }
@@ -25,7 +25,7 @@ class ContractsServices extends Model {
           type: 'string',
           enum: [
             ContractsContacts.SERVICE_NAMES
-              .SEND_EMAIL_NOTIFICATION_OF_RECEIVED_EMAIL,
+              .EMAIL_NOTIFICATION_OF_RECEIVED_MAILS,
             ContractsContacts.SERVICE_NAMES.POST_MAILS_MONTHLY
           ]
         }

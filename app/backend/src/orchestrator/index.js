@@ -36,10 +36,10 @@ class Orchestrator {
       ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME
     } = EOrchestratorMethod;
 
-    const methodInitializer = ({ path, methodName }) => {
+    const methodInitializer = ({ path, method }) => {
       return {
         path,
-        method: methods[methodName]({
+        method: method({
           services,
           EServiceMethod,
           EServiceName,
@@ -53,7 +53,7 @@ class Orchestrator {
       .register(
         methodInitializer({
           path: ORCHESTRATOR_METHOD_FILTER_ENTITY_NAMES,
-          methodName: 'filterEntityNames'
+          method: methods.filterEntityNames
         })
       )
       .register({
@@ -153,7 +153,8 @@ class Orchestrator {
         method: methods.createNaturalPerson({
           services,
           EServiceMethod,
-          EServiceName
+          EServiceName,
+          ERedisKeys
         })
       });
 

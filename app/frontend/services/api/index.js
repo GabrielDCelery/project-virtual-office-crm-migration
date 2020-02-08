@@ -11,7 +11,9 @@ const {
   SERVICE_METHOD_GET_FILTERED_COUNTRIES,
   SERVICE_METHOD_GET_FILTERED_ADDRESSES,
   SERVICE_METHOD_GET_FILTERED_CITIES,
-  SERVICE_METHOD_CREATE_ADDRESS
+  SERVICE_METHOD_CREATE_ADDRESS,
+  SERVICE_METHOD_GET_FILTERED_NATURAL_PEOPLE,
+  SERVICE_METHOD_CREATE_NATURAL_PERSON
 } = EServiceMethod;
 import authenticateUserByCookie from './authenticateUserByCookie';
 import loginUser from './loginUser';
@@ -25,6 +27,8 @@ import getFilteredCountries from './getFilteredCountries';
 import getFilteredAddresses from './getFilteredAddresses';
 import getFilteredCities from './getFilteredCities';
 import createAddress from './createAddress';
+import getFilteredNaturalPeople from './getFilteredNaturalPeople';
+import createNaturalPerson from './createNaturalPerson';
 
 const wrapAPICall = method => {
   return async argsObj => {
@@ -58,5 +62,9 @@ export default {
   [SERVICE_METHOD_GET_FILTERED_COUNTRIES]: wrapAPICall(getFilteredCountries),
   [SERVICE_METHOD_GET_FILTERED_ADDRESSES]: wrapAPICall(getFilteredAddresses),
   [SERVICE_METHOD_GET_FILTERED_CITIES]: wrapAPICall(getFilteredCities),
-  [SERVICE_METHOD_CREATE_ADDRESS]: wrapAPICall(createAddress)
+  [SERVICE_METHOD_CREATE_ADDRESS]: wrapAPICall(createAddress),
+  [SERVICE_METHOD_GET_FILTERED_NATURAL_PEOPLE]: wrapAPICall(
+    getFilteredNaturalPeople
+  ),
+  [SERVICE_METHOD_CREATE_NATURAL_PERSON]: wrapAPICall(createNaturalPerson)
 };

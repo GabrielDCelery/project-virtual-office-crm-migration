@@ -1,27 +1,16 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  Paper,
-  Tabs,
-  Tab,
-  TextField
-} from '@material-ui/core';
+import { Box, Button, FormControl, Paper, TextField } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
 import UIAjaxAutoCompleteField from '~/components/UI/AjaxAutoCompleteField';
 import { UstartCase } from '~/common/utils';
 
 const FormAddNewAddressView = ({
-  actionRecommendationsGetFilteredCities,
-  actionRecommendationsGetFilteredCountries,
-  actionSetFieldAddNewAddress,
-  actionSubmitFormAddNewAddress,
-  bEnableSubmit,
-  handleSubmitSuccessCallback,
-  stateFormAddNewAddress,
-  stateRecommendedCities,
-  stateRecommendedCountries
+  localState,
+  localStateCallback,
+  localStateSetter,
+  propMethod,
+  storeAction,
+  storeState
 }) => {
   const { t } = useTranslation();
 
@@ -33,12 +22,9 @@ const FormAddNewAddressView = ({
           id="address-postcode"
           label={UstartCase(t('postcode'))}
           onChange={event => {
-            actionSetFieldAddNewAddress({
-              fieldName: 'postcode',
-              fieldValue: event.target.value
-            });
+            localStateSetter('postcode')(event.target.value);
           }}
-          defaultValue={stateFormAddNewAddress['postcode']}
+          defaultValue={localState('postcode')}
           disabled={false}
         />
       </FormControl>
@@ -49,24 +35,22 @@ const FormAddNewAddressView = ({
         <UIAjaxAutoCompleteField
           id="address-country"
           handleFilter={filterTerm => {
-            actionRecommendationsGetFilteredCountries({
+            storeAction('recommendationsGetFilteredCountries')({
               filterTerm
             });
           }}
           handleSelect={value => {
-            actionSetFieldAddNewAddress({
-              fieldName: 'country',
-              fieldValue: value
-                ? {
-                    id: value.id,
-                    name: value.name
-                  }
-                : null
-            });
+            const country = value
+              ? {
+                  id: value.id,
+                  name: value.name
+                }
+              : null;
+            localStateSetter('country')(country);
           }}
-          bDisabled={!!stateFormAddNewAddress['city']}
-          options={stateRecommendedCountries}
-          defaultValue={stateFormAddNewAddress['country']}
+          bDisabled={!!localState('city')}
+          options={storeState('recommendedCountries')}
+          defaultValue={localState('country')}
           label={UstartCase(t('country'))}
         />
       </FormControl>
@@ -77,31 +61,28 @@ const FormAddNewAddressView = ({
         <UIAjaxAutoCompleteField
           id="address-city"
           handleFilter={filterTerm => {
-            actionRecommendationsGetFilteredCities({
+            storeAction('recommendationsGetFilteredCities')({
               filterTerm
             });
           }}
           handleSelect={value => {
-            actionSetFieldAddNewAddress({
-              fieldName: 'city',
-              fieldValue: value
-                ? {
-                    id: value.id,
-                    name: value.name
-                  }
-                : null
-            });
-            actionSetFieldAddNewAddress({
-              fieldName: 'country',
-              fieldValue: value
-                ? {
-                    id: value.countryId,
-                    name: value.countryName
-                  }
-                : null
-            });
+            const city = value
+              ? {
+                  id: value.id,
+                  name: value.name
+                }
+              : null;
+
+            const country = value
+              ? {
+                  id: value.countryId,
+                  name: value.countryName
+                }
+              : null;
+            localStateSetter('city')(city);
+            localStateSetter('country')(country);
           }}
-          options={stateRecommendedCities}
+          options={storeState('recommendedCities')}
           label={UstartCase(t('city'))}
         />
       </FormControl>
@@ -114,29 +95,23 @@ const FormAddNewAddressView = ({
           id="address-street"
           label={UstartCase(t('street'))}
           onChange={event => {
-            actionSetFieldAddNewAddress({
-              fieldName: 'street',
-              fieldValue: event.target.value
-            });
+            localStateSetter('street')(event.target.value);
           }}
-          defaultValue={stateFormAddNewAddress['street']}
+          defaultValue={localState('street')}
           disabled={false}
         />
       </FormControl>
 
       <Box height="2em" />
+
       <Button
-        disabled={!bEnableSubmit()}
+        disabled={!localStateCallback('bEnableSubmit')()}
         onClick={() => {
-          actionSubmitFormAddNewAddress({
-            postcode: stateFormAddNewAddress['postcode'],
-            city: stateFormAddNewAddress['city']['id'],
-            street: stateFormAddNewAddress['street'],
-            successCallback: value => {
-              handleSubmitSuccessCallback
-                ? handleSubmitSuccessCallback(value)
-                : null;
-            }
+          storeAction('submitFormAddNewAddress')({
+            postcode: localState('postcode'),
+            city: localState('city')['id'],
+            street: localState('street'),
+            successCallback: propMethod('handleSubmitSuccessCallback')
           });
         }}
         fullWidth

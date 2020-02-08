@@ -1,7 +1,6 @@
 import {
   FORM_ADD_NEW_ADDRESS_AJAX_START,
   FORM_ADD_NEW_ADDRESS_AJAX_FINISH,
-  FORM_ADD_NEW_ADDRESS_RESET,
   OPEN_SUCCESS_SNACKBAR,
   OPEN_ERROR_SNACKBAR
 } from '~/store/constants';
@@ -34,7 +33,6 @@ export const actionSubmitFormAddNewAddress = ({
       type: OPEN_SUCCESS_SNACKBAR,
       message: 'Address successfully created'
     });
-    dispatch({ type: FORM_ADD_NEW_ADDRESS_RESET });
 
     const { id, cityName, countryName, longStreet } = payload;
 

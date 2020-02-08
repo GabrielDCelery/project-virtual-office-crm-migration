@@ -1,5 +1,4 @@
-import Behaviour from './Behaviour';
-import Store from './Store';
+import State from './State';
 import View from './View';
 
-export default Store(Behaviour(View));
+export default State(View);

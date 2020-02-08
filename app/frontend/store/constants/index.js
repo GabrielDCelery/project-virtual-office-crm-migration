@@ -4,5 +4,6 @@ export * from './form.addNewNaturalPerson.constants';
 export * from './recommendations.addresses';
 export * from './recommendations.cities';
 export * from './recommendations.countries';
+export * from './recommendations.naturalPeople';
 export * from './snackbar.constants';
 export * from './user.constants';

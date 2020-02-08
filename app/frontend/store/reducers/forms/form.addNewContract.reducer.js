@@ -13,10 +13,8 @@ const initialState = {
   clientRegistrationId: '',
   clientTaxId: '',
   clientAddress: null,
-  clientSignatoryAddress: null,
-  signatoryFirstName: '',
-  signatoryLastName: '',
-  signatoryMotherName: '',
+  clientSignatory: null,
+  clientSignatoryType: '',
   contractStartDate: '',
   contractEndDate: ''
 };

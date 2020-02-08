@@ -2,26 +2,24 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 //import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import {
-  formAddNewAddressReducer,
   formAddNewContractReducer,
-  formAddNewNaturalPersonReducer,
   userReducer,
   recommendationsAddresses,
   recommendationsCities,
   recommendationsCountries,
+  recommendationsNaturalPeople,
   snackbarReducer
 } from './reducers';
 
 const combinedReducers = combineReducers({
   forms: combineReducers({
-    addNewContract: formAddNewContractReducer,
-    addNewAddress: formAddNewAddressReducer,
-    addNewNaturalPerson: formAddNewNaturalPersonReducer
+    addNewContract: formAddNewContractReducer
   }),
   recommendations: combineReducers({
     addresses: recommendationsAddresses,
     cities: recommendationsCities,
-    countries: recommendationsCountries
+    countries: recommendationsCountries,
+    naturalPeople: recommendationsNaturalPeople
   }),
   user: userReducer,
   snackbar: snackbarReducer

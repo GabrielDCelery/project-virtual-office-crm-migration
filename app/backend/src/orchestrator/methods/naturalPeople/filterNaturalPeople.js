@@ -11,7 +11,7 @@ module.exports = ({
     SERVICE_METHOD_GET_REDIS_VALUE,
     SERVICE_METHOD_SET_REDIS_VALUE
   } = EServiceMethod;
-  const { REDIS_KEY_NATURLA_PEOPLE_QUICK_LIST } = ERedisKeys;
+  const { REDIS_KEY_NATURAL_PEOPLE_QUICK_LIST } = ERedisKeys;
 
   const filterNaturalPeopleRecords = ({ filterTerm, limit, records }) => {
     return utils.Filterer.createInstance().filterObjects({
@@ -26,7 +26,7 @@ module.exports = ({
     const cached = await services.get(SERVICE_NAME_REDIS).execute({
       method: SERVICE_METHOD_GET_REDIS_VALUE,
       parameters: {
-        key: REDIS_KEY_NATURLA_PEOPLE_QUICK_LIST
+        key: REDIS_KEY_NATURAL_PEOPLE_QUICK_LIST
       }
     });
 
@@ -41,7 +41,7 @@ module.exports = ({
     await services.get(SERVICE_NAME_REDIS).execute({
       method: SERVICE_METHOD_SET_REDIS_VALUE,
       parameters: {
-        key: REDIS_KEY_NATURLA_PEOPLE_QUICK_LIST,
+        key: REDIS_KEY_NATURAL_PEOPLE_QUICK_LIST,
         value: result
       }
     });

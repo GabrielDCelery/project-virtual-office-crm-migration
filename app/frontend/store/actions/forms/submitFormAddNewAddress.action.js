@@ -4,9 +4,6 @@ import {
   OPEN_SUCCESS_SNACKBAR,
   OPEN_ERROR_SNACKBAR
 } from '~/store/constants';
-import { EServiceName, EServiceMethod } from '~/common/enums';
-const { SERICE_NAME_API } = EServiceName;
-const { SERVICE_METHOD_CREATE_ADDRESS } = EServiceMethod;
 import services from '~/services';
 
 export const actionSubmitFormAddNewAddress = ({
@@ -18,14 +15,16 @@ export const actionSubmitFormAddNewAddress = ({
   return async dispatch => {
     dispatch({ type: FORM_ADD_NEW_ADDRESS_AJAX_START });
 
-    const { success, error, payload } = await services
-      .get(SERICE_NAME_API, SERVICE_METHOD_CREATE_ADDRESS)
-      .execute({ postcode, city, street });
+    const { success, error, payload } = await services.api.addresses.create({
+      postcode,
+      city,
+      street
+    });
 
     dispatch({ type: FORM_ADD_NEW_ADDRESS_AJAX_FINISH });
 
     if (!success) {
-      dispatch({ type: OPEN_ERROR_SNACKBAR, message: error });
+      dispatch({ type: OPEN_ERROR_SNACKBAR, message: error.message });
       return;
     }
 

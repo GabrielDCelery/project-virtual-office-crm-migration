@@ -1,34 +1,8 @@
-import { EServiceMethod } from '../../common/enums';
-const {
-  SERVICE_METHOD_LOGIN_USER,
-  SERVICE_METHOD_LOGOUT_USER,
-  SERVICE_METHOD_AUTHENTICATE_USER_BY_COOKIE,
-  /*
-  SERVICE_METHOD_GET_ALL_ADDRESSES,
-  SERVICE_METHOD_GET_ALL_COUNTRIES,
-  SERVICE_METHOD_GET_ALL_CITIES,
-  */
-  SERVICE_METHOD_GET_FILTERED_COUNTRIES,
-  SERVICE_METHOD_GET_FILTERED_ADDRESSES,
-  SERVICE_METHOD_GET_FILTERED_CITIES,
-  SERVICE_METHOD_CREATE_ADDRESS,
-  SERVICE_METHOD_GET_FILTERED_NATURAL_PEOPLE,
-  SERVICE_METHOD_CREATE_NATURAL_PERSON
-} = EServiceMethod;
-import authenticateUserByCookie from './authenticateUserByCookie';
-import loginUser from './loginUser';
-import logoutUser from './logoutUser';
-/*
-import getAllAddresses from './getAllAddresses';
-import getAllCities from './getAllCities';
-import getAllCountries from './getAllCountries';
-*/
-import getFilteredCountries from './getFilteredCountries';
-import getFilteredAddresses from './getFilteredAddresses';
-import getFilteredCities from './getFilteredCities';
-import createAddress from './createAddress';
-import getFilteredNaturalPeople from './getFilteredNaturalPeople';
-import createNaturalPerson from './createNaturalPerson';
+import addresses from './addresses';
+import countries from './countries';
+import cities from './cities';
+import naturalPeople from './naturalPeople';
+import users from './users';
 
 const wrapAPICall = method => {
   return async argsObj => {
@@ -41,7 +15,7 @@ const wrapAPICall = method => {
     } catch (error) {
       return {
         success: false,
-        error: error.message,
+        error,
         payload: null
       };
     }
@@ -49,22 +23,26 @@ const wrapAPICall = method => {
 };
 
 export default {
-  [SERVICE_METHOD_AUTHENTICATE_USER_BY_COOKIE]: wrapAPICall(
-    authenticateUserByCookie
-  ),
-  [SERVICE_METHOD_LOGIN_USER]: wrapAPICall(loginUser),
-  [SERVICE_METHOD_LOGOUT_USER]: wrapAPICall(logoutUser),
-  /*
-  [SERVICE_METHOD_GET_ALL_ADDRESSES]: wrapAPICall(getAllAddresses),
-  [SERVICE_METHOD_GET_ALL_COUNTRIES]: wrapAPICall(getAllCountries),
-  [SERVICE_METHOD_GET_ALL_CITIES]: wrapAPICall(getAllCities),
-  */
-  [SERVICE_METHOD_GET_FILTERED_COUNTRIES]: wrapAPICall(getFilteredCountries),
-  [SERVICE_METHOD_GET_FILTERED_ADDRESSES]: wrapAPICall(getFilteredAddresses),
-  [SERVICE_METHOD_GET_FILTERED_CITIES]: wrapAPICall(getFilteredCities),
-  [SERVICE_METHOD_CREATE_ADDRESS]: wrapAPICall(createAddress),
-  [SERVICE_METHOD_GET_FILTERED_NATURAL_PEOPLE]: wrapAPICall(
-    getFilteredNaturalPeople
-  ),
-  [SERVICE_METHOD_CREATE_NATURAL_PERSON]: wrapAPICall(createNaturalPerson)
+  addresses: {
+    create: wrapAPICall(addresses.create),
+    getAll: wrapAPICall(addresses.getAll),
+    filter: wrapAPICall(addresses.filter)
+  },
+  cities: {
+    getAll: wrapAPICall(cities.getAll),
+    filter: wrapAPICall(cities.filter)
+  },
+  countries: {
+    getAll: wrapAPICall(countries.getAll),
+    filter: wrapAPICall(countries.filter)
+  },
+  naturalPeople: {
+    create: wrapAPICall(naturalPeople.create),
+    filter: wrapAPICall(naturalPeople.filter)
+  },
+  users: {
+    authenticateByCookie: wrapAPICall(users.authenticateByCookie),
+    login: wrapAPICall(users.login),
+    logout: wrapAPICall(users.logout)
+  }
 };

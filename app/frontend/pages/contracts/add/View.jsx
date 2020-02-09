@@ -15,7 +15,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import ContractsAddClientDetails from '~/components/Contracts/Add/ClientDetails';
 import ContractsAddClientAddress from '~/components/Contracts/Add/ClientAddress';
-import ConstractsAddClientSignatoryDetails from '~/components/Contracts/Add/ClientSignatoryDetails';
+import ConstractsAddClientSignatory from '~/components/Contracts/Add/ClientSignatory';
+import ContractsAddClientSignatoryType from '~/components/Contracts/Add/ClientSignatoryType';
+import ContractsAddContractDetails from '~/components/Contracts/Add/ContractDetails';
 import NavBar from '~/components/Nav/Bar';
 import UIAppBar from '~/components/UI/AppBar';
 import UIFormStepAppBar from '~/components/UI/FormStepAppBar';
@@ -190,9 +192,23 @@ export default function AddContractView({ localState, localStateSetter }) {
 
                 {localState('tabIndex') === 1 && (
                   <React.Fragment>
-                    <ConstractsAddClientSignatoryDetails />
+                    <ConstractsAddClientSignatory />
+                    <Box height="2em" />
+                    <ContractsAddClientSignatoryType />
                   </React.Fragment>
                 )}
+
+                {localState('tabIndex') === 2 && (
+                  <React.Fragment></React.Fragment>
+                )}
+
+                {localState('tabIndex') === 3 && (
+                  <React.Fragment>
+                    <ContractsAddContractDetails />
+                  </React.Fragment>
+                )}
+
+                <Box height="1em" />
               </Grid>
               <Grid item xs={3}>
                 <Tabs

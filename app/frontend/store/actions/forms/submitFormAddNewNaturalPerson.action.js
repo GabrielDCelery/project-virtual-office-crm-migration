@@ -4,9 +4,6 @@ import {
   OPEN_SUCCESS_SNACKBAR,
   OPEN_ERROR_SNACKBAR
 } from '~/store/constants';
-import { EServiceName, EServiceMethod } from '~/common/enums';
-const { SERICE_NAME_API } = EServiceName;
-const { SERVICE_METHOD_CREATE_NATURAL_PERSON } = EServiceMethod;
 import services from '~/services';
 
 export const actionSubmitFormAddNewNaturalPerson = ({
@@ -22,9 +19,8 @@ export const actionSubmitFormAddNewNaturalPerson = ({
   return async dispatch => {
     dispatch({ type: FORM_ADD_NEW_NATURAL_PERSON_AJAX_START });
 
-    const { success, error, payload } = await services
-      .get(SERICE_NAME_API, SERVICE_METHOD_CREATE_NATURAL_PERSON)
-      .execute({
+    const { success, error, payload } = await services.api.naturalPeople.create(
+      {
         firstName,
         lastName,
         motherName,
@@ -32,12 +28,13 @@ export const actionSubmitFormAddNewNaturalPerson = ({
         identifierDocumentType,
         identifierDocumentNumber,
         permanentAddressId
-      });
+      }
+    );
 
     dispatch({ type: FORM_ADD_NEW_NATURAL_PERSON_AJAX_FINISH });
 
     if (!success) {
-      dispatch({ type: OPEN_ERROR_SNACKBAR, message: error });
+      dispatch({ type: OPEN_ERROR_SNACKBAR, message: error.message });
       return;
     }
 

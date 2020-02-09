@@ -1,8 +1,10 @@
-import { USER_RESET, USER_SET_EMAIL, USER_SET_RULES } from '../../constants';
-import services from '../../../services';
-import { EServiceName, EServiceMethod } from '../../../common/enums';
-const { SERICE_NAME_API } = EServiceName;
-const { SERVICE_METHOD_AUTHENTICATE_USER_BY_COOKIE } = EServiceMethod;
+import {
+  USER_RESET,
+  USER_SET_EMAIL,
+  USER_SET_RULES,
+  OPEN_ERROR_SNACKBAR
+} from '~/store/constants';
+import services from '~/services';
 
 export const actionAuthenticateUserByCookie = () => {
   return async dispatch => {
@@ -10,13 +12,12 @@ export const actionAuthenticateUserByCookie = () => {
 
     const {
       success,
-      //error,
+      error,
       payload
-    } = await services
-      .get(SERICE_NAME_API, SERVICE_METHOD_AUTHENTICATE_USER_BY_COOKIE)
-      .execute();
+    } = await services.api.users.authenticateByCookie();
 
     if (!success) {
+      dispatch({ type: OPEN_ERROR_SNACKBAR, message: error.message });
       return;
     }
 

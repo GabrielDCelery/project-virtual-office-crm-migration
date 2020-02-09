@@ -4,6 +4,7 @@ import {
   FORM_ADD_NEW_CONTRACT_AJAX_START,
   FORM_ADD_NEW_CONTRACT_AJAX_FINISH
 } from '../../constants';
+import moment from 'moment';
 
 const initialState = {
   isAjaxInProgress: false,
@@ -15,8 +16,11 @@ const initialState = {
   clientAddress: null,
   clientSignatory: null,
   clientSignatoryType: '',
-  contractStartDate: '',
-  contractEndDate: ''
+  serviceProvider: null,
+  contractStartDate: moment(new Date()).format('YYYY-MM-DD'),
+  contractEndDate: '',
+  contractRenewalPeriod: '',
+  contractRenewalFeeMonthly: 0
 };
 
 export const formAddNewContractReducer = (

@@ -1,22 +1,22 @@
-import { USER_RESET, USER_SET_EMAIL, USER_SET_RULES } from '../../constants';
-import services from '../../../services';
-import { EServiceName, EServiceMethod } from '../../../common/enums';
-const { SERICE_NAME_API } = EServiceName;
-const { SERVICE_METHOD_LOGIN_USER } = EServiceMethod;
+import {
+  USER_RESET,
+  USER_SET_EMAIL,
+  USER_SET_RULES,
+  OPEN_ERROR_SNACKBAR
+} from '~/store/constants';
+import services from '~/services';
 
 export const actionLoginUser = ({ email, password }) => {
   return async dispatch => {
     dispatch({ type: USER_RESET });
 
-    const {
-      success,
-      //error,
-      payload
-    } = await services
-      .get(SERICE_NAME_API, SERVICE_METHOD_LOGIN_USER)
-      .execute({ email, password });
+    const { success, error, payload } = await services.api.users.login({
+      email,
+      password
+    });
 
     if (!success) {
+      dispatch({ type: OPEN_ERROR_SNACKBAR, message: error.message });
       return;
     }
 

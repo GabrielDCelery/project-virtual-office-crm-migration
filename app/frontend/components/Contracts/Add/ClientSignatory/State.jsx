@@ -10,9 +10,7 @@ const mapStateToProps = state => {
 
 const mapActionsToProps = { actionSetFieldAddNewContract };
 
-export default function ContractsAddClientSignatoryDetailsState(
-  ToWrapComponent
-) {
+export default function ContractsAddClientSignatoryState(ToWrapComponent) {
   let WrapperComponent = props => {
     const { actionSetFieldAddNewContract, stateFormAddNewContract } = props;
     const [tabIndex, setTabIndex] = useState(0);

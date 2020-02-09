@@ -1,4 +1,5 @@
 export default {
+  'legal entity': 'jogi szemelyiseg',
   'recommended end date': 'javasolt zaro datum',
   use: 'hasznal',
   'semi annually': 'feleves',

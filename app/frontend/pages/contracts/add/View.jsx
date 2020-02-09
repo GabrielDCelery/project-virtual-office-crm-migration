@@ -18,6 +18,8 @@ import ContractsAddClientAddress from '~/components/Contracts/Add/ClientAddress'
 import ConstractsAddClientSignatory from '~/components/Contracts/Add/ClientSignatory';
 import ContractsAddClientSignatoryType from '~/components/Contracts/Add/ClientSignatoryType';
 import ContractsAddContractDetails from '~/components/Contracts/Add/ContractDetails';
+import ContractsAddServiceProvider from '~/components/Contracts/Add/ServiceProvider';
+import ContractsAddServices from '~/components/Contracts/Add/Services';
 import NavBar from '~/components/Nav/Bar';
 import UIAppBar from '~/components/UI/AppBar';
 import UIFormStepAppBar from '~/components/UI/FormStepAppBar';
@@ -98,68 +100,6 @@ const TabPanelServiceProvider = ({
   );
 };
 
-const TabPanelContract = ({
-  actionSetFieldAddNewContract,
-  stateFormAddNewContract,
-  tabIndex,
-  currentTabIndex,
-  t
-}) => {
-  return (
-    <React.Fragment>
-      {tabIndex === currentTabIndex && (
-        <React.Fragment>
-          <UIFormStepAppBar label={t('contract')} />
-
-          <Box height="1em" />
-
-          <Paper>
-            <Box padding="2em">
-              <FormControl style={{ width: '100%' }}>
-                <TextField
-                  id="contract-start-date"
-                  label={UstartCase(t('start date'))}
-                  type="date"
-                  value={stateFormAddNewContract['contractStartDate']}
-                  onChange={event => {
-                    actionSetFieldAddNewContract({
-                      fieldName: 'contractStartDate',
-                      fieldValue: event.target.value
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </FormControl>
-
-              <Box height="2em" />
-
-              <FormControl style={{ width: '100%' }}>
-                <TextField
-                  id="contract-end-date"
-                  label={UstartCase(t('end date'))}
-                  type="date"
-                  value={stateFormAddNewContract['contractEndDate']}
-                  onChange={event => {
-                    actionSetFieldAddNewContract({
-                      fieldName: 'contractEndDate',
-                      fieldValue: event.target.value
-                    });
-                  }}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </FormControl>
-            </Box>
-          </Paper>
-        </React.Fragment>
-      )}
-    </React.Fragment>
-  );
-};
-
 export default function AddContractView({ localState, localStateSetter }) {
   const { t } = useTranslation();
 
@@ -199,13 +139,21 @@ export default function AddContractView({ localState, localStateSetter }) {
                 )}
 
                 {localState('tabIndex') === 2 && (
-                  <React.Fragment></React.Fragment>
+                  <React.Fragment>
+                    <ContractsAddServiceProvider />
+                    <Box height="2em" />
+                    <ContractsAddServices />
+                  </React.Fragment>
                 )}
 
                 {localState('tabIndex') === 3 && (
                   <React.Fragment>
                     <ContractsAddContractDetails />
                   </React.Fragment>
+                )}
+
+                {localState('tabIndex') === 4 && (
+                  <React.Fragment></React.Fragment>
                 )}
 
                 <Box height="1em" />

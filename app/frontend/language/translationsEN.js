@@ -1,4 +1,5 @@
 export default {
+  'legal entity': 'legal entity',
   'recommended end date': 'recommended end date',
   use: 'use',
   'semi annually': 'semi annually',

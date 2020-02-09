@@ -1,6 +1,7 @@
 import addresses from './addresses';
 import countries from './countries';
 import cities from './cities';
+import legalEntities from './legalEntities';
 import naturalPeople from './naturalPeople';
 import users from './users';
 
@@ -35,6 +36,9 @@ export default {
   countries: {
     getAll: wrapAPICall(countries.getAll),
     filter: wrapAPICall(countries.filter)
+  },
+  legalEntities: {
+    filter: wrapAPICall(legalEntities.filter)
   },
   naturalPeople: {
     create: wrapAPICall(naturalPeople.create),

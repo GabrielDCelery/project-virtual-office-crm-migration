@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { actionSetFieldAddNewContract } from '~/store';
 
@@ -19,6 +20,17 @@ export default function ServiceProviderState(ToWrapComponent) {
 
     const localStateSetters = {};
 
+    const localStateCallbacks = {
+      isEmailNotificationChecked: useCallback(() => {
+        return stateFormAddNewContract.services.includes(
+          'email notification of received mails'
+        );
+      }, [stateFormAddNewContract]),
+      isPostMailsMonthlyChecked: useCallback(() => {
+        return stateFormAddNewContract.services.includes('post mails monthly');
+      }, [stateFormAddNewContract])
+    };
+
     const storeStates = {
       formAddNewContract: stateFormAddNewContract
     };
@@ -35,6 +47,10 @@ export default function ServiceProviderState(ToWrapComponent) {
       return localStateSetters[key];
     };
 
+    const localStateCallback = key => {
+      return localStateCallbacks[key];
+    };
+
     const storeState = key => {
       return storeStates[key];
     };
@@ -48,6 +64,7 @@ export default function ServiceProviderState(ToWrapComponent) {
         {...{
           localState,
           localStateSetter,
+          localStateCallback,
           storeAction,
           storeState
         }}

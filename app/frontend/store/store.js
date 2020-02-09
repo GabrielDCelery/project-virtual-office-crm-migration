@@ -3,12 +3,13 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {
   formAddNewContractReducer,
-  userReducer,
   recommendationsAddresses,
   recommendationsCities,
   recommendationsCountries,
+  recommendationsLegalEntities,
   recommendationsNaturalPeople,
-  snackbarReducer
+  snackbarReducer,
+  userReducer
 } from './reducers';
 
 const combinedReducers = combineReducers({
@@ -19,6 +20,7 @@ const combinedReducers = combineReducers({
     addresses: recommendationsAddresses,
     cities: recommendationsCities,
     countries: recommendationsCountries,
+    legalEntities: recommendationsLegalEntities,
     naturalPeople: recommendationsNaturalPeople
   }),
   user: userReducer,

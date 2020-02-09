@@ -17,12 +17,13 @@ const initialState = {
   clientSignatory: null,
   clientSignatoryType: '',
   serviceProvider: null,
+  services: [],
+  contractRenewalPeriod: '',
+  contractRenewalFeeMonthly: '',
   contractStartDate: services.transformations.date.convertDateObjToFieldCompatible(
     new Date()
   ),
-  contractEndDate: '',
-  contractRenewalPeriod: '',
-  contractRenewalFeeMonthly: ''
+  contractEndDate: ''
 };
 
 export const formAddNewContractReducer = (

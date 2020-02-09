@@ -1,21 +1,9 @@
 const HistoryRecordChanges = require('./HistoryRecordChanges');
 
 class LegalEntities {
-  constructor({ models, nodeModules, recordPreparator }) {
+  constructor({ models, dbUtils }) {
+    this.dbUtils = dbUtils;
     this.models = models;
-    this.nodeModules = nodeModules;
-    this.recordPreparator = recordPreparator;
-    this.create = this.create.bind(this);
-    this.update = this.update.bind(this);
-    this.getLatestVersionsOfAllRecords = this.getLatestVersionsOfAllRecords.bind(
-      this
-    );
-    this.getAllVersionsOfSingleRecord = this.getAllVersionsOfSingleRecord.bind(
-      this
-    );
-    this.getAllVersionsOfAllRecords = this.getAllVersionsOfAllRecords.bind(
-      this
-    );
   }
 
   async getTypes() {
@@ -107,9 +95,8 @@ class LegalEntities {
   }
 
   async getAllVersionsOfAllRecords({ transaction }) {
-    const { prepareDbRecordForReturn } = this.recordPreparator;
+    const { prepareDbRecordForReturn } = this.dbUtils.record.preparator;
     const records = await this.models.LegalEntities.query(transaction);
-
     const changes = await this.models.HistoryRecordChanges.query(
       transaction
     ).where({
@@ -119,7 +106,33 @@ class LegalEntities {
     return HistoryRecordChanges.getAllVersionsOfRecords({
       records,
       changes
-    }).map(prepareDbRecordForReturn);
+    }).map(record => {
+      return prepareDbRecordForReturn(record);
+    });
+  }
+
+  async getAllVersionsOfAllRecordsForQuickSearch({ transaction }) {
+    const { prepareDbRecordForReturn } = this.dbUtils.record.preparator;
+    const records = await this.models.LegalEntities.query(transaction).select(
+      'id',
+      'long_name',
+      'type',
+      'created_at',
+      'updated_at'
+    );
+    const changes = await this.models.HistoryRecordChanges.query(
+      transaction
+    ).where({
+      table: this.models.LegalEntities.tableName,
+      column: 'long_name'
+    });
+
+    return HistoryRecordChanges.getAllVersionsOfRecords({
+      records,
+      changes
+    }).map(record => {
+      return prepareDbRecordForReturn(record);
+    });
   }
 }
 

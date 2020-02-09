@@ -33,7 +33,8 @@ class Orchestrator {
       ORCHESTRATOR_METHOD_FILTER_NATURAL_PEOPLE,
       ORCHESTRATOR_METHOD_CREATE_NATURAL_PERSON,
       ORCHESTRATOR_METHOD_FILTER_ENTITY_NAMES,
-      ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME
+      ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME,
+      ORCHESTRATOR_METHOD_FILTER_LEGAL_ENTITIES
     } = EOrchestratorMethod;
 
     const methodInitializer = ({ path, method }) => {
@@ -56,25 +57,18 @@ class Orchestrator {
           method: methods.filterEntityNames
         })
       )
-      .register({
-        path: ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME,
-        method: methods.createEntityName({
-          services,
-          EServiceMethod,
-          EServiceName,
-          ERedisKeys,
-          utils
+      .register(
+        methodInitializer({
+          path: ORCHESTRATOR_METHOD_CREATE_ENTITY_NAME,
+          method: methods.createEntityName
         })
-      })
-      .register({
-        path: ORCHESTRATOR_METHOD_VERIFY_USER_BY_JWT,
-        method: methods.authenticateUserByCookie({
-          services,
-          ERedisKeys,
-          EServiceMethod,
-          EServiceName
+      )
+      .register(
+        methodInitializer({
+          path: ORCHESTRATOR_METHOD_VERIFY_USER_BY_JWT,
+          method: methods.authenticateUserByCookie
         })
-      })
+      )
       .register({
         path: ORCHESTRATOR_METHOD_GET_ALL_ADDRESSES,
         method: methods.getAllAddresses({
@@ -155,6 +149,16 @@ class Orchestrator {
           EServiceMethod,
           EServiceName,
           ERedisKeys
+        })
+      })
+      .register({
+        path: ORCHESTRATOR_METHOD_FILTER_LEGAL_ENTITIES,
+        method: methods.filterLegalEntities({
+          services,
+          EServiceMethod,
+          EServiceName,
+          ERedisKeys,
+          utils
         })
       });
 

@@ -44,6 +44,10 @@ module.exports = {
         routeName: ERoute.ROUTE_ENTITY_NAMES
       })
       .createRouter({
+        path: config.get('api.legalEntities'),
+        routeName: ERoute.ROUTE_LEGAL_ENTITIES
+      })
+      .createRouter({
         path: config.get('api.naturalPeople'),
         routeName: ERoute.ROUTE_NATURAL_PEOPLE
       })

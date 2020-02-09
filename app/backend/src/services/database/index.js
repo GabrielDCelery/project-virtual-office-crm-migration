@@ -60,7 +60,9 @@ class DB {
       SERVICE_METHOD_GET_ALL_NATURAL_PEOPLE_FOR_QUICK_SEARCH,
       SERVICE_METHOD_CREATE_NATURAL_PERSON,
       SERVICE_METHOD_GET_ALL_ENTITY_NAMES,
-      SERVICE_METHOD_CREATE_ENTITY_NAME
+      SERVICE_METHOD_CREATE_ENTITY_NAME,
+      SERVICE_METHOD_GET_ALL_VERSIONS_OF_LEGAL_ENTITIES,
+      SERVICE_METHOD_GET_ALL_VERSIONS_OF_LEGAL_ENTITIES_FOR_QUICK_SEARCH
     } = EServiceMethod;
 
     const { Knex, objection } = nodeModules;
@@ -74,6 +76,7 @@ class DB {
       Cities,
       Countries,
       EntityNames,
+      LegalEntities,
       NaturalPeople,
       Users
     } = controllers;
@@ -83,6 +86,7 @@ class DB {
       cities: new Cities({ dbUtils, models }),
       countries: new Countries({ dbUtils, models }),
       entityNames: new EntityNames({ dbUtils, models }),
+      legalEntities: new LegalEntities({ dbUtils, models }),
       naturalPeople: new NaturalPeople({ dbUtils, models }),
       users: new Users({ CErrorMessage, dbUtils, models })
     };
@@ -166,6 +170,22 @@ class DB {
           objection,
           controller: 'naturalPeople',
           method: 'create'
+        })
+      })
+      .register({
+        path: SERVICE_METHOD_GET_ALL_VERSIONS_OF_LEGAL_ENTITIES,
+        method: this._wrapController({
+          objection,
+          controller: 'legalEntities',
+          method: 'getAllVersionsOfAllRecords'
+        })
+      })
+      .register({
+        path: SERVICE_METHOD_GET_ALL_VERSIONS_OF_LEGAL_ENTITIES_FOR_QUICK_SEARCH,
+        method: this._wrapController({
+          objection,
+          controller: 'legalEntities',
+          method: 'getAllVersionsOfAllRecordsForQuickSearch'
         })
       });
 

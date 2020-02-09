@@ -6,29 +6,13 @@ module.exports = ({
   router
 }) => {
   const { STATUS_CODE_OK, STATUS_CODE_INTERNAL_SERVER_ERROR } = CStatusCode;
-  const {
-    ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES,
-    ORCHESTRATOR_METHOD_FILTER_COUNTRIES
-  } = EOrchestratorMethod;
-
-  router.get('/getAll', async (req, res) => {
-    try {
-      const records = await orchestrator.execute({
-        method: ORCHESTRATOR_METHOD_GET_ALL_COUNTRIES
-      });
-
-      return res.status(STATUS_CODE_OK).json(records);
-    } catch (error) {
-      await logger.handleError({ error });
-      return res.status(STATUS_CODE_INTERNAL_SERVER_ERROR).send(error.message);
-    }
-  });
+  const { ORCHESTRATOR_METHOD_FILTER_LEGAL_ENTITIES } = EOrchestratorMethod;
 
   router.post('/filter', async (req, res) => {
     try {
       const { filterTerm, limit } = req.body;
       const records = await orchestrator.execute({
-        method: ORCHESTRATOR_METHOD_FILTER_COUNTRIES,
+        method: ORCHESTRATOR_METHOD_FILTER_LEGAL_ENTITIES,
         parameters: { filterTerm, limit }
       });
 

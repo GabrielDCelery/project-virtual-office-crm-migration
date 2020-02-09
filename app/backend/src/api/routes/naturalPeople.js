@@ -14,12 +14,12 @@ module.exports = ({
   router.post('/filter', async (req, res) => {
     try {
       const { filterTerm, limit } = req.body;
-      const addresses = await orchestrator.execute({
+      const records = await orchestrator.execute({
         method: ORCHESTRATOR_METHOD_FILTER_NATURAL_PEOPLE,
         parameters: { filterTerm, limit }
       });
 
-      return res.status(STATUS_CODE_OK).json(addresses);
+      return res.status(STATUS_CODE_OK).json(records);
     } catch (error) {
       await logger.handleError({ error });
       return res.status(STATUS_CODE_INTERNAL_SERVER_ERROR).send(error.message);
@@ -37,7 +37,7 @@ module.exports = ({
         identifierDocumentNumber,
         permanentAddressId
       } = req.body;
-      const addresses = await orchestrator.execute({
+      const records = await orchestrator.execute({
         method: ORCHESTRATOR_METHOD_CREATE_NATURAL_PERSON,
         parameters: {
           firstName,
@@ -50,7 +50,7 @@ module.exports = ({
         }
       });
 
-      return res.status(STATUS_CODE_OK).json(addresses);
+      return res.status(STATUS_CODE_OK).json(records);
     } catch (error) {
       await logger.handleError({ error });
       return res.status(STATUS_CODE_INTERNAL_SERVER_ERROR).send(error.message);

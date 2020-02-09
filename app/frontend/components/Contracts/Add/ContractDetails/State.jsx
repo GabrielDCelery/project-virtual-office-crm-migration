@@ -1,9 +1,17 @@
 import { connect } from 'react-redux';
-import { actionSetFieldAddNewContract } from '~/store';
+import {
+  actionSetFieldAddNewContract,
+  selectorGetContractRecommendedEndDate,
+  selectorIsContractEndDateMatchingRecommendedEndDate
+} from '~/store';
 
 const mapStateToProps = state => {
   return {
-    stateFormAddNewContract: state.forms.addNewContract
+    stateFormAddNewContract: state.forms.addNewContract,
+    stateRecommendedEndDate: selectorGetContractRecommendedEndDate(state),
+    stateIsContractEndDateMatchingRecommendedEndDate: selectorIsContractEndDateMatchingRecommendedEndDate(
+      state
+    )
   };
 };
 
@@ -11,14 +19,23 @@ const mapActionsToProps = { actionSetFieldAddNewContract };
 
 export default function ContractsAddContractDetailsState(ToWrapComponent) {
   let WrapperComponent = props => {
-    const { actionSetFieldAddNewContract, stateFormAddNewContract } = props;
+    const {
+      actionSetFieldAddNewContract,
+      stateFormAddNewContract,
+      stateRecommendedEndDate,
+      stateIsContractEndDateMatchingRecommendedEndDate
+    } = props;
 
     const localStates = {};
 
     const localStateSetters = {};
 
+    const localStateCallbacks = {};
+
     const storeStates = {
-      formAddNewContract: stateFormAddNewContract
+      formAddNewContract: stateFormAddNewContract,
+      recommendedEndDate: stateRecommendedEndDate,
+      isContractEndDateMatchingRecommendedEndDate: stateIsContractEndDateMatchingRecommendedEndDate
     };
 
     const storeActions = {
@@ -33,6 +50,10 @@ export default function ContractsAddContractDetailsState(ToWrapComponent) {
       return localStateSetters[key];
     };
 
+    const localStateCallback = key => {
+      return localStateCallbacks[key];
+    };
+
     const storeState = key => {
       return storeStates[key];
     };
@@ -44,6 +65,7 @@ export default function ContractsAddContractDetailsState(ToWrapComponent) {
     return (
       <ToWrapComponent
         {...{
+          localState,
           storeAction,
           storeState
         }}

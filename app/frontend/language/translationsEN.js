@@ -1,4 +1,6 @@
 export default {
+  'recommended end date': 'recommended end date',
+  use: 'use',
   'semi annually': 'semi annually',
   'monthly renewal fee': 'monthly renewal fee',
   monthly: 'monthly',
@@ -51,5 +53,7 @@ export default {
   postcode: 'Postcode',
   services: 'services',
   street: 'Street',
-  type: 'type'
+  type: 'type',
+  'contract end date and recommended end dates do not match':
+    'contract end date and recommended end dates do not match'
 };

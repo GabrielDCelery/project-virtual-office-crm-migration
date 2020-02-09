@@ -3,8 +3,8 @@ import {
   FORM_ADD_NEW_CONTRACT_RESET,
   FORM_ADD_NEW_CONTRACT_AJAX_START,
   FORM_ADD_NEW_CONTRACT_AJAX_FINISH
-} from '../../constants';
-import moment from 'moment';
+} from '~/store/constants';
+import services from '~/services';
 
 const initialState = {
   isAjaxInProgress: false,
@@ -17,10 +17,12 @@ const initialState = {
   clientSignatory: null,
   clientSignatoryType: '',
   serviceProvider: null,
-  contractStartDate: moment(new Date()).format('YYYY-MM-DD'),
+  contractStartDate: services.transformations.date.convertDateObjToFieldCompatible(
+    new Date()
+  ),
   contractEndDate: '',
   contractRenewalPeriod: '',
-  contractRenewalFeeMonthly: 0
+  contractRenewalFeeMonthly: ''
 };
 
 export const formAddNewContractReducer = (

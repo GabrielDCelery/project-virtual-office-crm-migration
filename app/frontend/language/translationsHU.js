@@ -1,4 +1,6 @@
 export default {
+  'recommended end date': 'javasolt zaro datum',
+  use: 'hasznal',
   'semi annually': 'feleves',
   'monthly renewal fee': 'havi hosszabbitasi dij',
   monthly: 'havi',
@@ -50,5 +52,7 @@ export default {
   postcode: 'irányítószám',
   services: 'szolgaltatasok',
   street: 'utca',
-  type: 'tipus'
+  type: 'tipus',
+  'contract end date and recommended end dates do not match':
+    'szerzodes zaro datuma es a javasolt zaro datum nem egyezik'
 };

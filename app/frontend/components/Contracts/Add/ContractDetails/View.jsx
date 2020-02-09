@@ -1,15 +1,18 @@
 import { useTranslation } from 'react-i18next';
 import {
   Box,
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   TextField
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import UIFormPaper from '~/components/UI/FormPaper';
 import UIFormStepAppBar from '~/components/UI/FormStepAppBar';
 import { UstartCase, UstartCaseEveryWord } from '~/common/utils';
+import UIFlexboxCenterPositioner from '~/components/UI/FlexboxCenterPositioner';
 
 export default function ContractsAddContractDetailsView({
   storeAction,
@@ -112,6 +115,44 @@ export default function ContractsAddContractDetailsView({
             }}
           />
         </FormControl>
+
+        <Box height="1em" />
+
+        <Box display="flex">
+          <Box flexGrow={5}>
+            <Alert severity="info">
+              {t('recommended end date')} {storeState('recommendedEndDate')}
+            </Alert>
+          </Box>
+          <Box flexGrow={1}>
+            <UIFlexboxCenterPositioner>
+              <Button
+                variant="outlined"
+                color="secondary"
+                size="small"
+                onClick={() => {
+                  storeAction('setFieldAddNewContract')({
+                    fieldName: 'contractEndDate',
+                    fieldValue: storeState('recommendedEndDate')
+                  });
+                }}
+              >
+                {t('use')}
+              </Button>
+            </UIFlexboxCenterPositioner>
+          </Box>
+        </Box>
+
+        {storeState('isContractEndDateMatchingRecommendedEndDate') && (
+          <React.Fragment>
+            <Box height="1em" />
+            <Alert severity="warning">
+              {t('contract end date and recommended end dates do not match')}
+            </Alert>
+          </React.Fragment>
+        )}
+
+        <Box height="1em" />
       </UIFormPaper>
     </React.Fragment>
   );
